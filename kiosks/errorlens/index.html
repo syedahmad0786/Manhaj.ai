@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0A0A0B" />
+  <title>Manhaj Kiosk · ErrorLens Observability</title>
+  <meta name="description" content="The alert layer of a Manhaj OS install — surfaces what broke, where, and which revenue stage stalled. Anonymized, dummy-data live system." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/kiosks/_assets/kiosk.css" />
+</head>
+<body>
+  <div class="k-shell">
+    <header class="k-bar">
+      <a class="k-brand" href="/" aria-label="Back to Manhaj">
+        <span class="k-brand-mark">MANHAJ</span>
+        <span class="k-brand-tag">◊ KIOSK 02</span>
+      </a>
+      <div class="k-title">
+        <div class="k-title-name">ErrorLens · Observability</div>
+        <div class="k-title-layer">AOS-001 · Layer 06 · Intelligence (Alerts)</div>
+      </div>
+      <nav class="k-actions">
+        <span class="k-pill">Live · Dummy data</span>
+        <a href="/kiosks/">All kiosks</a>
+        <a href="/">Exit ↗</a>
+      </nav>
+    </header>
+
+    <section class="k-stage">
+      <div class="k-loading" id="k-loading" aria-hidden="true">
+        <div class="k-loading-mark">MANHAJ</div>
+        <div class="k-loading-spin"></div>
+        <div>Unpacking ErrorLens kiosk…</div>
+      </div>
+      <iframe
+        id="k-frame"
+        class="k-frame"
+        src="/kiosks/_app/errorlens.html"
+        title="ErrorLens — anonymized live observability dashboard"
+        loading="eager"
+        allow="clipboard-read; clipboard-write"
+        referrerpolicy="no-referrer"
+      ></iframe>
+    </section>
+
+    <footer class="k-foot">
+      <span>◊ <strong>Anonymized</strong> · Dummy data · Real running system</span>
+      <span>HORIZONTAL · INTERNAL OPS</span>
+      <span>BUILT BY MANHAJ · <strong>manhaj.ai</strong></span>
+    </footer>
+  </div>
+  <script src="/kiosks/_assets/kiosk.js" defer></script>
+</body>
+</html>
