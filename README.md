@@ -10,7 +10,7 @@ The site is a single self-contained `index.html` that unpacks its assets at runt
 |---|---|
 | `/` | Marketing site (`index.html`) |
 | `/kiosks/` | Live demo hub — Manhaj-branded landing for the three kiosks |
-| `/kiosks/chirocandy/` | Kiosk 01 · ChiroCandy Command Center (AOS-001 · Layer 06) |
+| `/kiosks/command-center/` | Kiosk 01 · Command Center (AOS-001 · Layer 06) |
 | `/kiosks/errorlens/` | Kiosk 02 · ErrorLens Observability (AOS-001 · Layer 06) |
 | `/kiosks/onboarding/` | Kiosk 03 · Operator Onboarding (AOS-001 · Layer 04) |
 
@@ -22,7 +22,15 @@ Each kiosk is a thin Manhaj-branded shell (`kiosks/<name>/index.html`) wrapping 
 
 Shared kiosk assets live in `kiosks/_assets/` (`kiosk.css`, `kiosk.js`).
 
-> **Internal recolor note.** The dashboards inside each iframe are 1.5-1.8 MB compiled React bundles. Re-skinning their *interiors* to Manhaj colors would require unpacking the embedded JSX templates and rebuilding component styles — a separate scope. The Manhaj brand is delivered today via the kiosk chrome, hub page, and main-site integration.
+### Anonymization
+The dashboard bundles are unpacked at build time, their embedded JSX/CSS assets are
+patched to swap client identifiers (names, logos, brand palettes) for Manhaj
+equivalents, and the bundles are repacked. See `tools/rebrand.py`. Run it any time
+the originals at the repo root change:
+
+```bash
+python3 tools/rebrand.py
+```
 
 ## Local preview
 
