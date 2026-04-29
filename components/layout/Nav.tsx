@@ -1,15 +1,29 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { PRIMARY_NAV } from '@/lib/data/nav';
+import Wordmark from '@/components/ui/Wordmark';
+
+// Direct port from .extracted-source/004 (Nav block).
+// Hash-route `<a href="#/path">` swapped for next/link; usePathname()
+// drives the active-state underline.
+const NAV_ITEMS = [
+  { path: '/', label: 'Home' },
+  { path: '/foundation', label: 'Foundation' },
+  { path: '/kiosks/', label: 'Demos', external: true },
+  { path: '/process', label: 'Process' },
+  { path: '/pricing', label: 'Pricing' },
+  { path: '/about', label: 'About' },
+] as const;
 
 export default function Nav() {
-  const [open, setOpen] = useState(false);
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
+    const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
@@ -24,46 +38,119 @@ export default function Nav() {
 
   return (
     <header
-      className={`sticky top-0 z-40 transition-colors ${
-        scrolled
-          ? 'bg-ink/85 backdrop-blur-md border-b border-line'
-          : 'bg-transparent border-b border-transparent'
-      }`}
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 100,
+        padding: scrolled ? '14px 32px' : '24px 32px',
+        transition: 'all 400ms var(--ease)',
+        background: scrolled ? 'rgba(10, 10, 11, 0.7)' : 'transparent',
+        backdropFilter: scrolled ? 'blur(20px) saturate(140%)' : 'none',
+        WebkitBackdropFilter: scrolled ? 'blur(20px) saturate(140%)' : 'none',
+        borderBottom: scrolled ? '1px solid var(--line-soft)' : '1px solid transparent',
+      }}
     >
-      <div className="mx-auto flex max-w-(--container-wide) items-center justify-between gap-6 px-6 py-4 md:px-10">
-        <Link href="/" className="flex items-baseline gap-3" aria-label="Manhaj home">
-          <span className="font-serif text-xl font-semibold tracking-[0.32em] text-cream">
-            MANHAJ
-          </span>
-          <span className="hidden font-mono text-[10px] uppercase tracking-[0.32em] text-gold sm:inline">
-            ◊ AOS-001
-          </span>
+      <div
+        style={{
+          maxWidth: 1360,
+          margin: '0 auto',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: 32,
+        }}
+      >
+        <Link
+          href="/"
+          style={{
+            textDecoration: 'none',
+            color: 'var(--ink-primary)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 12,
+          }}
+        >
+          <Wordmark />
         </Link>
 
-        <nav aria-label="Primary" className="hidden items-center gap-7 md:flex">
-          {PRIMARY_NAV.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="font-sans text-[13px] text-cream-dim transition-colors hover:text-gold"
-            >
-              {item.label}
-            </Link>
-          ))}
+        <nav
+          aria-label="Primary"
+          className="manhaj-nav-desktop"
+          style={{ display: 'none', gap: 4, alignItems: 'center' }}
+        >
+          {NAV_ITEMS.map((item) => {
+            const active = pathname === item.path;
+            return (
+              <Link
+                key={item.path}
+                href={item.path}
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: 11,
+                  letterSpacing: '0.14em',
+                  textTransform: 'uppercase',
+                  color: active ? 'var(--accent)' : 'var(--ink-secondary)',
+                  textDecoration: 'none',
+                  padding: '8px 14px',
+                  position: 'relative',
+                  transition: 'color 300ms var(--ease)',
+                }}
+              >
+                {item.label}
+                {active && (
+                  <span
+                    style={{
+                      position: 'absolute',
+                      bottom: 2,
+                      left: 14,
+                      right: 14,
+                      height: 1,
+                      background: 'var(--accent)',
+                    }}
+                  />
+                )}
+              </Link>
+            );
+          })}
+          <span style={{ width: 1, height: 18, background: 'var(--line)', margin: '0 8px' }} />
           <Link
             href="/audit"
-            className="inline-flex items-center gap-2 border border-gold px-4 py-2 font-mono text-[11px] uppercase tracking-[0.18em] text-cream transition-colors hover:bg-gold hover:text-ink"
+            data-magnetic
+            style={{
+              fontFamily: 'var(--font-body)',
+              fontSize: 13,
+              fontWeight: 500,
+              padding: '10px 18px',
+              border: '1px solid var(--accent)',
+              color: 'var(--accent)',
+              textDecoration: 'none',
+              transition: 'all 300ms var(--ease)',
+            }}
           >
-            Book audit <span aria-hidden>→</span>
+            Book audit →
           </Link>
         </nav>
 
         <button
           type="button"
-          className="md:hidden font-mono text-[11px] uppercase tracking-[0.18em] text-cream"
+          className="manhaj-nav-toggle"
           onClick={() => setOpen((o) => !o)}
           aria-expanded={open}
-          aria-controls="mobile-nav"
+          aria-controls="manhaj-nav-mobile"
+          style={{
+            display: 'inline-flex',
+            background: 'transparent',
+            border: 'none',
+            padding: 8,
+            color: 'var(--ink-primary)',
+            fontFamily: 'var(--font-mono)',
+            fontSize: 11,
+            letterSpacing: '0.14em',
+            textTransform: 'uppercase',
+            cursor: 'pointer',
+          }}
         >
           {open ? 'Close' : 'Menu'}
         </button>
@@ -71,19 +158,38 @@ export default function Nav() {
 
       {open && (
         <div
-          id="mobile-nav"
-          className="md:hidden border-t border-line bg-ink"
+          id="manhaj-nav-mobile"
+          style={{
+            marginTop: 16,
+            borderTop: '1px solid var(--line)',
+            background: 'rgba(10,10,11,0.96)',
+          }}
         >
           <nav
             aria-label="Mobile primary"
-            className="mx-auto flex max-w-(--container-wide) flex-col gap-2 px-6 py-6"
+            style={{
+              maxWidth: 1360,
+              margin: '0 auto',
+              padding: '24px 0',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 4,
+            }}
           >
-            {PRIMARY_NAV.map((item) => (
+            {NAV_ITEMS.map((item) => (
               <Link
-                key={item.href}
-                href={item.href}
+                key={item.path}
+                href={item.path}
                 onClick={() => setOpen(false)}
-                className="border-b border-line py-3 font-serif text-2xl text-cream"
+                style={{
+                  display: 'block',
+                  padding: '14px 0',
+                  borderBottom: '1px solid var(--line-soft)',
+                  fontFamily: 'var(--font-display)',
+                  fontSize: 24,
+                  color: 'var(--ink-primary)',
+                  textDecoration: 'none',
+                }}
               >
                 {item.label}
               </Link>
@@ -91,13 +197,31 @@ export default function Nav() {
             <Link
               href="/audit"
               onClick={() => setOpen(false)}
-              className="mt-4 inline-flex items-center justify-center gap-2 border border-gold py-3 font-mono text-[11px] uppercase tracking-[0.18em] text-cream"
+              style={{
+                marginTop: 16,
+                padding: '14px 0',
+                fontFamily: 'var(--font-mono)',
+                fontSize: 11,
+                letterSpacing: '0.18em',
+                textTransform: 'uppercase',
+                color: 'var(--accent)',
+                border: '1px solid var(--accent)',
+                textAlign: 'center',
+                textDecoration: 'none',
+              }}
             >
-              Book audit <span aria-hidden>→</span>
+              Book audit →
             </Link>
           </nav>
         </div>
       )}
+
+      <style>{`
+        @media (min-width: 880px) {
+          .manhaj-nav-desktop { display: flex !important; }
+          .manhaj-nav-toggle { display: none !important; }
+        }
+      `}</style>
     </header>
   );
 }

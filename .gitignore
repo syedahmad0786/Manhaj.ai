@@ -26,3 +26,4 @@ next-env.d.ts.bak
 # Python (rebrand tool)
 __pycache__/
 *.pyc
+.extracted-source/

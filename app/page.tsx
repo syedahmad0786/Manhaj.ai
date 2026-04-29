@@ -1,12 +1,12 @@
+import type { Metadata } from 'next';
 import Hero from '@/components/home/Hero';
-import Manifesto from '@/components/home/Manifesto';
+import FoundationSection from '@/components/home/FoundationSection';
 import Pillars from '@/components/home/Pillars';
-import LayerDiagram from '@/components/home/LayerDiagram';
 import DemosCallout from '@/components/home/DemosCallout';
+import Manifesto from '@/components/home/Manifesto';
 import ProcessMini from '@/components/home/ProcessMini';
 import FinalCTA from '@/components/home/FinalCTA';
 import { SITE } from '@/lib/site';
-import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: `${SITE.name} — ${SITE.tagline}`,
@@ -24,7 +24,7 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <LayerDiagram />
+      <FoundationSection />
       <Pillars />
       <DemosCallout />
       <Manifesto />

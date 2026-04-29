@@ -1,77 +1,176 @@
 import type { Metadata } from 'next';
-import Eyebrow from '@/components/ui/Eyebrow';
+import PageHeader from '@/components/shared/PageHeader';
 import Reveal from '@/components/ui/Reveal';
-import { ButtonLink } from '@/components/ui/Button';
-import { PROCESS } from '@/lib/data/process';
+import FinalCTA from '@/components/home/FinalCTA';
 import { SITE } from '@/lib/site';
+
+// Direct port from .extracted-source/009 — ProcessPage.
 
 export const metadata: Metadata = {
   title: 'Process — How an install runs',
   description:
-    'The five steps a Manhaj install runs through. Audit, architect, install, calibrate, operate. Founder-led from start to finish.',
+    'The five weeks of a Manhaj install: Audit, Synthesize, Build, Install, Optimize, then ongoing modular requests. Founder-led, no surprises.',
   alternates: { canonical: `${SITE.url}/process` },
   openGraph: {
-    title: 'Manhaj — How an install runs',
+    title: 'Manhaj — Six steps. Five weeks. One install.',
     description:
-      'Audit → architect → install → calibrate → operate. Founder-led from first call to ongoing retainer.',
+      'Founder-led methodology. Audit Discovery Week → Synthesis → Build → Install → Optimize → Ongoing modules.',
   },
 };
 
+const STEPS = [
+  {
+    n: '01',
+    label: 'Audit Discovery Week',
+    sub: 'On-site or remote · 5 days',
+    body:
+      "On-site or Zoom. Interviews with the owner and every team member. We shadow your team during real work, watch how leads flow today, instrument every existing tool, and document the process the business actually runs — not the one in the SOP.",
+    out: ['Process map (the actual one)', 'Tooling inventory + costs', 'Bottleneck atlas', 'Owner-priority list'],
+  },
+  {
+    n: '02',
+    label: 'Process the Audit',
+    sub: 'Synthesis · 5 days',
+    body:
+      'Findings synthesized into a plain-English document — no jargon, no diagrams that need translating. Every task in your business is mapped: keep, augment with AI, or fully automate. The owner reviews and signs the architecture spec before we build a single thing.',
+    out: ['Plain-English audit doc', 'Keep / Augment / Automate map', 'Architecture spec (signed)', 'Module backlog'],
+  },
+  {
+    n: '03',
+    label: 'Build the AIOS at Home',
+    sub: 'Off-site assembly · 3–7 days',
+    body:
+      "Context OS, Data OS, and Intelligence layer assembled remotely. We orchestrate the existing stack, add what's missing, integrate every layer end-to-end. You aren't paying for our learning — we've built every layer before. Most of this is configuration, not invention.",
+    out: ['Configured stack', 'End-to-end integration tests', 'Owner walkthrough video', 'Rollback plan'],
+  },
+  {
+    n: '04',
+    label: 'Install on-site',
+    sub: 'Deployment + training · 2 days',
+    body:
+      "On-site install. Train every team member on what's changing, what's automated, what to expect. Route alerts to Slack / SMS / email. Hook up live integrations to production. We don't leave until the first real lead has flowed through every layer.",
+    out: ['Live in production', 'Team trained + documented', 'Alert routing live', 'First-lead validation'],
+  },
+  {
+    n: '05',
+    label: 'Optimize & monitor',
+    sub: 'First 30 days · daily check-ins',
+    body:
+      'The first 30 days, we tune. Drift gets corrected. Edge cases surface and we patch. Early wins are captured and shared with the team. By day 30, the OS is stable, the team trusts it, and the dashboard tells you the story without you asking.',
+    out: ['Drift corrections', 'Edge-case patches', 'First wins doc', '30-day stability report'],
+  },
+  {
+    n: '06',
+    label: 'Ongoing modular requests',
+    sub: 'Retainer · indefinite',
+    body:
+      'Every new business need plugs in as a module on top. New product line? New channel? New ICP? Modules. Not rebuilds. The foundation stays; the surface evolves. Most clients add 2–4 modules per quarter.',
+    out: ['Module roadmap', 'Quarterly architecture review', 'Cost-of-AI-spend report', 'Owner-direct line'],
+  },
+] as const;
+
 export default function ProcessPage() {
   return (
-    <article>
-      <header className="border-b border-line pt-32 pb-20 md:pt-40">
-        <div className="mx-auto max-w-(--container-wide) px-6 md:px-10">
-          <Eyebrow>Install lifecycle</Eyebrow>
-          <h1 className="mt-8 max-w-4xl font-serif text-5xl leading-[1.04] text-cream md:text-7xl">
-            How a Manhaj install{' '}
-            <em className="not-italic text-gold">actually runs.</em>
-          </h1>
-          <p className="mt-8 max-w-2xl font-sans text-lg leading-relaxed text-cream-dim">
-            Five steps. No PMs. No juniors. No handoffs. You talk to the
-            architect — same person, every step.
-          </p>
-        </div>
-      </header>
+    <>
+      <PageHeader
+        eyebrow="The Install · Methodology"
+        title={
+          <>
+            Six steps. Five weeks.
+            <br />
+            <span style={{ fontStyle: 'italic', color: 'var(--accent)' }}>One install.</span>
+          </>
+        }
+        sub="No surprises. Every Manhaj engagement runs this exact sequence — refined across real installs."
+      />
 
-      <section className="py-20 md:py-28">
-        <div className="mx-auto max-w-(--container-narrow) px-6 md:px-10">
-          <ol className="space-y-px overflow-hidden border border-line bg-line">
-            {PROCESS.map((step) => (
-              <Reveal key={step.num}>
-                <li className="flex flex-col gap-6 bg-ink p-9 md:flex-row md:gap-12 md:p-12">
-                  <div className="md:w-32">
-                    <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-gold">
-                      STEP {step.num}
-                    </p>
-                  </div>
-                  <div className="flex-1">
-                    <h2 className="font-serif text-4xl font-medium text-cream md:text-5xl">
-                      {step.title}
-                    </h2>
-                    <p className="mt-4 max-w-xl font-sans text-base leading-relaxed text-cream-dim">
-                      {step.body}
-                    </p>
-                  </div>
-                </li>
+      {STEPS.map((s, i) => (
+        <section
+          key={s.n}
+          style={{
+            padding: '120px 0',
+            borderTop: '1px solid var(--line-soft)',
+            background: i % 2 === 1 ? 'var(--bg-deep)' : 'transparent',
+          }}
+        >
+          <div className="container">
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '180px 1fr 1fr',
+                gap: 64,
+                alignItems: 'flex-start',
+              }}
+            >
+              <Reveal>
+                <div
+                  style={{
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: 80,
+                    color: 'var(--accent)',
+                    letterSpacing: '-0.02em',
+                    lineHeight: 1,
+                    opacity: 0.85,
+                  }}
+                >
+                  {s.n}
+                </div>
+                <div className="t-mono" style={{ marginTop: 16, fontSize: 10 }}>{s.sub}</div>
               </Reveal>
-            ))}
-          </ol>
-        </div>
-      </section>
-
-      <section className="border-t border-line py-24 md:py-32">
-        <div className="mx-auto max-w-(--container-narrow) px-6 text-center md:px-10">
-          <h3 className="font-serif text-4xl text-cream md:text-5xl">
-            Step 01 starts with a 45-minute call.
-          </h3>
-          <div className="mt-10 flex justify-center">
-            <ButtonLink href="/audit" variant="primary">
-              Book the audit
-            </ButtonLink>
+              <Reveal delay={120}>
+                <h3
+                  className="t-display"
+                  style={{ fontSize: 'clamp(32px, 4vw, 52px)', marginBottom: 24, lineHeight: 1.05 }}
+                >
+                  {s.label}
+                </h3>
+                <p style={{ fontSize: 16, lineHeight: 1.7, color: 'var(--ink-secondary)' }}>{s.body}</p>
+              </Reveal>
+              <Reveal delay={240}>
+                <div
+                  style={{
+                    padding: 28,
+                    border: '1px solid var(--line)',
+                    background: 'var(--bg-elevated)',
+                  }}
+                >
+                  <div className="t-eyebrow" style={{ marginBottom: 18 }}>◊ Deliverables</div>
+                  <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 12 }}>
+                    {s.out.map((o) => (
+                      <li
+                        key={o}
+                        style={{
+                          display: 'flex',
+                          gap: 12,
+                          alignItems: 'flex-start',
+                          fontSize: 14,
+                          color: 'var(--ink-primary)',
+                          paddingBottom: 12,
+                          borderBottom: '1px solid var(--line-soft)',
+                        }}
+                      >
+                        <span
+                          style={{
+                            fontFamily: 'var(--font-mono)',
+                            color: 'var(--success)',
+                            fontSize: 11,
+                            marginTop: 2,
+                          }}
+                        >
+                          ✓
+                        </span>
+                        {o}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Reveal>
+            </div>
           </div>
-        </div>
-      </section>
-    </article>
+        </section>
+      ))}
+
+      <FinalCTA />
+    </>
   );
 }
