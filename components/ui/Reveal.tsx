@@ -1,46 +1,58 @@
 'use client';
 
-import { useEffect, useRef, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 
+type RevealProps = {
+  children: ReactNode;
+  delay?: number;
+  y?: number;
+  once?: boolean;
+  style?: CSSProperties;
+  className?: string;
+};
+
+// Direct port from .extracted-source/004 — IntersectionObserver-driven fade.
 export default function Reveal({
   children,
   delay = 0,
-  as: Tag = 'div',
-  className = '',
-}: {
-  children: ReactNode;
-  delay?: number;
-  as?: keyof React.JSX.IntrinsicElements;
-  className?: string;
-}) {
-  const ref = useRef<HTMLElement | null>(null);
+  y = 24,
+  once = true,
+  style,
+  className,
+}: RevealProps) {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const [shown, setShown] = useState(false);
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
+    const node = ref.current;
+    if (!node) return;
     const obs = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            window.setTimeout(() => {
-              el.dataset.revealed = 'true';
-            }, delay);
-            obs.unobserve(el);
-          }
-        });
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShown(true);
+          if (once) obs.disconnect();
+        } else if (!once) {
+          setShown(false);
+        }
       },
-      { rootMargin: '0px 0px -10% 0px', threshold: 0.05 }
+      { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
     );
-    obs.observe(el);
+    obs.observe(node);
     return () => obs.disconnect();
-  }, [delay]);
+  }, [once]);
 
-  // The dynamic Tag rendering needs `any` because React doesn't have a type
-  // strong enough to express "any HTML element" with a ref.
-  const Component = Tag as React.ElementType;
   return (
-    <Component ref={ref} data-reveal className={className}>
+    <div
+      ref={ref}
+      className={className}
+      style={{
+        opacity: shown ? 1 : 0,
+        transform: shown ? 'translateY(0)' : `translateY(${y}px)`,
+        transition: `opacity 800ms var(--ease) ${delay}ms, transform 800ms var(--ease) ${delay}ms`,
+        ...(style ?? {}),
+      }}
+    >
       {children}
-    </Component>
+    </div>
   );
 }

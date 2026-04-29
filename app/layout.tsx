@@ -1,27 +1,34 @@
 import './globals.css';
 import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
-import { Cormorant_Garamond, Inter, JetBrains_Mono } from 'next/font/google';
+import { Fraunces, Inter, JetBrains_Mono, IBM_Plex_Sans_Arabic } from 'next/font/google';
 import Nav from '@/components/layout/Nav';
 import Footer from '@/components/layout/Footer';
 import { SITE } from '@/lib/site';
 
-const serif = Cormorant_Garamond({
+const display = Fraunces({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-cormorant',
+  weight: ['300', '400', '500', '600', '700'],
+  style: ['normal', 'italic'],
+  variable: '--font-display-next',
   display: 'swap',
 });
-const sans = Inter({
+const body = Inter({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600'],
-  variable: '--font-inter',
+  variable: '--font-body-next',
   display: 'swap',
 });
 const mono = JetBrains_Mono({
   subsets: ['latin'],
   weight: ['400', '500'],
-  variable: '--font-jetbrains',
+  variable: '--font-mono-next',
+  display: 'swap',
+});
+const arabic = IBM_Plex_Sans_Arabic({
+  subsets: ['arabic'],
+  weight: ['400', '500', '600'],
+  variable: '--font-arabic-next',
   display: 'swap',
 });
 
@@ -57,8 +64,25 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const gtm = process.env.NEXT_PUBLIC_GTM_ID;
   const cookieyes = process.env.NEXT_PUBLIC_COOKIEYES_ID;
 
+  // Bind next/font outputs to the CSS variables the inline styles reference
+  // (the original bundle uses bare names like `var(--font-display)`, so we
+  // map next/font's hashed variables onto those base names via a wrapper).
+  const fontVars = `${display.variable} ${body.variable} ${mono.variable} ${arabic.variable}`;
+
   return (
-    <html lang="en" className={`${serif.variable} ${sans.variable} ${mono.variable}`}>
+    <html
+      lang="en"
+      className={fontVars}
+      style={
+        {
+          // Map next/font's per-instance variables onto the names the CSS uses.
+          ['--font-display' as string]: `var(--font-display-next), "Fraunces", "Times New Roman", serif`,
+          ['--font-body' as string]: `var(--font-body-next), "Inter", -apple-system, system-ui, sans-serif`,
+          ['--font-mono' as string]: `var(--font-mono-next), "JetBrains Mono", "SF Mono", monospace`,
+          ['--font-arabic' as string]: `var(--font-arabic-next), "IBM Plex Sans Arabic", "Tajawal", sans-serif`,
+        } as React.CSSProperties
+      }
+    >
       <head>
         {cookieyes && (
           <Script
@@ -84,12 +108,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             />
           </noscript>
         )}
-        <a
-          href="#main"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-gold focus:text-ink focus:px-3 focus:py-1.5 focus:text-xs focus:tracking-widest focus:uppercase"
-        >
-          Skip to content
-        </a>
+        <a href="#main" className="skip-link">Skip to content</a>
         <Nav />
         <main id="main">{children}</main>
         <Footer />

@@ -1,8 +1,12 @@
 import type { Metadata } from 'next';
-import Eyebrow from '@/components/ui/Eyebrow';
+import PageHeader from '@/components/shared/PageHeader';
+import SectionHeader from '@/components/shared/SectionHeader';
 import Reveal from '@/components/ui/Reveal';
-import { ButtonLink } from '@/components/ui/Button';
+import CTAButton from '@/components/ui/CTAButton';
+import ArabicMark from '@/components/shared/ArabicMark';
 import { SITE } from '@/lib/site';
+
+// Direct port from .extracted-source/006 — AboutPage.
 
 export const metadata: Metadata = {
   title: `About ${SITE.founder}`,
@@ -18,82 +22,291 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <article>
-      <header className="border-b border-line pt-32 pb-20 md:pt-40">
-        <div className="mx-auto max-w-(--container-wide) px-6 md:px-10">
-          <Eyebrow>About · Founder</Eyebrow>
-          <h1 className="mt-8 max-w-4xl font-serif text-5xl leading-[1.04] text-cream md:text-7xl">
-            I&apos;m an AI Architect.{' '}
-            <em className="not-italic text-gold">Not an agency.</em>
-          </h1>
-        </div>
-      </header>
+    <>
+      <PageHeader
+        eyebrow="The architect"
+        title={
+          <>
+            Ahmad Bukhari.
+            <br />
+            <span style={{ fontStyle: 'italic', color: 'var(--accent)' }}>Architect, not consultant.</span>
+          </>
+        }
+      />
 
-      <section className="border-b border-line py-24 md:py-32">
-        <div className="mx-auto grid max-w-(--container-wide) gap-16 px-6 md:grid-cols-[1fr_360px] md:gap-20 md:px-10">
-          <div className="space-y-8 font-sans text-lg leading-relaxed text-cream-dim">
+      <section style={{ padding: '40px 0 120px' }}>
+        <div className="container">
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: '1.1fr 1fr',
+              gap: 80,
+              alignItems: 'flex-start',
+            }}
+          >
             <Reveal>
-              <p>
-                I install AI operating systems for B2B service and education
-                companies — built on a proven 6-layer revenue foundation,
-                configured to how each business actually runs.
-              </p>
+              <Portrait />
             </Reveal>
-            <Reveal delay={120}>
-              <p className="font-serif text-3xl leading-[1.18] text-cream md:text-4xl">
-                Most AI agencies sell automations.{' '}
-                <em className="not-italic text-gold">
-                  I architect operating systems.
-                </em>
-              </p>
-            </Reveal>
-            <Reveal delay={200}>
-              <p>
-                Manhaj (منهج) is the Arabic word for{' '}
-                <em className="text-cream">system / methodology</em> — used in
-                classical Arabic scholarship for the systematic methodology of
-                inquiry. The brand is a promise: we don&apos;t sell tools, we
-                install methodology as software.
-              </p>
-            </Reveal>
-            <Reveal delay={260}>
-              <p>
-                You talk to the architect who builds it. No PMs. No juniors. No
-                handoffs.
-              </p>
-            </Reveal>
-            <Reveal delay={320}>
-              <ButtonLink href="/audit" variant="primary">
-                Book a 45-minute audit
-              </ButtonLink>
+            <Reveal delay={150}>
+              <div style={{ paddingTop: 24 }}>
+                <div className="t-eyebrow" style={{ marginBottom: 28 }}>◊ Origin</div>
+                <p
+                  className="t-display"
+                  style={{
+                    fontSize: 28,
+                    lineHeight: 1.3,
+                    color: 'var(--ink-primary)',
+                    marginBottom: 32,
+                  }}
+                >
+                  Trained in economics. Built systems for operator-led businesses before AI was a feature. Now
+                  installs them in five weeks.
+                </p>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 24,
+                    fontSize: 16,
+                    color: 'var(--ink-secondary)',
+                    lineHeight: 1.7,
+                  }}
+                >
+                  <p>
+                    I started in the back rooms of operator-led businesses — the kind that grow from $1M to
+                    $10M not because they have a good product, but because they have a good system. Watching
+                    them, I noticed the bottleneck was always the same: the system grew faster than the
+                    people running it could think about it.
+                  </p>
+                  <p>
+                    AI changed that. Not as a chatbot, not as a feature. As infrastructure. Suddenly the
+                    system could think about itself. The owner could finally stop being the bottleneck and
+                    start being the architect.
+                  </p>
+                  <p>
+                    Manhaj is the methodology I built doing this — installed inside real businesses before it
+                    had a name. AOS-001 is its first published specification.
+                  </p>
+                </div>
+              </div>
             </Reveal>
           </div>
-
-          <aside className="border border-line bg-ink-2/40 p-8">
-            <p className="font-mono text-[10px] uppercase tracking-[0.32em] text-gold">
-              ◊ ICP · Who Manhaj fits
-            </p>
-            <ul className="mt-6 space-y-4 font-sans text-sm leading-relaxed text-cream-dim">
-              <li>
-                <span className="font-mono text-[10px] uppercase tracking-[0.28em] text-cream">Revenue band</span>
-                <br />$1M – $10M annually
-              </li>
-              <li>
-                <span className="font-mono text-[10px] uppercase tracking-[0.28em] text-cream">Profile</span>
-                <br />Operator-led — founder is in the business
-              </li>
-              <li>
-                <span className="font-mono text-[10px] uppercase tracking-[0.28em] text-cream">Examples</span>
-                <br />Training &amp; cohort programs, B2B service agencies, healthcare clinics, education platforms, multi-location service businesses.
-              </li>
-              <li>
-                <span className="font-mono text-[10px] uppercase tracking-[0.28em] text-cream">Not the ICP</span>
-                <br />Solo creators, pre-revenue founders, low-ticket coaches, generic e-commerce, enterprise (&gt;$50M).
-              </li>
-            </ul>
-          </aside>
         </div>
       </section>
-    </article>
+
+      <BrandEtymology />
+
+      <BeliefSection />
+
+      <section
+        style={{
+          padding: '160px 0',
+          borderTop: '1px solid var(--line-soft)',
+          textAlign: 'center',
+        }}
+      >
+        <div className="container">
+          <Reveal>
+            <h2 className="t-display" style={{ fontSize: 'clamp(44px, 6vw, 80px)', marginBottom: 40 }}>
+              Talk to the architect directly.
+            </h2>
+          </Reveal>
+          <Reveal delay={150}>
+            <CTAButton primary path="/audit" label="Book the discovery call" />
+          </Reveal>
+        </div>
+      </section>
+    </>
+  );
+}
+
+function Portrait() {
+  return (
+    <div
+      style={{
+        position: 'relative',
+        aspectRatio: '4/5',
+        background: 'var(--bg-elevated)',
+        border: '1px solid var(--line)',
+        overflow: 'hidden',
+      }}
+    >
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: `
+            radial-gradient(ellipse at 50% 35%, rgba(201,169,97,0.18), transparent 55%),
+            linear-gradient(180deg, #1A1A1F 0%, #0A0A0B 100%)
+          `,
+        }}
+      />
+      <svg
+        width="100%" height="100%" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice"
+        style={{ position: 'absolute', inset: 0 }}
+      >
+        <ellipse cx="200" cy="190" rx="68" ry="80" fill="#1F1F25" />
+        <path d="M 60 500 L 80 380 Q 110 320 200 320 Q 290 320 320 380 L 340 500 Z" fill="#16161A" />
+        <ellipse cx="180" cy="170" rx="30" ry="40" fill="rgba(201,169,97,0.06)" />
+        <path d="M 248 200 Q 260 240 245 280" stroke="rgba(201,169,97,0.3)" strokeWidth="1" fill="none" />
+      </svg>
+
+      {[0, 1, 2, 3].map((c) => (
+        <span
+          key={c}
+          style={{
+            position: 'absolute',
+            width: 12,
+            height: 12,
+            border: '1px solid var(--accent)',
+            ...(c < 2 ? { top: 16 } : { bottom: 16 }),
+            ...(c % 2 === 0 ? { left: 16 } : { right: 16 }),
+          }}
+        />
+      ))}
+
+      <div
+        style={{
+          position: 'absolute',
+          bottom: 20,
+          left: 28,
+          right: 28,
+          display: 'flex',
+          justifyContent: 'space-between',
+          fontFamily: 'var(--font-mono)',
+          fontSize: 10,
+          letterSpacing: '0.16em',
+          textTransform: 'uppercase',
+          color: 'var(--ink-tertiary)',
+        }}
+      >
+        <span>◊ A. BUKHARI</span>
+        <span>2026 / portrait_01</span>
+      </div>
+    </div>
+  );
+}
+
+function BrandEtymology() {
+  return (
+    <section
+      style={{
+        padding: '160px 0',
+        background: 'var(--bg-deep)',
+        borderTop: '1px solid var(--line-soft)',
+        borderBottom: '1px solid var(--line-soft)',
+      }}
+    >
+      <div className="container">
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1.4fr',
+            gap: 80,
+            alignItems: 'center',
+          }}
+        >
+          <Reveal>
+            <ArabicMark />
+          </Reveal>
+          <Reveal delay={200}>
+            <div className="t-eyebrow" style={{ marginBottom: 28 }}>◊ Etymology</div>
+            <h2
+              className="t-display"
+              style={{
+                fontSize: 'clamp(36px, 5vw, 60px)',
+                marginBottom: 32,
+                lineHeight: 1.1,
+              }}
+            >
+              <span style={{ fontStyle: 'italic', color: 'var(--accent)' }}>Manhaj</span> · منهج
+            </h2>
+            <p
+              style={{
+                fontSize: 17,
+                lineHeight: 1.7,
+                color: 'var(--ink-primary)',
+                maxWidth: 640,
+                marginBottom: 18,
+              }}
+            >
+              Arabic for <span style={{ color: 'var(--accent)' }}>system</span> or{' '}
+              <span style={{ color: 'var(--accent)' }}>methodology</span> — used in classical scholarship for
+              the systematic methodology of inquiry.
+            </p>
+            <p style={{ fontSize: 16, lineHeight: 1.7, color: 'var(--ink-secondary)', maxWidth: 640 }}>
+              It names what we deliver. Not a tool. Not a stack. Not a snapshot. A methodology, installed as
+              software, architected for the way your business actually runs.
+            </p>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function BeliefSection() {
+  const beliefs = [
+    {
+      n: '01',
+      title: 'Templates are theft of context.',
+      body:
+        'Every operator-led business is a unique configuration of constraints, customers, and team. A template throws that away. Manhaj reads it.',
+    },
+    {
+      n: '02',
+      title: 'Owners should be architects, not operators.',
+      body:
+        "Your job is to design the system. The system's job is to run the business. We install the layer between.",
+    },
+    {
+      n: '03',
+      title: 'Speed is a feature of architecture, not effort.',
+      body: "Sub-60s response is not aggressive — it's default, when the system is shaped right.",
+    },
+    {
+      n: '04',
+      title: 'AI is infrastructure, not a feature.',
+      body:
+        'It belongs in the foundation, not the marketing slide. Inside Manhaj, every layer assumes intelligence as plumbing.',
+    },
+  ] as const;
+  return (
+    <section style={{ padding: '160px 0' }}>
+      <div className="container">
+        <SectionHeader eyebrow="Operating principles" title="Four beliefs the OS is built on." />
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
+          {beliefs.map((b, i) => (
+            <Reveal key={b.n} delay={i * 100}>
+              <div
+                style={{
+                  padding: 36,
+                  border: '1px solid var(--line)',
+                  background: 'var(--bg-elevated)',
+                  minHeight: 240,
+                }}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    marginBottom: 24,
+                  }}
+                >
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 14, color: 'var(--accent)' }}>
+                    {b.n}
+                  </span>
+                  <span className="t-mono" style={{ fontSize: 9 }}>◊ AXIOM</span>
+                </div>
+                <h3 className="t-display" style={{ fontSize: 26, lineHeight: 1.2, marginBottom: 18 }}>
+                  {b.title}
+                </h3>
+                <p style={{ fontSize: 14, color: 'var(--ink-secondary)', lineHeight: 1.7 }}>{b.body}</p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }

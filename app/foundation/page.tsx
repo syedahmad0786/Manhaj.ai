@@ -1,14 +1,18 @@
 import type { Metadata } from 'next';
-import Eyebrow from '@/components/ui/Eyebrow';
+import PageHeader from '@/components/shared/PageHeader';
+import SectionHeader from '@/components/shared/SectionHeader';
 import Reveal from '@/components/ui/Reveal';
-import { ButtonLink } from '@/components/ui/Button';
-import { LAYERS } from '@/lib/data/layers';
+import CTAButton from '@/components/ui/CTAButton';
+import LayerDiagram from '@/components/home/LayerDiagram';
+import { LAYERS, type Layer } from '@/lib/data/layers';
 import { SITE } from '@/lib/site';
+
+// Direct port from .extracted-source/009 — FoundationPage.
 
 export const metadata: Metadata = {
   title: 'AOS-001 Foundation',
   description:
-    'The 6-layer revenue foundation every Manhaj install runs on. Capture, Qualify, Engage, Convert, Retain, Intelligence.',
+    'The 6-layer revenue foundation every Manhaj install runs on. Capture, Qualify, Engage, Convert, Retain, Intelligence — specified in full.',
   alternates: { canonical: `${SITE.url}/foundation` },
   openGraph: {
     title: 'AOS-001 — The 6-layer revenue foundation',
@@ -19,84 +23,327 @@ export const metadata: Metadata = {
 
 export default function FoundationPage() {
   return (
-    <article>
-      <header className="border-b border-line pt-32 pb-20 md:pt-40">
-        <div className="mx-auto max-w-(--container-wide) px-6 md:px-10">
-          <Eyebrow>The Offer · 02</Eyebrow>
-          <h1 className="mt-8 max-w-4xl font-serif text-5xl leading-[1.04] text-cream md:text-7xl">
-            AOS-001 — the 6-layer{' '}
-            <em className="not-italic text-gold">revenue foundation.</em>
-          </h1>
-          <p className="mt-8 max-w-2xl font-sans text-lg leading-relaxed text-cream-dim">
-            Every Manhaj install runs on the same six universal layers. Modules
-            on top are bespoke. That&apos;s what makes the OS yours.
-          </p>
-        </div>
-      </header>
+    <>
+      <PageHeader
+        eyebrow="AOS-001 · Specification"
+        title={
+          <>
+            The 6-layer revenue foundation,
+            <br />
+            <span style={{ fontStyle: 'italic', color: 'var(--accent)' }}>specified in full.</span>
+          </>
+        }
+        sub="Every Manhaj install carries this stack. The interface is universal. The orchestration is not."
+      />
 
-      <section className="border-b border-line py-20 md:py-28">
-        <div className="mx-auto max-w-(--container-wide) px-6 md:px-10">
-          <div className="grid gap-px overflow-hidden border border-line bg-line">
-            {LAYERS.map((layer) => (
-              <Reveal key={layer.num}>
-                <div className="grid grid-cols-1 gap-8 bg-ink p-9 md:grid-cols-[120px_1fr_320px] md:gap-10">
-                  <div>
-                    <p className="font-mono text-[11px] tracking-[0.32em] text-gold">
-                      LAYER {layer.num}
-                    </p>
-                    <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.28em] text-mute">
-                      ◊ AOS-001
-                    </p>
-                  </div>
-                  <div>
-                    <h2 className="font-serif text-4xl font-medium text-cream md:text-5xl">
-                      {layer.name}
-                    </h2>
-                    <p className="mt-4 font-sans text-base leading-relaxed text-cream-dim">
-                      {layer.detail}
-                    </p>
-                  </div>
-                  <div className="space-y-3">
-                    <p className="font-mono text-[10px] uppercase tracking-[0.32em] text-gold">
-                      Channels
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {layer.channels.map((c) => (
-                        <span
-                          key={c}
-                          className="border border-line-2 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.22em] text-cream-dim"
-                        >
-                          {c}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
+      <section style={{ padding: '0 0 120px' }}>
+        <div className="container">
+          <Reveal>
+            <LayerDiagram />
+          </Reveal>
+        </div>
+      </section>
+
+      {LAYERS.map((l, i) => (
+        <LayerDeepSection key={l.id} layer={l} flip={i % 2 === 1} index={i} />
+      ))}
+
+      <UniversalVsBespoke />
+
+      <section style={{ padding: '160px 0', borderTop: '1px solid var(--line-soft)' }}>
+        <div className="container" style={{ textAlign: 'center' }}>
+          <Reveal>
+            <h2
+              className="t-display"
+              style={{
+                fontSize: 'clamp(40px, 6vw, 80px)',
+                marginBottom: 40,
+                maxWidth: 880,
+                marginLeft: 'auto',
+                marginRight: 'auto',
+              }}
+            >
+              Walk through the spec with the architect.
+            </h2>
+          </Reveal>
+          <Reveal delay={150}>
+            <CTAButton primary path="/audit" label="Book an architecture review" />
+          </Reveal>
+        </div>
+      </section>
+    </>
+  );
+}
+
+function LayerDeepSection({ layer, flip, index }: { layer: Layer; flip: boolean; index: number }) {
+  return (
+    <section
+      style={{
+        padding: '120px 0',
+        borderTop: '1px solid var(--line-soft)',
+        background: index % 2 === 0 ? 'transparent' : 'var(--bg-deep)',
+      }}
+    >
+      <div className="container">
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: 80,
+            alignItems: 'center',
+          }}
+        >
+          <div style={{ order: flip ? 2 : 1 }}>
+            <Reveal>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 24, marginBottom: 28 }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 48, color: 'var(--accent)' }}>
+                  {layer.id}
+                </span>
+                <span className="t-mono">◊ Layer</span>
+              </div>
+              <h2
+                className="t-display"
+                style={{ fontSize: 'clamp(40px, 6vw, 72px)', marginBottom: 18, lineHeight: 1 }}
+              >
+                {layer.name}
+              </h2>
+              <div className="t-mono" style={{ marginBottom: 32, fontSize: 12 }}>{layer.sub}</div>
+              <p style={{ fontSize: 17, lineHeight: 1.7, color: 'var(--ink-secondary)', maxWidth: 520 }}>
+                {layer.detail}
+              </p>
+              <div style={{ marginTop: 40 }}>
+                <div className="t-eyebrow" style={{ marginBottom: 14 }}>Orchestrated tools</div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                  {layer.tools.map((t) => (
+                    <span
+                      key={t}
+                      style={{
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: 12,
+                        padding: '8px 14px',
+                        border: '1px solid var(--line)',
+                        color: 'var(--ink-primary)',
+                        background: 'var(--bg-elevated)',
+                      }}
+                    >
+                      {t}
+                    </span>
+                  ))}
                 </div>
-              </Reveal>
-            ))}
+              </div>
+            </Reveal>
+          </div>
+          <div style={{ order: flip ? 1 : 2 }}>
+            <Reveal delay={150}>
+              <LayerSchematic layer={layer} />
+            </Reveal>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
+  );
+}
 
-      <section className="py-24 md:py-32">
-        <div className="mx-auto max-w-(--container-narrow) px-6 text-center md:px-10">
-          <h3 className="font-serif text-4xl text-cream md:text-5xl">
-            Foundation universal. Modules bespoke.
-          </h3>
-          <p className="mt-6 font-sans text-base leading-relaxed text-cream-dim">
-            See the foundation running inside two anonymized client systems —
-            then book a 45-minute audit if you&apos;d like one of your own.
-          </p>
-          <div className="mt-12 flex flex-wrap justify-center gap-4">
-            <ButtonLink href="/kiosks/" variant="primary">
-              Open the kiosks
-            </ButtonLink>
-            <ButtonLink href="/audit" variant="outline">
-              Book an audit
-            </ButtonLink>
+function LayerSchematic({ layer }: { layer: Layer }) {
+  return (
+    <div
+      style={{
+        border: '1px solid var(--line)',
+        background: 'var(--bg-elevated)',
+        padding: 40,
+        position: 'relative',
+        minHeight: 480,
+      }}
+    >
+      {[0, 1, 2, 3].map((c) => (
+        <span
+          key={c}
+          style={{
+            position: 'absolute',
+            width: 8,
+            height: 8,
+            border: '1px solid var(--accent)',
+            ...(c < 2 ? { top: 12 } : { bottom: 12 }),
+            ...(c % 2 === 0 ? { left: 12 } : { right: 12 }),
+          }}
+        />
+      ))}
+
+      <div className="t-mono" style={{ marginBottom: 28, color: 'var(--accent)' }}>
+        ◊ Layer.{layer.id} · Modules
+      </div>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 1, background: 'var(--line)' }}>
+        {layer.modules.map((m, i) => (
+          <div
+            key={m}
+            style={{
+              background: 'var(--bg-elevated)',
+              padding: '16px 18px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 16,
+            }}
+          >
+            <span
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: 11,
+                color: 'var(--ink-tertiary)',
+                minWidth: 32,
+              }}
+            >
+              {`m.${String(i + 1).padStart(2, '0')}`}
+            </span>
+            <span style={{ fontSize: 14, color: 'var(--ink-primary)', flex: 1 }}>{m}</span>
+            <span style={{ width: 24, height: 1, background: 'var(--accent)', opacity: 0.6 }} />
+            <span
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: 9,
+                color: 'var(--success)',
+                letterSpacing: '0.14em',
+              }}
+            >
+              ● ACTIVE
+            </span>
           </div>
+        ))}
+      </div>
+
+      <div
+        style={{
+          marginTop: 32,
+          paddingTop: 20,
+          borderTop: '1px solid var(--line-soft)',
+          display: 'flex',
+          justifyContent: 'space-between',
+          fontFamily: 'var(--font-mono)',
+          fontSize: 10,
+          color: 'var(--ink-tertiary)',
+          letterSpacing: '0.14em',
+        }}
+      >
+        <span>UNIVERSAL: SHAPE</span>
+        <span>BESPOKE: ORCHESTRATION</span>
+      </div>
+    </div>
+  );
+}
+
+function UniversalVsBespoke() {
+  return (
+    <section
+      style={{
+        padding: '160px 0',
+        borderTop: '1px solid var(--line-soft)',
+        background: 'var(--bg-deep)',
+      }}
+    >
+      <div className="container">
+        <SectionHeader eyebrow="The split" title="What's universal. What's yours." />
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
+          <SplitCard
+            title="Universal"
+            kicker="The shape of every Manhaj install"
+            items={[
+              'Six-layer architecture (Capture → Intelligence)',
+              'Founder-grade dashboard + alerting',
+              'Sub-60s response-time SLAs',
+              'Single-source-of-truth lead intake',
+              'Pipeline progression automation',
+              'Behavioural retention engine',
+            ]}
+            tone="muted"
+          />
+          <SplitCard
+            title="Bespoke"
+            kicker="Configured uniquely for you"
+            items={[
+              'ICP scoring rubric — your customer, not a generic one',
+              'Tool orchestration — your existing stack, augmented',
+              'Voice + tone of every AI agent — your brand',
+              "Routing rules — your team's actual structure",
+              'Dashboards — the metrics you wake up thinking about',
+              "Retention cadence — your customer's real lifecycle",
+            ]}
+            tone="accent"
+          />
         </div>
-      </section>
-    </article>
+      </div>
+    </section>
+  );
+}
+
+function SplitCard({
+  title,
+  kicker,
+  items,
+  tone,
+}: {
+  title: string;
+  kicker: string;
+  items: string[];
+  tone: 'accent' | 'muted';
+}) {
+  const accent = tone === 'accent';
+  return (
+    <div
+      style={{
+        padding: 40,
+        background: 'var(--bg-elevated)',
+        border: '1px solid',
+        borderColor: accent ? 'var(--accent)' : 'var(--line)',
+      }}
+    >
+      <div
+        className="t-mono"
+        style={{
+          color: accent ? 'var(--accent)' : 'var(--ink-tertiary)',
+          marginBottom: 16,
+        }}
+      >
+        {accent ? '◆ MODULE' : '◇ FOUNDATION'}
+      </div>
+      <h3 className="t-display" style={{ fontSize: 40, marginBottom: 8 }}>{title}</h3>
+      <div
+        style={{
+          fontSize: 14,
+          color: 'var(--ink-secondary)',
+          marginBottom: 32,
+          fontStyle: 'italic',
+          fontFamily: 'var(--font-display)',
+        }}
+      >
+        {kicker}
+      </div>
+      <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 14 }}>
+        {items.map((it) => (
+          <li
+            key={it}
+            style={{
+              display: 'flex',
+              gap: 14,
+              alignItems: 'flex-start',
+              paddingBottom: 14,
+              borderBottom: '1px solid var(--line-soft)',
+              fontSize: 14,
+              color: 'var(--ink-primary)',
+            }}
+          >
+            <span
+              style={{
+                width: 6,
+                height: 6,
+                background: accent ? 'var(--accent)' : 'var(--ink-tertiary)',
+                marginTop: 8,
+                flexShrink: 0,
+              }}
+            />
+            <span>{it}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }

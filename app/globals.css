@@ -1,97 +1,281 @@
 @import "tailwindcss";
 
-/* ===========================================================================
-   Manhaj design tokens — lifted from kiosks/_assets/kiosk.css.
-   Palette: black (#0A0A0B) · gold (#C9A961) · cream (#F5F2EA).
-   Type:    serif (Cormorant Garamond) for display, sans (Inter) for body,
-            mono (JetBrains Mono) for AOS-001 / eyebrow / system labels.
-   =========================================================================== */
-
-@theme {
-  --color-ink:        #0A0A0B;
-  --color-ink-2:      #111114;
-  --color-ink-3:      #1A1A1F;
-  --color-line:       #2A2A30;
-  --color-line-2:     #3A3A42;
-  --color-gold:       #C9A961;
-  --color-gold-soft:  #B8965A;
-  --color-gold-mute:  #8C7848;
-  --color-cream:      #F5F2EA;
-  --color-cream-dim:  #C9C5BA;
-  --color-mute:       #6B6B73;
-
-  --font-serif: var(--font-serif-stack);
-  --font-sans:  var(--font-sans-stack);
-  --font-mono:  var(--font-mono-stack);
-
-  --container-narrow: 64rem;
-  --container-base:   80rem;
-  --container-wide:   90rem;
-}
+/* ============================================================================
+   MANHAJ.AI — design tokens + utility classes
+   Lifted verbatim from the Antigravity standalone bundle (the source of truth
+   for visual identity). Do not paraphrase. The components reference these as
+   inline `style={{ background: 'var(--bg-deep)' }}` etc., so the CSS variable
+   names must stay exactly as written here.
+   ============================================================================ */
 
 :root {
-  --font-serif-stack: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
-  --font-sans-stack:  var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-mono-stack:  var(--font-jetbrains), ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  /* Surfaces */
+  --bg-base: #0A0A0B;
+  --bg-elevated: #131316;
+  --bg-subtle: #1A1A1F;
+  --bg-deep: #060607;
+
+  /* Ink */
+  --ink-primary: #F5F2EA;
+  --ink-secondary: #A8A29A;
+  --ink-tertiary: #6B6862;
+  --ink-quaternary: #3F3D38;
+
+  /* Accent */
+  --accent: #C9A961;
+  --accent-glow: #E8C887;
+  --accent-deep: #8C7240;
+  --accent-faint: rgba(201, 169, 97, 0.12);
+
+  /* Semantic */
+  --line: #2A2A30;
+  --line-soft: #1F1F25;
+  --success: #6BAA75;
+  --warning: #D4A857;
+
+  /* Type — actual font-family values come from next/font in app/layout.tsx,
+     which sets --font-display, --font-body, --font-mono, --font-arabic on
+     the <html> element. Defaults stay here as fallback. */
+  --font-display: "Fraunces", "Times New Roman", serif;
+  --font-body: "Inter", -apple-system, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", monospace;
+  --font-arabic: "IBM Plex Sans Arabic", "Tajawal", sans-serif;
+
+  /* Motion */
+  --ease: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Spacing scale */
+  --space-px: 1px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+  --space-32: 128px;
+  --space-40: 160px;
 }
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-html, body {
-  background: var(--color-ink);
-  color: var(--color-cream);
-  font-family: var(--font-sans);
+html {
+  background: var(--bg-base);
+  color: var(--ink-primary);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  scroll-behavior: auto;
 }
 
-body { min-height: 100vh; }
+body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--ink-secondary);
+  background: var(--bg-base);
+  overflow-x: hidden;
+  background-image:
+    radial-gradient(ellipse at top, rgba(201, 169, 97, 0.04), transparent 50%),
+    radial-gradient(ellipse at bottom, rgba(201, 169, 97, 0.02), transparent 60%);
+}
 
-a { color: inherit; text-decoration: none; }
+::selection {
+  background: var(--accent);
+  color: var(--bg-base);
+}
 
-::selection { background: var(--color-gold); color: var(--color-ink); }
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 0;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--ink-quaternary); }
 
-/* ============== Reusable utility components ============== */
+/* ============================================================================
+   Typography utilities
+   ============================================================================ */
 
-@utility eyebrow {
+.t-display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 1.02;
+  color: var(--ink-primary);
+}
+
+.t-display-italic {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+}
+
+.t-mono {
   font-family: var(--font-mono);
   font-size: 11px;
-  letter-spacing: 0.32em;
-  color: var(--color-gold);
+  letter-spacing: 0.14em;
   text-transform: uppercase;
+  color: var(--ink-tertiary);
 }
 
-@utility serif-display {
-  font-family: var(--font-serif);
+.t-mono-md {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+}
+
+.t-arabic {
+  font-family: var(--font-arabic);
+  font-weight: 400;
+  direction: rtl;
+}
+
+.t-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
   font-weight: 500;
-  letter-spacing: -0.01em;
-  line-height: 1.02;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
 }
 
-@utility hairline {
-  border-top: 1px solid var(--color-line);
+/* ============================================================================
+   Layout primitives
+   ============================================================================ */
+
+.container {
+  width: 100%;
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 0 32px;
 }
 
-/* The brand mark "◊" before tags / list items. */
-@utility diamond-bullet {
-  &::before {
-    content: '◊';
-    color: var(--color-gold);
-    margin-right: 0.6em;
+.container-narrow {
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* ============================================================================
+   Buttons
+   ============================================================================ */
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  padding: 16px 22px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--ink-primary);
+  text-decoration: none;
+  transition: all 400ms var(--ease);
+  white-space: nowrap;
+}
+
+.btn .arrow {
+  display: inline-block;
+  transition: transform 400ms var(--ease);
+}
+
+.btn:hover .arrow {
+  transform: translateX(4px);
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--bg-base);
+  border-color: var(--accent);
+}
+
+.btn-primary:hover {
+  background: var(--accent-glow);
+  border-color: var(--accent-glow);
+  box-shadow: 0 0 40px rgba(201, 169, 97, 0.25);
+}
+
+.btn-secondary {
+  border-color: var(--line);
+  color: var(--ink-primary);
+}
+
+.btn-secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.btn-ghost {
+  padding-left: 0;
+  padding-right: 0;
+  color: var(--ink-secondary);
+}
+
+.btn-ghost:hover { color: var(--accent); }
+
+/* ============================================================================
+   Hairlines / cards / focus / motion preference
+   ============================================================================ */
+
+.hairline { height: 1px; background: var(--line); width: 100%; }
+.hairline-soft { height: 1px; background: var(--line-soft); width: 100%; }
+
+.card {
+  position: relative;
+  background: var(--bg-elevated);
+  border: 1px solid var(--line);
+  padding: 32px;
+  transition: all 500ms var(--ease);
+}
+
+.card:hover {
+  border-color: var(--ink-quaternary);
+  background: var(--bg-subtle);
+}
+
+:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
-/* Subtle scroll-reveal — used by <Reveal> client component. */
-[data-reveal] {
-  opacity: 0;
-  transform: translateY(14px);
-  transition: opacity 700ms cubic-bezier(0.2, 0.8, 0.2, 1),
-              transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
+/* Skip link helper — referenced by app/layout.tsx */
+.skip-link {
+  position: absolute;
+  top: -100vh;
+  left: 8px;
+  z-index: 100;
+  background: var(--accent);
+  color: var(--bg-base);
+  padding: 10px 14px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
 }
-[data-reveal][data-revealed='true'] {
-  opacity: 1;
-  transform: translateY(0);
-}
-@media (prefers-reduced-motion: reduce) {
-  [data-reveal] { opacity: 1; transform: none; transition: none; }
-}
+.skip-link:focus { top: 8px; }

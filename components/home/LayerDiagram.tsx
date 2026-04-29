@@ -1,69 +1,273 @@
-import Link from 'next/link';
-import Eyebrow from '@/components/ui/Eyebrow';
-import Reveal from '@/components/ui/Reveal';
-import { LAYERS } from '@/lib/data/layers';
+'use client';
 
-export default function LayerDiagram() {
+import { useState } from 'react';
+import { LAYERS, type Layer } from '@/lib/data/layers';
+
+// Direct port from .extracted-source/005 — interactive 6-layer diagram with
+// hover preview and click-to-open side panel.
+export default function LayerDiagram({ compact = false }: { compact?: boolean }) {
+  const [hovered, setHovered] = useState<string | null>(null);
+  const [opened, setOpened] = useState<string | null>(null);
+
+  const detailLayer =
+    (opened && LAYERS.find((l) => l.id === opened)) ||
+    (hovered && LAYERS.find((l) => l.id === hovered)) ||
+    null;
+
   return (
-    <section className="border-b border-line py-24 md:py-32">
-      <div className="mx-auto max-w-(--container-wide) px-6 md:px-10">
-        <Reveal>
-          <Eyebrow>02 · The Offer</Eyebrow>
-        </Reveal>
-        <Reveal delay={100}>
-          <h2 className="mt-6 max-w-3xl font-serif text-4xl leading-[1.04] text-cream md:text-5xl">
-            The 6-layer foundation. Every install runs on it.
-          </h2>
-        </Reveal>
-        <Reveal delay={180}>
-          <p className="mt-6 max-w-2xl font-sans text-base leading-relaxed text-cream-dim">
-            Modules on top are bespoke. That&apos;s what makes the OS yours.
-            The foundation is universal; the architecture is operator-specific.
-          </p>
-        </Reveal>
-
-        <div className="mt-16 grid gap-px overflow-hidden border border-line bg-line">
-          {LAYERS.map((layer, i) => (
-            <Reveal key={layer.num} delay={120 + i * 60}>
-              <article className="grid grid-cols-[auto_1fr] items-start gap-8 bg-ink p-7 md:grid-cols-[auto_1fr_auto] md:gap-10 md:p-9">
-                <span className="font-mono text-[11px] tracking-[0.28em] text-gold pt-2">
-                  {layer.num}
-                </span>
-                <div>
-                  <h3 className="font-serif text-3xl font-medium text-cream md:text-4xl">
-                    {layer.name}
-                  </h3>
-                  <p className="mt-3 font-sans text-sm leading-relaxed text-cream-dim md:text-base">
-                    {layer.detail}
-                  </p>
-                </div>
-                <div className="flex flex-wrap gap-3 md:justify-end md:pt-2">
-                  {layer.channels.map((c) => (
-                    <span
-                      key={c}
-                      className="border border-line-2 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.22em] text-cream-dim"
+    <div style={{ position: 'relative' }}>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: compact ? '1fr' : 'minmax(420px, 540px) 1fr',
+          gap: 64,
+          alignItems: 'start',
+        }}
+      >
+        <div style={{ position: 'relative' }}>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 4,
+              border: '1px solid var(--line)',
+              padding: 4,
+              background: 'var(--bg-deep)',
+            }}
+          >
+            {LAYERS.map((l) => {
+              const isHover = hovered === l.id;
+              const isOpen = opened === l.id;
+              const isDim = (hovered && !isHover) || (opened && !isOpen);
+              return (
+                <button
+                  key={l.id}
+                  data-cursor-hover
+                  onMouseEnter={() => setHovered(l.id)}
+                  onMouseLeave={() => setHovered(null)}
+                  onClick={() => setOpened(isOpen ? null : l.id)}
+                  style={{
+                    cursor: 'pointer',
+                    textAlign: 'left',
+                    background: isHover || isOpen ? 'var(--bg-elevated)' : 'var(--bg-base)',
+                    border: '1px solid',
+                    borderColor: isOpen ? 'var(--accent)' : 'var(--line)',
+                    padding: '22px 24px',
+                    display: 'grid',
+                    gridTemplateColumns: '60px 1fr auto',
+                    gap: 20,
+                    alignItems: 'center',
+                    transition: 'all 400ms var(--ease)',
+                    opacity: isDim ? 0.36 : 1,
+                    transform: isHover ? 'translateX(4px)' : 'translateX(0)',
+                    color: 'inherit',
+                    font: 'inherit',
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: 'var(--font-mono)',
+                      fontSize: 13,
+                      color: isHover || isOpen ? 'var(--accent)' : 'var(--ink-tertiary)',
+                      letterSpacing: '0.06em',
+                    }}
+                  >
+                    {l.id}
+                  </span>
+                  <div>
+                    <div
+                      style={{
+                        fontFamily: 'var(--font-display)',
+                        fontSize: 22,
+                        fontWeight: 400,
+                        color: 'var(--ink-primary)',
+                        marginBottom: 4,
+                        letterSpacing: '-0.01em',
+                      }}
                     >
-                      {c}
-                    </span>
-                  ))}
-                </div>
-              </article>
-            </Reveal>
-          ))}
+                      {l.name}
+                    </div>
+                    <div className="t-mono" style={{ fontSize: 10 }}>{l.sub}</div>
+                  </div>
+                  <span
+                    style={{
+                      color: isOpen ? 'var(--accent)' : 'var(--ink-tertiary)',
+                      fontFamily: 'var(--font-mono)',
+                      fontSize: 18,
+                      transform: isOpen ? 'rotate(90deg)' : 'rotate(0deg)',
+                      transition: 'transform 400ms var(--ease)',
+                    }}
+                  >
+                    →
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          <div
+            style={{
+              position: 'absolute',
+              left: -24,
+              top: 30,
+              bottom: 30,
+              width: 16,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              pointerEvents: 'none',
+            }}
+          >
+            <span
+              className="t-mono"
+              style={{
+                fontSize: 9,
+                writingMode: 'vertical-rl',
+                transform: 'rotate(180deg)',
+                color: 'var(--ink-tertiary)',
+              }}
+            >
+              FOUNDATION → INTELLIGENCE
+            </span>
+          </div>
         </div>
 
-        <div className="mt-12 flex flex-wrap items-center gap-6">
-          <Link
-            href="/foundation"
-            className="inline-flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.28em] text-gold hover:translate-x-1 transition-transform"
-          >
-            Read the AOS-001 deep dive <span aria-hidden>→</span>
-          </Link>
-          <span className="font-mono text-[10px] uppercase tracking-[0.28em] text-mute">
-            ◊ Foundation universal · Modules bespoke
+        <DetailPanel layer={detailLayer} opened={!!opened} />
+      </div>
+    </div>
+  );
+}
+
+function DetailPanel({ layer, opened }: { layer: Layer | null; opened: boolean }) {
+  if (!layer) {
+    return (
+      <div
+        style={{
+          border: '1px solid var(--line-soft)',
+          padding: 40,
+          background: 'var(--bg-elevated)',
+          minHeight: 480,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+        }}
+      >
+        <div>
+          <div className="t-eyebrow" style={{ marginBottom: 24 }}>◊ AOS-001 specification</div>
+          <p className="t-display" style={{ fontSize: 32, lineHeight: 1.2, marginBottom: 32 }}>
+            Hover any layer to preview. Click to open its detail.
+          </p>
+          <p style={{ fontSize: 15, color: 'var(--ink-secondary)', maxWidth: 480, lineHeight: 1.7 }}>
+            Six layers. Universal foundation. Each layer is bespoke — orchestrated to your stack, your ICP,
+            your team&apos;s actual workflows.
+          </p>
+        </div>
+        <SchematicLines />
+      </div>
+    );
+  }
+  return (
+    <div
+      key={layer.id}
+      style={{
+        border: '1px solid var(--accent)',
+        padding: 40,
+        background: 'var(--bg-elevated)',
+        animation: 'panelIn 400ms var(--ease)',
+        minHeight: 480,
+      }}
+    >
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: 32,
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 18 }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 36, color: 'var(--accent)' }}>
+            {layer.id}
           </span>
+          <h3 className="t-display" style={{ fontSize: 36, color: 'var(--ink-primary)' }}>
+            {layer.name}
+          </h3>
+        </div>
+        <div className="t-mono" style={{ color: 'var(--accent)' }}>
+          {opened ? '● expanded' : '○ preview'}
         </div>
       </div>
-    </section>
+
+      <div className="t-mono" style={{ marginBottom: 28, fontSize: 11 }}>{layer.sub}</div>
+
+      <p style={{ fontSize: 16, lineHeight: 1.7, color: 'var(--ink-primary)', marginBottom: 32 }}>
+        {layer.detail}
+      </p>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32, marginBottom: 32 }}>
+        <div>
+          <div className="t-mono" style={{ marginBottom: 14, color: 'var(--accent)' }}>◊ Modules</div>
+          <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {layer.modules.map((m) => (
+              <li
+                key={m}
+                style={{ fontSize: 13, color: 'var(--ink-secondary)', display: 'flex', gap: 10, alignItems: 'center' }}
+              >
+                <span style={{ width: 4, height: 4, background: 'var(--accent)' }} />
+                {m}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <div className="t-mono" style={{ marginBottom: 14, color: 'var(--accent)' }}>◊ Orchestrated tools</div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+            {layer.tools.map((t) => (
+              <span
+                key={t}
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: 11,
+                  padding: '6px 10px',
+                  border: '1px solid var(--line)',
+                  color: 'var(--ink-secondary)',
+                }}
+              >
+                {t}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <SchematicLines />
+
+      <style>{`
+        @keyframes panelIn {
+          from { opacity: 0; transform: translateY(8px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+function SchematicLines() {
+  return (
+    <svg width="100%" height="48" style={{ marginTop: 12, opacity: 0.6 }}>
+      <line
+        x1="0" y1="24" x2="100%" y2="24"
+        stroke="var(--accent)" strokeOpacity="0.3" strokeDasharray="2 6"
+      />
+      <circle cx="6" cy="24" r="3" fill="var(--accent)" />
+      <circle cx="50%" cy="24" r="2" fill="var(--accent)" opacity="0.5" />
+      <text
+        x="98%" y="28" textAnchor="end"
+        fontFamily="var(--font-mono)" fontSize="9"
+        fill="var(--ink-tertiary)" letterSpacing="0.14em"
+      >
+        SCHEMATIC · INDEX
+      </text>
+    </svg>
   );
 }

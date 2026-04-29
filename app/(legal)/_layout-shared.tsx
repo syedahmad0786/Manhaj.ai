@@ -1,8 +1,7 @@
-// Shared visual frame for the three legal pages — small wrapper so each route's
-// page.tsx stays focused on copy.
 import type { ReactNode } from 'react';
-import Eyebrow from '@/components/ui/Eyebrow';
 
+// Shared frame for legal pages. Uses the same token system as the rest of
+// the site so font/colors stay consistent.
 export default function LegalShell({
   eyebrow,
   title,
@@ -16,23 +15,69 @@ export default function LegalShell({
 }) {
   return (
     <article>
-      <header className="border-b border-line pt-32 pb-20 md:pt-40">
-        <div className="mx-auto max-w-(--container-narrow) px-6 md:px-10">
-          <Eyebrow>{eyebrow}</Eyebrow>
-          <h1 className="mt-8 font-serif text-5xl leading-[1.04] text-cream md:text-6xl">
+      <header style={{ padding: '180px 0 60px', borderBottom: '1px solid var(--line-soft)' }}>
+        <div className="container">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 28 }}>
+            <span style={{ width: 24, height: 1, background: 'var(--accent)' }} />
+            <span className="t-eyebrow">{eyebrow}</span>
+          </div>
+          <h1
+            className="t-display"
+            style={{
+              fontSize: 'clamp(40px, 6vw, 72px)',
+              lineHeight: 1.04,
+              letterSpacing: '-0.025em',
+              marginBottom: 18,
+            }}
+          >
             {title}
           </h1>
-          <p className="mt-6 font-mono text-[10px] uppercase tracking-[0.32em] text-mute">
-            ◊ Last updated {updatedAt}
-          </p>
+          <p className="t-mono" style={{ fontSize: 11 }}>◊ Last updated {updatedAt}</p>
         </div>
       </header>
 
-      <section className="py-16 md:py-24">
-        <div className="mx-auto max-w-(--container-narrow) px-6 font-sans text-base leading-relaxed text-cream-dim md:px-10 [&_h2]:font-serif [&_h2]:text-3xl [&_h2]:text-cream [&_h2]:mt-12 [&_h2]:mb-4 [&_h3]:font-serif [&_h3]:text-2xl [&_h3]:text-cream [&_h3]:mt-8 [&_h3]:mb-3 [&_p]:my-4 [&_a]:text-gold [&_a]:underline [&_a]:underline-offset-2 [&_ul]:my-4 [&_ul]:list-disc [&_ul]:pl-6 [&_li]:my-2">
+      <section style={{ padding: '64px 0 120px' }}>
+        <div
+          className="container-narrow legal-prose"
+          style={{
+            fontSize: 16,
+            lineHeight: 1.7,
+            color: 'var(--ink-secondary)',
+          }}
+        >
           {children}
         </div>
       </section>
+
+      <style>{`
+        .legal-prose h2 {
+          font-family: var(--font-display);
+          font-size: 28px;
+          color: var(--ink-primary);
+          margin: 48px 0 16px;
+          letter-spacing: -0.015em;
+        }
+        .legal-prose h3 {
+          font-family: var(--font-display);
+          font-size: 22px;
+          color: var(--ink-primary);
+          margin: 32px 0 12px;
+        }
+        .legal-prose p { margin: 16px 0; }
+        .legal-prose a {
+          color: var(--accent);
+          text-decoration: underline;
+          text-underline-offset: 3px;
+        }
+        .legal-prose ul {
+          padding-left: 24px;
+          margin: 16px 0;
+          list-style: disc;
+        }
+        .legal-prose li { margin: 8px 0; }
+        .legal-prose strong { color: var(--ink-primary); }
+        .legal-prose em { color: var(--ink-primary); }
+      `}</style>
     </article>
   );
 }
