@@ -281,7 +281,7 @@ if __name__ == "__main__":
         ("ErrorLens _standalone_.html",                 "errorlens",  "errorlens.html"),
         ("Onboarding Dashboard _standalone_.html",      "onboarding", "onboarding.html"),
     ]
-    app_dir = repo / "kiosks" / "_app"
+    app_dir = repo / "public" / "kiosks" / "_app"
     app_dir.mkdir(parents=True, exist_ok=True)
     for src_name, kind, out_name in src_targets:
         src = repo / src_name
