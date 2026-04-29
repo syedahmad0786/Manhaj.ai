@@ -2,6 +2,7 @@ import './globals.css';
 import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
 import { Fraunces, Inter, JetBrains_Mono, IBM_Plex_Sans_Arabic } from 'next/font/google';
+import { Analytics } from '@vercel/analytics/next';
 import Nav from '@/components/layout/Nav';
 import Footer from '@/components/layout/Footer';
 import { SITE } from '@/lib/site';
@@ -112,6 +113,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Nav />
         <main id="main">{children}</main>
         <Footer />
+        <Analytics />
       </body>
     </html>
   );
