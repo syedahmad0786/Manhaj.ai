@@ -1,6 +1,28 @@
+# Env / secrets
 .env
 .env.local
 .env.*.local
 .vercel
+
+# Dependencies
 node_modules
+.pnp
+.pnp.js
+
+# Next.js
+.next/
+out/
+next-env.d.ts.bak
+
+# Build artefacts
+*.tsbuildinfo
+.swc/
+
+# OS / editor
 .DS_Store
+.idea/
+.vscode/
+
+# Python (rebrand tool)
+__pycache__/
+*.pyc
