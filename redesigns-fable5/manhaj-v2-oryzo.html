@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manhaj — The AI Operating System architected uniquely for your business.</title>
+<meta name="description" content="Scroll. The OS will demonstrate itself. Built on the 6-layer AOS-001 revenue foundation. Your OS is no one else's.">
+<meta name="author" content="Ahmad Bukhari">
+<meta name="theme-color" content="#0A0A0B">
+<meta property="og:title" content="Manhaj — Your OS is no one else's.">
+<meta property="og:description" content="The AI Operating System, demonstrated live on this page. AOS-001 · 6 layers · yours alone.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230A0A0B'/%3E%3Cpath d='M32 12 L52 32 L32 52 L12 32 Z' fill='none' stroke='%23C9A961' stroke-width='3'/%3E%3Cpath d='M32 22 L42 32 L32 42 L22 32 Z' fill='%23C9A961'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Space+Grotesk:wght@400;500&family=JetBrains+Mono:wght@400;500&family=Amiri:wght@400&display=swap" rel="stylesheet">
+<style>
+/* ============ MANHAJ v2 · ONE CORE, ONE CAMERA · oryzo-formula build ============ */
+:root{
+  --bg:#0A0A0B; --panel:rgba(16,16,21,.78); --panel-line:rgba(245,242,234,.09);
+  --cream:#F5F2EA; --cream-dim:#B9B5AA; --gray:#9C9890;
+  --gold:#C9A961; --gold-b:#E5C988; --gold-dim:rgba(201,169,97,.4); --gold-faint:rgba(201,169,97,.12);
+  --line:rgba(245,242,234,.08);
+  --serif:"Fraunces",Georgia,serif; --sans:"Space Grotesk",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace; --ar:"Amiri",serif;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--cream);font-family:var(--sans);font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--gold);color:var(--bg)}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+canvas{display:block}
+
+#grain{position:fixed;inset:-50%;width:200%;height:200%;pointer-events:none;z-index:200;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 9s steps(6) infinite}
+@keyframes grain{0%,100%{transform:translate(0,0)}20%{transform:translate(-3%,2%)}40%{transform:translate(2%,-3%)}60%{transform:translate(-2%,-2%)}80%{transform:translate(3%,3%)}}
+
+#cursor-dot,#cursor-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:300;border-radius:50%;will-change:transform}
+#cursor-dot{width:6px;height:6px;background:var(--gold);transform:translate(-200px,-200px)}
+#cursor-ring{width:34px;height:34px;border:1px solid var(--gold-dim);transform:translate(-200px,-200px);
+  transition:width .35s var(--ease),height .35s var(--ease),border-color .35s}
+#cursor-ring.is-hover{width:54px;height:54px;border-color:var(--gold)}
+@media (hover:none),(max-width:900px){#cursor-dot,#cursor-ring{display:none}}
+
+/* ---------- boot ---------- */
+#boot{position:fixed;inset:0;z-index:400;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:30px}
+.boot-glyph{font-family:var(--ar);font-size:50px;color:var(--gold)}
+.boot-line{font-family:var(--mono);font-size:11px;letter-spacing:.26em;color:var(--gray);text-transform:uppercase}
+.boot-line b{color:var(--gold);font-weight:500}
+.boot-bar{width:min(380px,70vw);height:1px;background:var(--line);position:relative}
+.boot-bar i{position:absolute;left:0;top:0;height:1px;width:0%;background:var(--gold);box-shadow:0 0 14px rgba(201,169,97,.9)}
+
+/* ---------- stage ---------- */
+#stage{position:fixed;inset:0;z-index:0;width:100%;height:100vh}
+#vig{position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(ellipse 80% 64% at 50% 50%,transparent 30%,rgba(10,10,11,.5) 78%,rgba(10,10,11,.9) 100%)}
+main{position:relative;z-index:2}
+
+/* ---------- nav ---------- */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;
+  height:68px;padding:0 clamp(20px,3.4vw,48px);transition:background .5s,border-color .5s;border-bottom:1px solid transparent}
+.nav.is-solid{background:rgba(10,10,11,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom-color:rgba(245,242,234,.05)}
+.nav-logo{display:flex;align-items:baseline;gap:10px}
+.logo-latin{font-family:var(--serif);font-weight:500;font-size:19px;letter-spacing:.34em;padding-left:.34em}
+.logo-ar{font-family:var(--ar);font-size:19px;color:var(--gold)}
+.nav-mid{font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--gray);text-transform:uppercase}
+.nav-mid b{color:var(--gold);font-weight:500}
+.nav-cta{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--bg);background:var(--gold);
+  padding:11px 18px;border-radius:4px;transition:background .3s,transform .3s var(--ease)}
+.nav-cta:hover{background:var(--gold-b);transform:translateY(-1px)}
+@media (max-width:760px){.nav-mid{display:none}}
+
+/* ---------- layer HUD ---------- */
+#hud{position:fixed;left:clamp(14px,2vw,30px);top:50%;transform:translateY(-50%);z-index:90;display:flex;flex-direction:column;gap:14px}
+.hud-l{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;color:var(--gray);opacity:.4;transition:all .5s}
+.hud-l i{width:7px;height:7px;border:1px solid currentColor;transform:rotate(45deg);display:block;transition:all .5s}
+.hud-l.on{opacity:1;color:var(--gold)}
+.hud-l.on i{background:var(--gold);box-shadow:0 0 9px rgba(201,169,97,.9)}
+@media (max-width:980px){#hud{display:none}}
+
+/* ---------- scroll sections ---------- */
+.sec{min-height:100svh;display:flex;align-items:center;position:relative;padding:13vh 0}
+.sec-inner{width:min(1240px,92vw);margin:0 auto;display:grid;grid-template-columns:repeat(12,1fr);gap:20px;width:min(1240px,92vw)}
+.panel{grid-column:1/span 5;align-self:center}
+.sec.right .panel{grid-column:8/span 5}
+.sec.center{text-align:center}
+.sec.center .panel{grid-column:3/span 8}
+@media (max-width:980px){
+  .panel,.sec.right .panel,.sec.center .panel{grid-column:1/span 12}
+  .panel{background:rgba(10,10,11,.55);backdrop-filter:blur(6px);border-radius:16px;padding:8px}
+}
+.kicker{font-family:var(--mono);font-size:10.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;display:flex;align-items:center;gap:12px}
+.kicker::before{content:"◊"}
+.h-l{font-family:var(--serif);font-weight:500;font-size:clamp(34px,4.6vw,58px);line-height:1.06;letter-spacing:-.015em;margin-bottom:18px}
+.h-l em{font-style:italic;color:var(--gold)}
+.p{color:var(--cream-dim);font-size:15.5px;line-height:1.8;max-width:46ch}
+.ln-num{font-family:var(--mono);font-size:clamp(56px,7vw,92px);line-height:1;color:transparent;-webkit-text-stroke:1px var(--gold-dim);margin-bottom:14px}
+
+/* ---------- hero ---------- */
+#hero .panel{grid-column:2/span 10;text-align:center}
+.hero-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:28px;display:inline-flex;align-items:center;gap:14px}
+.hero-eyebrow::before,.hero-eyebrow::after{content:"";width:42px;height:1px;background:var(--gold-dim)}
+.hero-h1{font-family:var(--serif);font-weight:500;font-size:clamp(38px,6vw,80px);line-height:1.05;letter-spacing:-.015em}
+.hero-h1 .line{display:block;overflow:hidden}
+.hero-h1 .line span{display:inline-block;
+  background:linear-gradient(100deg,#F5F2EA 0%,#F5F2EA 40%,#E5C988 50%,#F5F2EA 60%,#F5F2EA 100%);
+  background-size:240% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sheen 7s linear infinite}
+@keyframes sheen{from{background-position:120% 0}to{background-position:-120% 0}}
+.hero-tag{font-family:var(--serif);font-style:italic;font-size:clamp(16px,1.7vw,22px);color:var(--gold);margin-top:20px}
+.hero-instr{margin-top:46px;font-family:var(--mono);font-size:11px;letter-spacing:.26em;color:var(--gray);text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:12px}
+.hero-instr .stem{width:1px;height:54px;background:linear-gradient(var(--gold),transparent);position:relative;overflow:hidden}
+.hero-instr .stem::after{content:"";position:absolute;top:-40%;left:0;width:1px;height:40%;background:var(--cream);animation:drip 2s var(--ease) infinite}
+@keyframes drip{to{top:110%}}
+
+/* ---------- manifesto ---------- */
+.mft{font-family:var(--mono);font-size:clamp(14px,1.5vw,18px);line-height:2.3;color:var(--cream)}
+.mft .c{color:var(--gray)}
+.mft .g{color:var(--gold)}
+.caret{display:inline-block;width:9px;height:1.1em;background:var(--gold);vertical-align:text-bottom;margin-left:6px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* ---------- toys (shared) ---------- */
+.toy{margin-top:30px;background:var(--panel);border:1px solid var(--panel-line);border-radius:16px;padding:22px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  box-shadow:0 30px 90px -30px rgba(0,0,0,.8)}
+.toy-bar{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--gray);text-transform:uppercase;margin-bottom:18px}
+.toy-bar::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold);animation:blink 2.4s steps(1) infinite}
+.toy-bar .vr{margin-left:auto;color:var(--gold-dim);letter-spacing:.1em}
+.gbtn{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  background:var(--gold);color:var(--bg);padding:14px 22px;border-radius:6px;transition:all .3s var(--ease)}
+.gbtn:hover{background:var(--gold-b);transform:translateY(-2px)}
+.gbtn:active{transform:scale(.97)}
+.ghbtn{border:1px solid var(--line);color:var(--cream-dim);padding:13px 20px;border-radius:6px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;transition:all .3s}
+.ghbtn:hover{border-color:var(--gold-dim);color:var(--gold)}
+
+/* capture toy */
+.cap-srcs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.cap-src{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;border:1px solid var(--line);color:var(--cream-dim);padding:8px 14px;border-radius:99px;cursor:pointer;transition:all .3s}
+.cap-src.sel{border-color:var(--gold);color:var(--gold);background:var(--gold-faint)}
+.cap-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.cap-count{font-family:var(--mono);font-size:12px;color:var(--gray);letter-spacing:.08em}
+.cap-count b{color:var(--gold);font-weight:500;font-size:16px}
+.fly{position:fixed;width:10px;height:10px;border-radius:50%;background:var(--gold-b);box-shadow:0 0 16px 4px rgba(201,169,97,.65);z-index:150;pointer-events:none}
+
+/* qualify toy */
+.q-row{display:grid;grid-template-columns:120px 1fr 70px;gap:14px;align-items:center;margin-bottom:14px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--cream-dim)}
+.q-row output{color:var(--gold);text-align:right;font-size:12px}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:2px;background:var(--line);border-radius:2px;outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--gold);cursor:pointer;box-shadow:0 0 10px rgba(201,169,97,.7);border:none}
+input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--gold);cursor:pointer;border:none}
+.q-out{display:flex;align-items:center;gap:22px;margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
+.q-score{font-family:var(--serif);font-weight:500;font-size:54px;line-height:1;color:var(--gold)}
+.q-score small{font-size:18px;color:var(--gray)}
+.q-verdict{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--cream-dim);line-height:2}
+.q-verdict b{color:var(--gold);font-weight:500}
+
+/* engage toy */
+.chat{display:flex;flex-direction:column;gap:10px;min-height:170px}
+.msg{max-width:85%;padding:11px 15px;border-radius:12px;font-size:13.5px;line-height:1.55;opacity:0;transform:translateY(8px);transition:all .45s var(--ease)}
+.msg.show{opacity:1;transform:none}
+.msg.in{background:rgba(245,242,234,.07);border:1px solid var(--line);align-self:flex-start;border-bottom-left-radius:3px}
+.msg.out{background:var(--gold-faint);border:1px solid var(--gold-dim);align-self:flex-end;border-bottom-right-radius:3px;color:var(--cream)}
+.msg .meta{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--gray);margin-top:6px}
+.msg .meta b{color:var(--gold);font-weight:500}
+.typing{align-self:flex-end;font-family:var(--mono);font-size:10px;color:var(--gold);letter-spacing:.3em;display:none}
+.typing.show{display:block;animation:blink 1s steps(1) infinite}
+
+/* convert toy */
+.cal{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:16px}
+.slot{aspect-ratio:1.6;border:1px solid var(--line);border-radius:8px;display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--gray);transition:all .4s}
+.slot.taken{background:rgba(245,242,234,.05);color:rgba(156,152,144,.5);text-decoration:line-through}
+.slot.hot{border-color:var(--gold);color:var(--gold);background:var(--gold-faint);box-shadow:0 0 18px -4px rgba(201,169,97,.6);animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.55}}
+.cv-chain{display:flex;gap:10px;flex-wrap:wrap;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em}
+.cv-step{border:1px solid var(--line);color:var(--gray);padding:9px 14px;border-radius:99px;transition:all .4s}
+.cv-step.done{border-color:var(--gold-dim);color:var(--gold);background:var(--gold-faint)}
+
+/* retain toy */
+.rt-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0}
+.rt-card{border:1px solid var(--line);border-radius:10px;padding:14px;font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--gray);line-height:1.9;transition:all .4s;opacity:.45}
+.rt-card b{display:block;font-size:11px;color:var(--cream-dim);letter-spacing:.12em}
+.rt-card.fire{opacity:1;border-color:var(--gold-dim);background:var(--gold-faint)}
+.rt-card.fire b{color:var(--gold)}
+.rt-meta{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--gray);letter-spacing:.1em}
+.rt-meta b{color:var(--gold);font-weight:500;font-size:14px}
+
+/* intelligence toy */
+.int-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.int-tile{border:1px solid var(--line);border-radius:10px;padding:14px}
+.int-v{font-family:var(--mono);font-size:clamp(16px,1.6vw,21px);color:var(--cream);font-weight:500}
+.int-v b{color:var(--gold);font-weight:500}
+.int-k{font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:var(--gray);text-transform:uppercase;margin-top:5px}
+.alert{border:1px solid var(--line);border-radius:10px;padding:13px 16px;font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:var(--gray);transition:all .4s;line-height:1.8}
+.alert.bad{border-color:rgba(229,201,136,.55);color:var(--gold-b);background:rgba(201,169,97,.07)}
+.alert.ok{border-color:var(--gold-dim);color:var(--gold)}
+
+/* ---------- spec paper ---------- */
+#paper{background:var(--cream);color:#17150F;position:relative;z-index:3;padding:clamp(80px,10vw,140px) 0}
+#paper .wrap{width:min(880px,90vw);margin:0 auto}
+.pp-head{display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid #17150F;padding-bottom:14px;margin-bottom:34px;font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:#6B6557}
+.pp-title{font-family:var(--serif);font-weight:600;font-size:clamp(28px,4vw,44px);line-height:1.15;letter-spacing:-.01em;margin-bottom:10px}
+.pp-sub{font-family:var(--mono);font-size:12px;color:#6B6557;letter-spacing:.06em;margin-bottom:34px}
+.pp-abs{border-left:3px solid #C9A961;padding-left:22px;margin-bottom:38px;font-size:15px;line-height:1.85;color:#33301F}
+.pp-abs b{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;display:block;margin-bottom:8px;color:#8a7a4a}
+.pp-table{width:100%;border-collapse:collapse;font-size:13.5px;margin-bottom:38px}
+.pp-table th{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;text-align:left;color:#6B6557;border-bottom:1.5px solid #17150F;padding:10px 12px 8px}
+.pp-table td{border-bottom:1px solid rgba(23,21,15,.14);padding:12px;vertical-align:top}
+.pp-table td:first-child{font-family:var(--mono);color:#8a7a4a;white-space:nowrap}
+.pp-table td b{font-weight:600}
+.pp-bib{background:#17150F;color:#E8E2D2;border-radius:12px;padding:22px 24px;font-family:var(--mono);font-size:11.5px;line-height:1.9;letter-spacing:.02em;overflow-x:auto}
+.pp-bib .k{color:#C9A961}
+.pp-note{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:#6B6557;margin-top:18px;text-transform:uppercase}
+
+/* ---------- demos / pricing compact ---------- */
+.band{position:relative;z-index:2;padding:clamp(80px,10vw,150px) 0}
+.wrapw{width:min(1240px,92vw);margin:0 auto}
+.dgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+@media (max-width:980px){.dgrid{grid-template-columns:1fr}}
+.dwin{display:block;background:var(--panel);border:1px solid var(--panel-line);border-radius:14px;padding:22px;backdrop-filter:blur(8px);transition:transform .5s var(--ease),border-color .5s}
+.dwin:hover{transform:translateY(-6px);border-color:var(--gold-dim)}
+.dwin .u{font-family:var(--mono);font-size:10px;color:var(--gray);letter-spacing:.08em;margin-bottom:12px;display:flex;justify-content:space-between}
+.dwin .u i{color:var(--gold);font-style:normal}
+.dwin .n{font-family:var(--serif);font-weight:500;font-size:20px;margin-bottom:4px}
+.dwin .s{font-family:var(--mono);font-size:11px;color:var(--gray);letter-spacing:.05em;margin-bottom:14px}
+.dwin .go{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;color:var(--gold);text-transform:uppercase}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px;align-items:stretch}
+@media (max-width:980px){.pgrid{grid-template-columns:1fr}}
+.pcard{background:var(--panel);border:1px solid var(--panel-line);border-radius:16px;padding:30px;display:flex;flex-direction:column;backdrop-filter:blur(8px);position:relative;transition:transform .5s var(--ease),border-color .5s}
+.pcard:hover{transform:translateY(-6px);border-color:var(--gold-dim)}
+.pcard.feat{border-color:var(--gold-dim);background:linear-gradient(180deg,rgba(201,169,97,.08),rgba(201,169,97,.015) 40%),var(--panel)}
+.pflag{position:absolute;top:-11px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:9px;letter-spacing:.22em;text-transform:uppercase;background:var(--gold);color:var(--bg);padding:5px 13px;border-radius:99px;white-space:nowrap}
+.ptier{font-family:var(--mono);font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.pprice{font-family:var(--serif);font-weight:500;font-size:clamp(34px,3.4vw,46px);line-height:1}
+.pper{font-family:var(--mono);font-size:11px;color:var(--gray);margin:8px 0 22px;letter-spacing:.05em}
+.plist{list-style:none;display:grid;gap:11px;flex:1;margin-bottom:26px}
+.plist li{display:flex;gap:11px;color:var(--cream-dim);font-size:13.5px;line-height:1.6}
+.plist li::before{content:"◊";color:var(--gold);font-size:10px;line-height:1.9}
+
+/* ---------- punchline ---------- */
+#punch{min-height:110svh}
+#punch .panel{text-align:center}
+.pn-pre{font-family:var(--mono);font-size:clamp(11px,1.2vw,13px);letter-spacing:.1em;color:var(--cream-dim);line-height:2.3;margin-bottom:34px}
+.pn-pre b{color:var(--gold);font-weight:500}
+.pn-h{font-family:var(--serif);font-weight:400;font-style:italic;font-size:clamp(38px,6.8vw,92px);line-height:1.05;letter-spacing:-.015em}
+.pn-h .b{font-style:normal;font-weight:500;color:var(--gold)}
+.pn-cta{margin-top:48px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn-xl{padding:20px 36px;font-size:12.5px}
+.pn-meta{margin-top:26px;font-family:var(--mono);font-size:10.5px;color:var(--gray);letter-spacing:.16em;text-transform:uppercase}
+
+/* ---------- footer ---------- */
+.footer{border-top:1px solid var(--line);padding:26px 0;position:relative;z-index:2;background:rgba(10,10,11,.6);backdrop-filter:blur(8px)}
+.footer .wrapw{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;color:var(--gray)}
+.footer a:hover{color:var(--gold)}
+.footer .on{color:var(--gold);display:flex;align-items:center;gap:8px}
+.footer .on i{width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 9px var(--gold);animation:pulse 2.2s infinite}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+</style>
+</head>
+<body>
+
+<div id="grain"></div>
+<div id="cursor-dot"></div><div id="cursor-ring"></div>
+
+<div id="boot">
+  <div class="boot-glyph">منهج</div>
+  <div class="boot-line">MANHAJ KERNEL <b>v2.0</b> · MOUNTING AOS-001</div>
+  <div class="boot-bar"><i id="boot-fill"></i></div>
+  <div class="boot-line" id="boot-status">CORE OFFLINE</div>
+</div>
+
+<canvas id="stage"></canvas>
+<div id="vig"></div>
+
+<header class="nav" id="nav">
+  <a class="nav-logo" href="#hero"><span class="logo-latin">MANHAJ</span><span class="logo-ar">منهج</span></a>
+  <div class="nav-mid" id="nav-mid">CORE <b id="nav-state">BOOTING…</b></div>
+  <a class="nav-cta" href="https://manhaj.ahmadbukhari.com/audit">Book audit →</a>
+</header>
+
+<div id="hud">
+  <span class="hud-l" data-h="0"><i></i>01 CAPTURE</span>
+  <span class="hud-l" data-h="1"><i></i>02 QUALIFY</span>
+  <span class="hud-l" data-h="2"><i></i>03 ENGAGE</span>
+  <span class="hud-l" data-h="3"><i></i>04 CONVERT</span>
+  <span class="hud-l" data-h="4"><i></i>05 RETAIN</span>
+  <span class="hud-l" data-h="5"><i></i>06 INTELLIGENCE</span>
+</div>
+
+<main>
+<!-- HERO -->
+<section class="sec center" id="hero" data-cam="0">
+  <div class="sec-inner"><div class="panel">
+    <div class="hero-eyebrow">AOS-001 · The AI Operating System</div>
+    <h1 class="hero-h1">
+      <span class="line"><span>This is not a pitch.</span></span>
+      <span class="line"><span>It's a <em style="font-style:italic">running system.</em></span></span>
+    </h1>
+    <div class="hero-tag">Scroll. The OS will demonstrate itself.</div>
+    <div class="hero-instr"><span>BEGIN THE INSTALL</span><span class="stem"></span></div>
+  </div></div>
+</section>
+
+<!-- MANIFESTO -->
+<section class="sec" id="manifesto" data-cam="1">
+  <div class="sec-inner"><div class="panel">
+    <div class="kicker">/etc/manhaj/manifest.md</div>
+    <div class="mft" id="mft">
+      <span class="c">$ cat manifest.md</span><br>
+      <span data-t="No two businesses run the same."></span><br>
+      <span data-t="Templates fail because of it."></span><br>
+      <span data-t="Manhaj architects the AI operating system"></span><br>
+      <span data-t="your business actually needs —"></span><br>
+      <span class="g" data-t="yours alone, configured to how you run."></span><span class="caret"></span>
+    </div>
+  </div></div>
+</section>
+
+<!-- LAYER 01 · CAPTURE -->
+<section class="sec" id="l1" data-cam="2" data-layer="0">
+  <div class="sec-inner"><div class="panel">
+    <div class="ln-num">01</div>
+    <div class="kicker">Layer 01 · Capture</div>
+    <h2 class="h-l">Every lead enters<br><em>one intake.</em></h2>
+    <p class="p">Inbound, ads, referrals, web — wired into a single stream. Nothing arrives unlogged, nothing leaks. Try it: inject a lead into the core.</p>
+    <div class="toy" id="toy-cap">
+      <div class="toy-bar">live toy · dummy data<span class="vr">cap.001</span></div>
+      <div class="cap-srcs">
+        <button class="cap-src sel" data-src="Web form">Web</button>
+        <button class="cap-src" data-src="Ad click">Ad</button>
+        <button class="cap-src" data-src="Referral">Referral</button>
+        <button class="cap-src" data-src="Inbound call">Inbound</button>
+      </div>
+      <div class="cap-row">
+        <button class="gbtn" id="cap-btn">Inject lead <span>→</span></button>
+        <span class="cap-count">captured · <b id="cap-n">0</b></span>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<!-- LAYER 02 · QUALIFY -->
+<section class="sec right" id="l2" data-cam="3" data-layer="1">
+  <div class="sec-inner"><div class="panel">
+    <div class="ln-num">02</div>
+    <div class="kicker">Layer 02 · Qualify</div>
+    <h2 class="h-l">Scored and routed<br><em>before a human looks.</em></h2>
+    <p class="p">Move the sliders — this is the actual ICP math a Manhaj install runs in the first seconds of a lead's life.</p>
+    <div class="toy" id="toy-q">
+      <div class="toy-bar">live toy · your numbers<span class="vr">qfy.002</span></div>
+      <div class="q-row"><span>Revenue /yr</span><input type="range" id="q-rev" min="0" max="20" value="4"><output id="q-rev-o">$2M</output></div>
+      <div class="q-row"><span>Leads /mo</span><input type="range" id="q-leads" min="0" max="20" value="6"><output id="q-leads-o">300</output></div>
+      <div class="q-row"><span>Ops team</span><input type="range" id="q-team" min="1" max="20" value="5"><output id="q-team-o">5</output></div>
+      <div class="q-out">
+        <div class="q-score"><span id="q-score">72</span><small>/100</small></div>
+        <div class="q-verdict" id="q-verdict">ICP MATCH: <b>STRONG</b><br>ROUTE → <b>SALES, TODAY</b></div>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<!-- LAYER 03 · ENGAGE -->
+<section class="sec" id="l3" data-cam="4" data-layer="2">
+  <div class="sec-inner"><div class="panel">
+    <div class="ln-num">03</div>
+    <div class="kicker">Layer 03 · Engage</div>
+    <h2 class="h-l">Answered in seconds,<br><em>at 3 AM.</em></h2>
+    <p class="p">SMS, voice, email, WhatsApp — in your tone, on the channels your buyers actually use. Send the inquiry and watch the response time.</p>
+    <div class="toy" id="toy-e">
+      <div class="toy-bar">live toy · agent online<span class="vr">eng.003</span></div>
+      <div class="chat" id="chat">
+        <div class="msg in" id="msg1">Hey — saw the demo. Do you handle multi-location intake? We miss calls every weekend.<span class="meta">prospect · 03:02 AM</span></div>
+        <div class="typing" id="typing">● ● ●</div>
+        <div class="msg out" id="msg2">We do — weekend intake is exactly what Layer 03 runs. Want Tuesday 11:00 or Thursday 14:00 for a walkthrough?<span class="meta">manhaj agent · 03:02 AM · <b>replied in 0.8s</b></span></div>
+      </div>
+      <div style="margin-top:14px"><button class="gbtn" id="e-btn">Send the inquiry →</button></div>
+    </div>
+  </div></div>
+</section>
+
+<!-- LAYER 04 · CONVERT -->
+<section class="sec right" id="l4" data-cam="5" data-layer="3">
+  <div class="sec-inner"><div class="panel">
+    <div class="ln-num">04</div>
+    <div class="kicker">Layer 04 · Convert</div>
+    <h2 class="h-l">Interested to <em>paid</em><br>in one motion.</h2>
+    <p class="p">Calendar, contract, payment — collapsed into a single flow. Watch a booking complete itself.</p>
+    <div class="toy" id="toy-c">
+      <div class="toy-bar">live toy · this week<span class="vr">cnv.004</span></div>
+      <div class="cal" id="cal"></div>
+      <div class="cv-chain">
+        <span class="cv-step" id="cv1">① BOOKED</span>
+        <span class="cv-step" id="cv2">② CONTRACT SIGNED</span>
+        <span class="cv-step" id="cv3">③ PAID · 47s</span>
+      </div>
+      <div style="margin-top:16px"><button class="gbtn" id="c-btn">Run the booking →</button></div>
+    </div>
+  </div></div>
+</section>
+
+<!-- LAYER 05 · RETAIN -->
+<section class="sec" id="l5" data-cam="6" data-layer="4">
+  <div class="sec-inner"><div class="panel">
+    <div class="ln-num">05</div>
+    <div class="kicker">Layer 05 · Retain</div>
+    <h2 class="h-l">Your database,<br><em>working itself.</em></h2>
+    <p class="p">Nurture loops, reactivation plays, upsell triggers that fire without anyone remembering to. Drag the timeline — watch the plays fire.</p>
+    <div class="toy" id="toy-r">
+      <div class="toy-bar">live toy · silent customer<span class="vr">ret.005</span></div>
+      <div class="q-row" style="grid-template-columns:150px 1fr 70px"><span>Days silent</span><input type="range" id="r-days" min="0" max="90" value="0"><output id="r-days-o">0d</output></div>
+      <div class="rt-cards">
+        <div class="rt-card" id="rt1"><b>DAY 21 · NURTURE</b>value drop sent — case study, no ask</div>
+        <div class="rt-card" id="rt2"><b>DAY 45 · REACTIVATE</b>offer + voice follow-up queued</div>
+        <div class="rt-card" id="rt3"><b>DAY 75 · WINBACK</b>founder-signed note + call task</div>
+      </div>
+      <div class="rt-meta"><span>plays fired · <b id="rt-fired">0</b></span><span>est. revenue recovered · <b id="rt-rev">$0</b></span></div>
+    </div>
+  </div></div>
+</section>
+
+<!-- LAYER 06 · INTELLIGENCE -->
+<section class="sec right" id="l6" data-cam="7" data-layer="5">
+  <div class="sec-inner"><div class="panel">
+    <div class="ln-num">06</div>
+    <div class="kicker">Layer 06 · Intelligence</div>
+    <h2 class="h-l">The layer that<br><em>watches everything.</em></h2>
+    <p class="p">Dashboards, anomaly alerts, attribution you can finally trust. This tile set is what an operator sees — including what happens when something breaks.</p>
+    <div class="toy" id="toy-i">
+      <div class="toy-bar">live toy · last 30d<span class="vr">int.006</span></div>
+      <div class="int-grid">
+        <div class="int-tile"><div class="int-v" data-cnt="1284">0</div><div class="int-k">Leads</div></div>
+        <div class="int-tile"><div class="int-v"><span data-cnt="34.2" data-dec="1">0</span><b>%</b></div><div class="int-k">Qual → Book</div></div>
+        <div class="int-tile"><div class="int-v"><span data-cnt="47">0</span><b>s</b></div><div class="int-k">Avg response</div></div>
+      </div>
+      <div class="alert" id="alert">— system nominal · all six layers reporting</div>
+    </div>
+  </div></div>
+</section>
+
+<!-- CORE ONLINE -->
+<section class="sec center" id="online" data-cam="8">
+  <div class="sec-inner"><div class="panel">
+    <div class="kicker" style="justify-content:center">System status</div>
+    <h2 class="h-l" style="font-size:clamp(40px,6vw,76px)">AOS-001 <em>online.</em></h2>
+    <p class="p" style="margin:0 auto">Six layers. One foundation. The orchestration inside each layer — tools, models, workflows — is engineered for one business at a time. Yours alone.</p>
+  </div></div>
+</section>
+
+<!-- SPEC PAPER -->
+<section id="paper">
+  <div class="wrap">
+    <div class="pp-head"><span>Manhaj Systems · Technical Memo 001</span><span>v1.0 · ratified 2026.04.28</span></div>
+    <div class="pp-title">AOS-001: A Six-Layer Revenue Operating System for Operator-Led Businesses</div>
+    <div class="pp-sub">Bukhari, A. — Architect & Founder, Manhaj · ai@ahmadbukhari.com</div>
+    <div class="pp-abs"><b>Abstract</b>
+      We present AOS-001, a reference architecture for installing artificial-intelligence operations inside B2B service and education companies ($1M–$10M revenue). Unlike template automation, AOS-001 separates a universal six-layer foundation from bespoke per-business modules, yielding installs that are owned by the operator and configured to existing workflows. Field deployments demonstrate sub-minute lead response, multi-channel engagement, and closed-loop attribution without added headcount.
+    </div>
+    <table class="pp-table">
+      <thead><tr><th>Layer</th><th>Function</th><th>Surface area</th></tr></thead>
+      <tbody>
+        <tr><td>01 · CAP</td><td><b>Capture</b> — unified intake, zero leak</td><td>Inbound · Ad · Referral · Web</td></tr>
+        <tr><td>02 · QUA</td><td><b>Qualify</b> — score, enrich, route in seconds</td><td>Score · Enrich · Route</td></tr>
+        <tr><td>03 · ENG</td><td><b>Engage</b> — multi-channel response in operator tone</td><td>SMS · Voice · Email · WhatsApp</td></tr>
+        <tr><td>04 · CNV</td><td><b>Convert</b> — calendar→contract→payment in one motion</td><td>Book · Contract · Pay</td></tr>
+        <tr><td>05 · RET</td><td><b>Retain</b> — nurture loops, reactivation, upsell triggers</td><td>Nurture · Reactivate · Upsell</td></tr>
+        <tr><td>06 · INT</td><td><b>Intelligence</b> — dashboards, anomaly alerts, attribution</td><td>Dashboards · Alerts · Attribution</td></tr>
+      </tbody>
+    </table>
+    <div class="pp-bib">@spec{<span class="k">aos001_2026</span>,<br>
+&nbsp;&nbsp;title&nbsp;&nbsp;&nbsp;= {<span class="k">AOS-001: A Six-Layer Revenue Operating System</span>},<br>
+&nbsp;&nbsp;author&nbsp;&nbsp;= {Bukhari, Ahmad},<br>
+&nbsp;&nbsp;year&nbsp;&nbsp;&nbsp;&nbsp;= {2026},<br>
+&nbsp;&nbsp;install = {five weeks, six steps, one architect},<br>
+&nbsp;&nbsp;note&nbsp;&nbsp;&nbsp;&nbsp;= {Universal foundation. Bespoke modules. <span class="k">Your OS is no one else's.</span>}<br>}</div>
+    <div class="pp-note">Reproducibility: three anonymized installs run live below. Dummy data. Break things if you want.</div>
+  </div>
+</section>
+
+<!-- DEMOS -->
+<section class="band" id="demos">
+  <div class="wrapw">
+    <div class="kicker">◊ The proof</div>
+    <h2 class="h-l">Don't trust this page either.<br><em>Touch the installs.</em></h2>
+    <div class="dgrid">
+      <a class="dwin" href="https://manhaj.ahmadbukhari.com/kiosks/command-center" target="_blank" rel="noopener">
+        <div class="u">command-center.manhaj.ai<i>● LIVE</i></div>
+        <div class="n">Multi-location service ops</div>
+        <div class="s">Command Center · Lead-to-revenue OS</div>
+        <div class="go">Walk through →</div>
+      </a>
+      <a class="dwin" href="https://manhaj.ahmadbukhari.com/kiosks/onboarding" target="_blank" rel="noopener">
+        <div class="u">onboarding.architecture<i>● LIVE</i></div>
+        <div class="n">Operator onboarding flow</div>
+        <div class="s">Convert · activation engine</div>
+        <div class="go">Walk through →</div>
+      </a>
+      <a class="dwin" href="https://manhaj.ahmadbukhari.com/kiosks/errorlens" target="_blank" rel="noopener">
+        <div class="u">errorlens.manhaj.ai<i>● LIVE</i></div>
+        <div class="n">Cross-stack observability</div>
+        <div class="s">Intelligence · alerts layer</div>
+        <div class="go">Walk through →</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="band" id="pricing" style="padding-top:0">
+  <div class="wrapw">
+    <div class="kicker">◊ Configurations</div>
+    <h2 class="h-l">One foundation.<br>Three <em>configurations.</em></h2>
+    <div class="pgrid">
+      <div class="pcard">
+        <div class="ptier">Foundation</div><div class="pprice">$5K</div><div class="pper">install · then $2K/mo</div>
+        <ul class="plist"><li>6-layer AOS-001 foundation, installed</li><li>Two core modules on your stack</li><li>Team training + plain-English doc</li><li>30-day optimization window</li></ul>
+        <a class="ghbtn" style="text-align:center" href="https://manhaj.ahmadbukhari.com/audit">Start with an audit →</a>
+      </div>
+      <div class="pcard feat">
+        <div class="pflag">Most installed</div>
+        <div class="ptier">Operator</div><div class="pprice">$10K</div><div class="pper">install · then $3.5K/mo</div>
+        <ul class="plist"><li>Everything in Foundation</li><li>Voice + conversational layer</li><li>Bespoke module engineering monthly</li><li>Intelligence layer: dashboards · alerts · attribution</li><li>Founder-direct support line</li></ul>
+        <a class="gbtn" style="justify-content:center" href="https://manhaj.ahmadbukhari.com/audit">Book the audit →</a>
+      </div>
+      <div class="pcard">
+        <div class="ptier">Architect</div><div class="pprice">$15K</div><div class="pper">install · then $5K/mo</div>
+        <ul class="plist"><li>Everything in Operator</li><li>Multi-location orchestration</li><li>Quarterly architecture reviews</li><li>Priority module roadmap — yours alone</li></ul>
+        <a class="ghbtn" style="text-align:center" href="https://manhaj.ahmadbukhari.com/audit">Talk to the architect →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PUNCHLINE -->
+<section class="sec center" id="punch" data-cam="9">
+  <div class="sec-inner"><div class="panel">
+    <div class="pn-pre" id="pn-pre">
+      The lead you injected. The score you tuned. The reply at 3 AM.<br>
+      The booking, the winback, the alert that fixed itself —<br>
+      <b>everything on this page ran on AOS-001, with dummy data.</b><br>
+      Now imagine it configured to your pipeline, your team, your tone.
+    </div>
+    <h2 class="pn-h"><span class="line"><span>Your OS is no one else's.</span></span><span class="line"><span class="b">Build it.</span></span></h2>
+    <div class="pn-cta">
+      <a class="gbtn btn-xl" href="https://manhaj.ahmadbukhari.com/audit">Book a discovery audit →</a>
+      <a class="ghbtn btn-xl" href="https://manhaj.ahmadbukhari.com/kiosks" target="_blank" rel="noopener">Touch the installs →</a>
+    </div>
+    <div class="pn-meta">One discovery week · plain-English synthesis · no obligation</div>
+  </div></div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="wrapw">
+    <span>manhaj.ai · architected by ahmad bukhari · 2026</span>
+    <span><a href="mailto:ai@ahmadbukhari.com">ai@ahmadbukhari.com</a> · <a href="https://www.linkedin.com/in/bukhariahmad" target="_blank" rel="noopener">LinkedIn ↗</a></span>
+    <span class="on"><i></i>AOS-001 · online · <span id="f-time">--:--</span> PKT</span>
+  </div>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
+<script type="module">
+import * as THREE from 'three';
+/* ============ MANHAJ v2 runtime · one core, one camera ============ */
+const $=(s,c=document)=>c.querySelector(s), $$=(s,c=document)=>[...c.querySelectorAll(s)];
+const lerp=(a,b,t)=>a+(b-a)*t, clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const TOUCH=matchMedia('(hover: none)').matches;
+const NARROW=()=>innerWidth<980;
+gsap.registerPlugin(ScrollTrigger);
+gsap.ticker.lagSmoothing(0);
+
+/* ---------------- THREE · the AOS core ---------------- */
+const canvas=$('#stage');
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true,powerPreference:'high-performance'});
+const DPR=Math.min(devicePixelRatio||1,1.75);
+renderer.setPixelRatio(DPR);
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(42,1,0.1,100);
+const GOLD=0xC9A961, GOLDB=0xE5C988, CREAM=0xF5F2EA;
+
+const core=new THREE.Group(); scene.add(core);
+const mkCubeEdges=(size,rx,ry,rz,op)=>{
+  const g=new THREE.EdgesGeometry(new THREE.BoxGeometry(size,size,size));
+  const m=new THREE.LineBasicMaterial({color:GOLD,transparent:true,opacity:op});
+  const l=new THREE.LineSegments(g,m); l.rotation.set(rx,ry,rz); core.add(l); return l;
+};
+const cubeA=mkCubeEdges(2.7,0,0,0,0.95);
+const cubeB=mkCubeEdges(2.7,Math.PI/4,Math.PI/4,0,0.8);
+const octa=new THREE.LineSegments(
+  new THREE.EdgesGeometry(new THREE.OctahedronGeometry(1.55)),
+  new THREE.LineBasicMaterial({color:GOLDB,transparent:true,opacity:0.9}));
+core.add(octa);
+const heart=new THREE.Mesh(new THREE.OctahedronGeometry(0.5),
+  new THREE.MeshBasicMaterial({color:GOLD,transparent:true,opacity:0.95}));
+core.add(heart);
+const heartGlow=new THREE.Mesh(new THREE.OctahedronGeometry(0.62),
+  new THREE.MeshBasicMaterial({color:GOLDB,transparent:true,opacity:0.22,blending:THREE.AdditiveBlending}));
+core.add(heartGlow);
+
+/* corner vertex sparks of cube A */
+const sparkGeo=new THREE.BufferGeometry();
+{const pts=[];const h=2.7/2;
+ for(const x of[-h,h])for(const y of[-h,h])for(const z of[-h,h])pts.push(x,y,z);
+ sparkGeo.setAttribute('position',new THREE.Float32BufferAttribute(pts,3));}
+core.add(new THREE.Points(sparkGeo,new THREE.PointsMaterial({color:GOLDB,size:0.14,transparent:true,opacity:0.95,sizeAttenuation:true})));
+
+/* 6 layer rings — orbital shells */
+const rings=[];
+for(let i=0;i<6;i++){
+  const r=2.5+i*0.46;
+  const curve=new THREE.EllipseCurve(0,0,r,r,0,Math.PI*2);
+  const pts=curve.getPoints(120).map(p=>new THREE.Vector3(p.x,p.y,0));
+  const geo=new THREE.BufferGeometry().setFromPoints(pts);
+  const mat=new THREE.LineBasicMaterial({color:GOLD,transparent:true,opacity:0.05});
+  const ring=new THREE.LineLoop(geo,mat);
+  const grp=new THREE.Group(); grp.add(ring);
+  grp.rotation.set(0.5+i*0.42, i*0.55, i*0.21);
+  /* satellites on the ring */
+  const satN=42, satPos=new Float32Array(satN*3);
+  for(let k=0;k<satN;k++){const a=k/satN*Math.PI*2;satPos[k*3]=Math.cos(a)*r;satPos[k*3+1]=Math.sin(a)*r;satPos[k*3+2]=0}
+  const satGeo=new THREE.BufferGeometry();satGeo.setAttribute('position',new THREE.BufferAttribute(satPos,3));
+  const satMat=new THREE.PointsMaterial({color:GOLDB,size:0.05,transparent:true,opacity:0.06,sizeAttenuation:true});
+  grp.add(new THREE.Points(satGeo,satMat));
+  scene.add(grp);
+  rings.push({grp,mat,satMat,lit:0,target:0,speed:0.0016+i*0.0006});
+}
+
+/* ambient dust shell */
+const dustN=NARROW()?900:2200;
+const dustPos=new Float32Array(dustN*3);
+for(let i=0;i<dustN;i++){
+  const r=6+Math.random()*8, th=Math.random()*Math.PI*2, ph=Math.acos(2*Math.random()-1);
+  dustPos[i*3]=r*Math.sin(ph)*Math.cos(th);dustPos[i*3+1]=r*Math.sin(ph)*Math.sin(th)*0.7;dustPos[i*3+2]=r*Math.cos(ph);
+}
+const dustGeo=new THREE.BufferGeometry();dustGeo.setAttribute('position',new THREE.BufferAttribute(dustPos,3));
+const dust=new THREE.Points(dustGeo,new THREE.PointsMaterial({color:CREAM,size:0.035,transparent:true,opacity:0.34,sizeAttenuation:true}));
+scene.add(dust);
+
+/* ---------------- camera choreography ---------------- */
+const KF=[
+  {p:[0,0.4,9.6]},   /* 0 hero */
+  {p:[4.8,1.3,7.2]}, /* 1 manifesto */
+  {p:[5.4,-0.5,6.6]},/* 2 capture */
+  {p:[-5.4,0.8,6.4]},/* 3 qualify */
+  {p:[5.0,1.6,5.8]}, /* 4 engage */
+  {p:[-4.8,-1.1,5.4]},/* 5 convert */
+  {p:[4.4,0.6,4.9]}, /* 6 retain */
+  {p:[-4.0,1.2,4.5]},/* 7 intelligence */
+  {p:[0,0.2,6.4]},   /* 8 online */
+  {p:[0,2.8,11.0]}   /* 9 punchline */
+];
+let camSecs=[], mids=[];
+function measure(){
+  camSecs=$$('[data-cam]');
+  mids=camSecs.map(el=>{const r=el.getBoundingClientRect();return r.top+scrollY+r.height/2});
+}
+const S={asm:0,flash:0,mx:0,my:0,tmx:0,tmy:0,kf:0,online:0};
+function kfFloat(){
+  const y=scrollY+innerHeight/2;
+  if(!mids.length)return 0;
+  if(y<=mids[0])return 0;
+  for(let i=0;i<mids.length-1;i++){
+    if(y<mids[i+1])return i+(y-mids[i])/(mids[i+1]-mids[i]);
+  }
+  return mids.length-1;
+}
+function resize(){
+  const w=innerWidth,h=innerHeight;
+  renderer.setSize(w,h,false);
+  camera.aspect=w/h;camera.updateProjectionMatrix();
+  measure();
+}
+addEventListener('resize',resize);resize();
+addEventListener('pointermove',e=>{S.tmx=(e.clientX/innerWidth)*2-1;S.tmy=(e.clientY/innerHeight)*2-1},{passive:true});
+
+let alive=true;
+document.addEventListener('visibilitychange',()=>alive=!document.hidden);
+const clock=new THREE.Clock();
+function render(){
+  requestAnimationFrame(render);
+  if(!alive)return;
+  const dt=Math.min(clock.getDelta(),0.05), t=clock.elapsedTime;
+  S.mx=lerp(S.mx,S.tmx,0.05);S.my=lerp(S.my,S.tmy,0.05);
+  S.kf=lerp(S.kf,kfFloat(),RM?1:0.075);
+
+  /* camera between keyframes */
+  const i=Math.floor(clamp(S.kf,0,KF.length-1)), f=clamp(S.kf-i,0,1);
+  const a=KF[i].p, b=KF[Math.min(i+1,KF.length-1)].p;
+  const nx=NARROW()?0.45:1;
+  camera.position.set(
+    lerp(a[0],b[0],f)*nx + S.mx*0.55,
+    lerp(a[1],b[1],f) - S.my*0.4,
+    lerp(a[2],b[2],f)
+  );
+  camera.lookAt(0,0,0);
+
+  /* core motion */
+  const spin=0.12+S.online*0.25;
+  core.rotation.y+=dt*spin; core.rotation.x=Math.sin(t*0.22)*0.16;
+  octa.rotation.y-=dt*spin*1.6; octa.rotation.z+=dt*spin*0.8;
+  const breathe=1+Math.sin(t*1.4)*0.025+S.flash*0.16;
+  core.scale.setScalar((0.25+0.75*S.asm)*breathe);
+  heart.material.opacity=0.8+Math.sin(t*2.2)*0.15+S.flash*0.2;
+  heartGlow.scale.setScalar(1+S.flash*1.6+Math.sin(t*2.2)*0.06);
+  S.flash=Math.max(0,S.flash-dt*1.8);
+
+  rings.forEach((R,idx)=>{
+    R.lit=lerp(R.lit,R.target,0.05);
+    R.mat.opacity=(0.05+R.lit*0.55)*S.asm;
+    R.satMat.opacity=(0.06+R.lit*0.8)*S.asm;
+    R.satMat.size=0.05+R.lit*0.035;
+    R.grp.rotation.z+=R.speed*(1+R.lit*1.6)*(1+S.online);
+    R.grp.rotation.y+=R.speed*0.5;
+    R.grp.scale.setScalar(S.asm*(1+S.flash*0.04));
+  });
+  dust.rotation.y+=dt*0.012;
+  renderer.render(scene,camera);
+}
+requestAnimationFrame(render);
+
+/* expose for toys */
+const coreScreen=()=>{
+  const v=new THREE.Vector3(0,0,0).project(camera);
+  return [(v.x*0.5+0.5)*innerWidth,(-v.y*0.5+0.5)*innerHeight];
+};
+const coreFlash=()=>{S.flash=1};
+
+/* ---------------- boot → assemble ---------------- */
+(function boot(){
+  const bootEl=$('#boot'), fill=$('#boot-fill'), status=$('#boot-status');
+  const heroIn=()=>{
+    $('#nav-state').textContent='STANDBY — SCROLL TO INSTALL';
+    const tl=gsap.timeline();
+    tl.to(S,{asm:1,duration:RM?0:2.4,ease:'power3.inOut'},0)
+      .fromTo('#nav',{y:-70,opacity:0},{y:0,opacity:1,duration:.9,ease:'power3.out'},0.15)
+      .fromTo('.hero-h1 .line span',{yPercent:115},{yPercent:0,duration:1.25,ease:'power4.out',stagger:.12},0.3)
+      .fromTo('#hero .hero-eyebrow,#hero .hero-tag,#hero .hero-instr',{y:22,opacity:0},{y:0,opacity:1,duration:1,ease:'power3.out',stagger:.1},0.55);
+    if(RM)tl.progress(1);
+  };
+  if(sessionStorage.getItem('mj2')||RM){bootEl.remove();heroIn();return}
+  document.documentElement.style.overflow='hidden';
+  const tl=gsap.timeline({onComplete:done});
+  tl.to(fill,{width:'100%',duration:1.5,ease:'power2.inOut'})
+    .call(()=>status.textContent='CORE ONLINE — يلا');
+  function done(){
+    sessionStorage.setItem('mj2','1');
+    gsap.to(bootEl,{opacity:0,duration:.7,ease:'power2.inOut',delay:.25,
+      onComplete:()=>{bootEl.remove();document.documentElement.style.overflow=''}});
+    heroIn();
+  }
+  setTimeout(()=>{if(document.body.contains(bootEl))tl.progress(1)},4000);
+})();
+
+/* ---------------- layer activation / HUD ---------------- */
+const NAMES=['01 CAPTURE','02 QUALIFY','03 ENGAGE','04 CONVERT','05 RETAIN','06 INTELLIGENCE'];
+$$('[data-layer]').forEach(sec=>{
+  const i=+sec.dataset.layer;
+  ScrollTrigger.create({trigger:sec,start:'top 62%',end:'bottom 38%',
+    onEnter:()=>{rings[i].target=1;hud(i);$('#nav-state').textContent='LAYER '+NAMES[i]+' ACTIVE'},
+    onEnterBack:()=>{hud(i);$('#nav-state').textContent='LAYER '+NAMES[i]+' ACTIVE'},
+    onLeaveBack:()=>{rings[i].target=0;hud(i-1)}
+  });
+});
+function hud(active){
+  $$('.hud-l').forEach((h,j)=>h.classList.toggle('on',j<=active));
+}
+ScrollTrigger.create({trigger:'#online',start:'top 60%',
+  onEnter:()=>{S.online=1;rings.forEach(r=>r.target=1);hud(5);$('#nav-state').textContent='ALL SYSTEMS ONLINE';coreFlash()},
+  onLeaveBack:()=>{S.online=0}});
+
+/* ---------------- panel reveals ---------------- */
+if(!RM){
+  $$('.sec .panel').forEach(p=>{
+    if(p.closest('#hero'))return;
+    gsap.fromTo(p,{y:46,opacity:0},{y:0,opacity:1,duration:1.1,ease:'power3.out',
+      scrollTrigger:{trigger:p,start:'top 82%',once:true}});
+  });
+  gsap.set('#punch .pn-h .line span',{yPercent:115});
+  ScrollTrigger.create({trigger:'#punch',start:'top 65%',once:true,
+    onEnter:()=>gsap.to('#punch .pn-h .line span',{yPercent:0,duration:1.3,ease:'power4.out',stagger:.13})});
+}
+
+/* ---------------- manifesto typing ---------------- */
+(function mft(){
+  const lines=$$('#mft [data-t]');
+  if(RM){lines.forEach(l=>l.textContent=l.dataset.t);return}
+  ScrollTrigger.create({trigger:'#manifesto',start:'top 60%',once:true,onEnter:()=>{
+    let d=0;
+    lines.forEach(l=>{
+      const txt=l.dataset.t;
+      for(let c=0;c<=txt.length;c++){setTimeout(()=>l.textContent=txt.slice(0,c),d+c*16)}
+      d+=txt.length*16+260;
+    });
+  }});
+})();
+
+/* ---------------- TOY 01 · capture ---------------- */
+(function cap(){
+  let n=0,src='Web form';
+  $$('.cap-src').forEach(b=>b.addEventListener('click',()=>{
+    $$('.cap-src').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');src=b.dataset.src;
+  }));
+  $('#cap-btn').addEventListener('click',e=>{
+    const r=e.currentTarget.getBoundingClientRect();
+    const fly=document.createElement('div');fly.className='fly';
+    fly.style.left=(r.left+r.width/2)+'px';fly.style.top=(r.top+r.height/2)+'px';
+    document.body.appendChild(fly);
+    const [cx,cy]=coreScreen();
+    gsap.to(fly,{left:cx+'px',top:cy+'px',duration:0.85,ease:'power2.in',
+      scale:0.4,onComplete:()=>{fly.remove();coreFlash();n++;$('#cap-n').textContent=n}});
+    gsap.fromTo(fly,{scale:1.6,opacity:1},{scale:0.5,duration:0.85});
+  });
+})();
+
+/* ---------------- TOY 02 · qualify ---------------- */
+(function qfy(){
+  const rev=$('#q-rev'),leads=$('#q-leads'),team=$('#q-team');
+  const fmt$=v=>v>=1?('$'+(v>=10?Math.round(v):v.toFixed(1))+'M'):('$'+Math.round(v*1000)+'K');
+  let flashT=0;
+  function calc(){
+    const R=+rev.value/2, L=Math.round(Math.pow(+leads.value/20,1.6)*1500), T=+team.value;
+    $('#q-rev-o').textContent=fmt$(R);
+    $('#q-leads-o').textContent=L;
+    $('#q-team-o').textContent=T;
+    let s=0;
+    s+= R>=1&&R<=10? 40 : R>10? 22 : R*28;
+    s+= L>=100? 30 : L/100*30;
+    s+= T>=3&&T<=25? 30 : T>25? 18 : T*9;
+    s=Math.round(clamp(s,4,99));
+    $('#q-score').textContent=s;
+    const v=$('#q-verdict');
+    if(s>=70)v.innerHTML='ICP MATCH: <b>STRONG</b><br>ROUTE → <b>SALES, TODAY</b>';
+    else if(s>=40)v.innerHTML='ICP MATCH: <b>QUALIFIED</b><br>ROUTE → <b>ENGAGE SEQUENCE</b>';
+    else v.innerHTML='ICP MATCH: <b>NOT YET</b><br>ROUTE → <b>NURTURE LOOP</b>';
+    const now=performance.now();
+    if(now-flashT>600){coreFlash();flashT=now}
+  }
+  [rev,leads,team].forEach(i=>i.addEventListener('input',calc));calc();
+})();
+
+/* ---------------- TOY 03 · engage ---------------- */
+(function eng(){
+  const m1=$('#msg1'),m2=$('#msg2'),ty=$('#typing'),btn=$('#e-btn');
+  let busy=false;
+  btn.addEventListener('click',()=>{
+    if(busy)return;busy=true;
+    m1.classList.remove('show');m2.classList.remove('show');ty.classList.remove('show');
+    btn.textContent='AGENT WORKING…';
+    setTimeout(()=>m1.classList.add('show'),250);
+    setTimeout(()=>ty.classList.add('show'),750);
+    setTimeout(()=>{ty.classList.remove('show');m2.classList.add('show');coreFlash();
+      btn.innerHTML='Run it again →';busy=false},1750);
+  });
+})();
+
+/* ---------------- TOY 04 · convert ---------------- */
+(function cnv(){
+  const cal=$('#cal');
+  const slots=['MON 10:00','MON 14:00','TUE 11:00','TUE 15:00','WED 09:00','WED 13:00','THU 11:00','THU 16:00','FRI 10:00','FRI 14:00'];
+  slots.forEach(s=>{const d=document.createElement('div');d.className='slot';d.textContent=s;cal.appendChild(d)});
+  const els=$$('.slot',cal);
+  [0,4,7].forEach(i=>els[i].classList.add('taken'));
+  let busy=false;
+  $('#c-btn').addEventListener('click',e=>{
+    if(busy)return;busy=true;
+    const btn=e.currentTarget;btn.textContent='RUNNING…';
+    els.forEach(el=>el.classList.remove('hot'));
+    [$('#cv1'),$('#cv2'),$('#cv3')].forEach(c=>c.classList.remove('done'));
+    const free=els.filter(el=>!el.classList.contains('taken'));
+    const pick=free[Math.floor(Math.random()*free.length)];
+    setTimeout(()=>{pick.classList.add('hot');coreFlash()},500);
+    setTimeout(()=>$('#cv1').classList.add('done'),1100);
+    setTimeout(()=>$('#cv2').classList.add('done'),1700);
+    setTimeout(()=>{$('#cv3').classList.add('done');coreFlash();
+      btn.innerHTML='Run another →';busy=false},2300);
+  });
+})();
+
+/* ---------------- TOY 05 · retain ---------------- */
+(function ret(){
+  const days=$('#r-days'),cards=[$('#rt1'),$('#rt2'),$('#rt3')];
+  const TH=[21,45,75], REV=[3400,8200,5600];
+  let flashT=0;
+  function upd(){
+    const d=+days.value;$('#r-days-o').textContent=d+'d';
+    let fired=0,rev=0;
+    TH.forEach((t,i)=>{const on=d>=t;cards[i].classList.toggle('fire',on);if(on){fired++;rev+=REV[i]}});
+    $('#rt-fired').textContent=fired;
+    $('#rt-rev').textContent='$'+rev.toLocaleString('en-US');
+    const now=performance.now();
+    if(fired&&now-flashT>700){coreFlash();flashT=now}
+  }
+  days.addEventListener('input',upd);upd();
+})();
+
+/* ---------------- TOY 06 · intelligence ---------------- */
+(function intel(){
+  const fmt=(v,dec)=>dec?v.toFixed(dec):Math.round(v).toLocaleString('en-US');
+  ScrollTrigger.create({trigger:'#toy-i',start:'top 85%',once:true,onEnter:()=>{
+    $$('#toy-i [data-cnt]').forEach(el=>{
+      const end=parseFloat(el.dataset.cnt),dec=+(el.dataset.dec||0),o={v:0};
+      gsap.to(o,{v:end,duration:1.6,ease:'power3.out',onUpdate:()=>el.textContent=fmt(o.v,dec)});
+    });
+    const al=$('#alert');
+    const cycle=()=>{
+      if(document.hidden)return;
+      al.className='alert bad';al.innerHTML='⚠ ANOMALY · avg response 47s → 3m12s · voice agent #2 degraded';
+      setTimeout(()=>{al.className='alert ok';al.innerHTML='✓ REROUTED to agent #1 · resolved in 9s · zero leads lost';coreFlash()},2400);
+      setTimeout(()=>{al.className='alert';al.innerHTML='— system nominal · all six layers reporting'},5200);
+    };
+    setTimeout(cycle,2200);setInterval(cycle,10500);
+  }});
+})();
+
+/* ---------------- chrome ---------------- */
+ScrollTrigger.create({start:0,end:'max',onUpdate:s=>$('#nav').classList.toggle('is-solid',s.scroll()>40)});
+if(!TOUCH){
+  const dot=$('#cursor-dot'),ring=$('#cursor-ring');
+  let x=innerWidth/2,y=innerHeight/2,rx=x,ry=y;
+  addEventListener('pointermove',e=>{x=e.clientX;y=e.clientY;
+    dot.style.transform=`translate(${x}px,${y}px) translate(-50%,-50%)`},{passive:true});
+  (function loop(){rx=lerp(rx,x,0.16);ry=lerp(ry,y,0.16);
+    ring.style.transform=`translate(${rx}px,${ry}px) translate(-50%,-50%)`;requestAnimationFrame(loop)})();
+  document.addEventListener('mouseover',e=>{
+    ring.classList.toggle('is-hover',!!e.target.closest('a,button,input'))});
+}
+(function clk(){
+  const el=$('#f-time');if(!el)return;
+  const tick=()=>el.textContent=new Intl.DateTimeFormat('en-GB',{hour:'2-digit',minute:'2-digit',timeZone:'Asia/Karachi'}).format(new Date());
+  tick();setInterval(tick,30000);
+})();
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{measure();ScrollTrigger.refresh()});
+setTimeout(measure,800);
+if(RM){S.asm=1;rings.forEach(r=>r.target=1)}
+</script>
+</body>
+</html>
