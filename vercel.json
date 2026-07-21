@@ -7,15 +7,15 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
-    { "source": "/foundation", "destination": "/index.html" },
-    { "source": "/process", "destination": "/index.html" },
-    { "source": "/pricing", "destination": "/index.html" },
-    { "source": "/about", "destination": "/index.html" },
-    { "source": "/audit", "destination": "/index.html" },
-    { "source": "/kiosks", "destination": "/index.html" },
-    { "source": "/kiosks/command-center", "destination": "/index.html" },
-    { "source": "/kiosks/onboarding", "destination": "/index.html" },
-    { "source": "/kiosks/errorlens", "destination": "/index.html" }
+    { "source": "/foundation", "destination": "/" },
+    { "source": "/process", "destination": "/" },
+    { "source": "/pricing", "destination": "/" },
+    { "source": "/about", "destination": "/" },
+    { "source": "/audit", "destination": "/" },
+    { "source": "/kiosks", "destination": "/" },
+    { "source": "/kiosks/command-center", "destination": "/" },
+    { "source": "/kiosks/onboarding", "destination": "/" },
+    { "source": "/kiosks/errorlens", "destination": "/" }
   ],
   "headers": [
     {
