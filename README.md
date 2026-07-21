@@ -10,4 +10,4 @@ The primary booking CTA is the same Cal.com event used by AhmadBukhari.com:
 
 No build step or environment variables are required.
 
-Vercel deploys the production site from the `main` branch.
+Vercel automatically deploys the production site from the `main` branch.
