@@ -77,6 +77,7 @@ export const metadata: Metadata = {
     images: [SITE.socialImage],
   },
   robots: { index: true, follow: true },
+  verification: { google: 'kKAcTOHisk8LJXjpzteUCTTAYXGz3wmhe0lOjLRphq0' },
   alternates: { canonical: SITE.url },
 };
 
