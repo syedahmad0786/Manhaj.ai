@@ -55,6 +55,9 @@ export default function OG() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
           <div
             style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              alignItems: 'baseline',
               fontSize: 72,
               lineHeight: 1.05,
               letterSpacing: -1,
