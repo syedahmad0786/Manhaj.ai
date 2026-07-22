@@ -33,6 +33,7 @@ const LEGAL: readonly FooterItem[] = [
 export default function Footer() {
   return (
     <footer
+      className="manhaj-ink-section"
       style={{
         borderTop: '1px solid var(--line)',
         padding: '80px 0 40px',

@@ -37,6 +37,7 @@ const DEMOS = [
 export default function DemosCallout() {
   return (
     <section
+      className="manhaj-ink-section"
       style={{
         padding: '160px 0',
         background: 'var(--bg-deep)',
@@ -114,7 +115,7 @@ function DemoCard({ slug, title, sub, kpi, type, href }: DemoCardProps) {
         border: '1px solid',
         borderColor: hover ? 'var(--accent)' : 'var(--line)',
         transform: hover ? 'translateY(-8px)' : 'translateY(0)',
-        boxShadow: hover ? '0 20px 60px rgba(0,0,0,0.4), 0 0 60px rgba(201,169,97,0.08)' : 'none',
+        boxShadow: hover ? '0 20px 60px rgba(0,0,0,0.4), 0 0 60px rgba(195,60,31,0.16)' : 'none',
         transition: 'all 500ms var(--ease)',
         color: 'inherit',
         overflow: 'hidden',
@@ -356,7 +357,7 @@ function SchematicPreview({ slug, active }: { slug: string; active: boolean }) {
             <g key={i}>
               <line
                 x1="40" y1={y} x2="360" y2={y}
-                stroke={active ? 'var(--accent)' : 'rgba(201,169,97,0.4)'}
+                stroke={active ? 'var(--accent)' : 'rgba(195,60,31,0.42)'}
                 strokeOpacity={1 - i * 0.06}
                 strokeWidth="0.7"
               />

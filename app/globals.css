@@ -10,28 +10,31 @@
 
 :root {
   /* Surfaces */
-  --bg-base: #0A0A0B;
-  --bg-elevated: #131316;
-  --bg-subtle: #1A1A1F;
-  --bg-deep: #060607;
+  --bg-base: #EEE6D4;
+  --bg-elevated: #F6F0E3;
+  --bg-subtle: #E4D8C1;
+  --bg-deep: #DED2BA;
 
   /* Ink */
-  --ink-primary: #F5F2EA;
-  --ink-secondary: #A8A29A;
-  --ink-tertiary: #8A857D;
-  --ink-quaternary: #3F3D38;
+  --ink-primary: #17140F;
+  --ink-secondary: #5F594F;
+  --ink-tertiary: #756E62;
+  --ink-quaternary: #A69B88;
 
   /* Accent */
-  --accent: #C9A961;
-  --accent-glow: #E8C887;
-  --accent-deep: #8C7240;
-  --accent-faint: rgba(201, 169, 97, 0.12);
+  --accent: #C33C1F;
+  --accent-glow: #D65335;
+  --accent-deep: #972B15;
+  --accent-faint: rgba(195, 60, 31, 0.12);
 
   /* Semantic */
-  --line: #2A2A30;
-  --line-soft: #1F1F25;
-  --success: #6BAA75;
-  --warning: #D4A857;
+  --line: rgba(23, 20, 15, 0.28);
+  --line-soft: rgba(23, 20, 15, 0.13);
+  --success: #53634D;
+  --warning: #A9682A;
+  --paper-light: #F6F0E3;
+  --paper-deep: #DED2BA;
+  --ink-night: #17140F;
 
   /* Type — actual font-family values come from next/font in app/layout.tsx,
      which sets --font-display, --font-body, --font-mono, --font-arabic on
@@ -84,8 +87,9 @@ body {
   background: var(--bg-base);
   overflow-x: hidden;
   background-image:
-    radial-gradient(ellipse at top, rgba(201, 169, 97, 0.04), transparent 50%),
-    radial-gradient(ellipse at bottom, rgba(201, 169, 97, 0.02), transparent 60%);
+    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.46), transparent 30%),
+    radial-gradient(circle at 82% 2%, rgba(255, 255, 255, 0.28), transparent 24%);
+  position: relative;
 }
 
 ::selection {
@@ -211,7 +215,8 @@ body {
 .btn-primary:hover {
   background: var(--accent-glow);
   border-color: var(--accent-glow);
-  box-shadow: 0 0 40px rgba(201, 169, 97, 0.25);
+  box-shadow: 5px 5px 0 var(--ink-primary);
+  transform: translate(-2px, -2px);
 }
 
 .btn-secondary {
@@ -248,8 +253,10 @@ body {
 }
 
 .card:hover {
-  border-color: var(--ink-quaternary);
+  border-color: var(--accent);
   background: var(--bg-subtle);
+  box-shadow: 6px 6px 0 var(--accent);
+  transform: translate(-3px, -3px);
 }
 
 :focus-visible {
@@ -296,6 +303,48 @@ body {
   text-transform: uppercase;
 }
 .skip-link:focus { top: 8px; }
+
+/* ============================================================================
+   Paper / red restoration
+   ============================================================================ */
+
+body::before {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  content: "";
+  pointer-events: none;
+  opacity: 0.18;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.12'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
+
+.manhaj-ink-section {
+  --bg-base: #17140F;
+  --bg-elevated: #211D17;
+  --bg-subtle: #2B261F;
+  --bg-deep: #17140F;
+  --ink-primary: #F6F0E3;
+  --ink-secondary: #C7BEAE;
+  --ink-tertiary: #9E9587;
+  --ink-quaternary: #766E61;
+  --line: rgba(246, 240, 227, 0.28);
+  --line-soft: rgba(246, 240, 227, 0.13);
+  color: var(--ink-secondary);
+}
+
+.manhaj-paper-rule {
+  border-top: 1px solid var(--ink-primary);
+}
+
+@supports (background: color-mix(in srgb, red, transparent)) {
+  .manhaj-paper-grid {
+    background-image:
+      linear-gradient(color-mix(in srgb, var(--ink-primary) 8%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in srgb, var(--ink-primary) 8%, transparent) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+}
 
 /* ============================================================================
    Responsive layout contracts
@@ -348,7 +397,59 @@ footer,
   max-width: 100% !important;
 }
 
+.manhaj-paper-hero-layout {
+  display: grid;
+  grid-template-columns: minmax(430px, 0.92fr) minmax(520px, 1.08fr);
+  gap: clamp(42px, 6vw, 96px);
+  align-items: center;
+}
+
+.manhaj-hero-margin-note {
+  position: absolute;
+  z-index: 3;
+  color: var(--ink-tertiary);
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.manhaj-hero-note-left {
+  left: 18px;
+  top: 154px;
+  writing-mode: vertical-rl;
+}
+
+.manhaj-hero-note-right {
+  right: 18px;
+  top: 154px;
+  writing-mode: vertical-rl;
+}
+
+.manhaj-paper-map-layer {
+  transition: transform 300ms var(--ease), background 300ms var(--ease);
+}
+
+.manhaj-paper-map-layer:hover {
+  transform: translateX(7px);
+}
+
 @media (max-width: 960px) {
+  .manhaj-paper-hero-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 56px;
+  }
+
+  .manhaj-paper-hero-copy {
+    max-width: 760px;
+  }
+
+  .manhaj-paper-architecture-map {
+    width: min(100%, 720px);
+    margin-inline: auto;
+  }
+
   .manhaj-layer-diagram-grid {
     grid-template-columns: minmax(0, 1fr) !important;
     gap: 32px !important;
@@ -394,6 +495,33 @@ footer,
 }
 
 @media (max-width: 720px) {
+  .manhaj-paper-hero {
+    min-height: auto !important;
+    padding-top: 112px !important;
+    padding-bottom: 56px !important;
+  }
+
+  .manhaj-hero-margin-note {
+    display: none;
+  }
+
+  .manhaj-paper-architecture-map {
+    min-height: 550px !important;
+    padding: 56px 16px 50px !important;
+    transform: none !important;
+    box-shadow: 8px 8px 0 rgba(195, 60, 31, 0.08) !important;
+  }
+
+  .manhaj-paper-map-layer {
+    grid-template-columns: 34px minmax(150px, 1fr) !important;
+    gap: 10px !important;
+    min-height: 68px !important;
+  }
+
+  .manhaj-paper-map-layer > :last-child {
+    display: none !important;
+  }
+
   .container,
   .container-narrow {
     padding-left: 20px;

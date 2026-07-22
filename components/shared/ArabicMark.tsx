@@ -48,7 +48,7 @@ export default function ArabicMark() {
             opacity: active ? 1 : 0,
             transform: active ? 'scale(1)' : 'scale(0.92)',
             transition: 'opacity 1200ms var(--ease), transform 1200ms var(--ease)',
-            textShadow: '0 0 60px rgba(201, 169, 97, 0.3)',
+            textShadow: '0 0 60px rgba(195, 60, 31, 0.34)',
           }}
         >
           منهج

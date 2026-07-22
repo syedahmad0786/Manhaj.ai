@@ -47,10 +47,11 @@ export default function Nav() {
         zIndex: 100,
         padding: scrolled ? '14px 32px' : '24px 32px',
         transition: 'all 400ms var(--ease)',
-        background: scrolled ? 'rgba(10, 10, 11, 0.7)' : 'transparent',
+        background: scrolled ? 'rgba(238, 230, 212, 0.92)' : 'rgba(238, 230, 212, 0.26)',
         backdropFilter: scrolled ? 'blur(20px) saturate(140%)' : 'none',
         WebkitBackdropFilter: scrolled ? 'blur(20px) saturate(140%)' : 'none',
-        borderBottom: scrolled ? '1px solid var(--line-soft)' : '1px solid transparent',
+        borderBottom: scrolled ? '1px solid var(--line)' : '1px solid transparent',
+        boxShadow: scrolled ? '0 10px 30px rgba(23, 20, 15, 0.06)' : 'none',
       }}
     >
       <div
@@ -126,8 +127,10 @@ export default function Nav() {
               fontWeight: 500,
               padding: '10px 18px',
               border: '1px solid var(--accent)',
-              color: 'var(--accent)',
+              background: 'var(--accent)',
+              color: 'var(--paper-light)',
               textDecoration: 'none',
+              boxShadow: '3px 3px 0 var(--ink-primary)',
               transition: 'all 300ms var(--ease)',
             }}
           >
@@ -165,7 +168,8 @@ export default function Nav() {
           style={{
             marginTop: 16,
             borderTop: '1px solid var(--line)',
-            background: 'rgba(10,10,11,0.96)',
+            background: 'rgba(246, 240, 227, 0.98)',
+            boxShadow: '0 18px 40px rgba(23, 20, 15, 0.12)',
           }}
         >
           <nav

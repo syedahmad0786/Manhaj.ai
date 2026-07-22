@@ -37,6 +37,7 @@ export default function Manifesto() {
   return (
     <section
       ref={ref}
+      className="manhaj-ink-section"
       style={{
         padding: '160px 0',
         position: 'relative',

@@ -5,6 +5,7 @@ import CTAButton from '@/components/ui/CTAButton';
 export default function FinalCTA() {
   return (
     <section
+      className="manhaj-ink-section"
       style={{
         position: 'relative',
         padding: '180px 0',
