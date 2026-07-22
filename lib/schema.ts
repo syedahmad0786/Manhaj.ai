@@ -3,7 +3,7 @@ import { SITE } from '@/lib/site';
 export const SCHEMA_IDS = {
   organization: `${SITE.companyUrl}/#organization`,
   person: 'https://ahmadbukhari.com/#person',
-  product: `${SITE.url}/#product`,
+  offering: `${SITE.url}/#service`,
   website: `${SITE.url}/#website`,
 } as const;
 
@@ -29,15 +29,16 @@ export function globalSchema() {
         sameAs: [SITE.founderUrl, SITE.githubUrl, SITE.linkedinUrl],
       },
       {
-        '@type': 'Product',
-        '@id': SCHEMA_IDS.product,
+        '@type': 'Service',
+        '@id': SCHEMA_IDS.offering,
         name: SITE.name,
         alternateName: ['Manhaj', 'منهج'],
         url: SITE.url,
         description: SITE.positioning,
-        category: 'AI operating system implementation service',
-        brand: { '@id': SCHEMA_IDS.organization },
+        serviceType: 'Private AI operating system architecture and implementation',
+        provider: { '@id': SCHEMA_IDS.organization },
         creator: { '@id': SCHEMA_IDS.person },
+        areaServed: 'Worldwide',
         audience: {
           '@type': 'BusinessAudience',
           audienceType: 'Operator-led B2B service and education companies',
@@ -50,7 +51,7 @@ export function globalSchema() {
         url: SITE.url,
         description: SITE.positioning,
         inLanguage: 'en',
-        about: { '@id': SCHEMA_IDS.product },
+        about: { '@id': SCHEMA_IDS.offering },
         publisher: { '@id': SCHEMA_IDS.organization },
         creator: { '@id': SCHEMA_IDS.person },
       },
@@ -88,7 +89,7 @@ export function pageSchema({
         description,
         inLanguage: 'en',
         isPartOf: { '@id': SCHEMA_IDS.website },
-        about: { '@id': SCHEMA_IDS.product },
+        about: { '@id': SCHEMA_IDS.offering },
         author: { '@id': SCHEMA_IDS.person },
         publisher: { '@id': SCHEMA_IDS.organization },
         dateModified: SITE.contentUpdatedAt,
