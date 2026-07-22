@@ -1,62 +1,94 @@
 import type { Metadata } from 'next';
 import LegalShell from '../_layout-shared';
+import JsonLd from '@/components/shared/JsonLd';
+import { pageMetadata } from '@/lib/seo';
+import { pageSchema } from '@/lib/schema';
 import { SITE } from '@/lib/site';
 
-export const metadata: Metadata = {
-  title: 'Privacy policy',
-  description: `How ${SITE.name} collects, uses, and protects information.`,
-  alternates: { canonical: `${SITE.url}/privacy` },
-  robots: { index: true, follow: true },
-};
+const title = `Privacy Policy | ${SITE.name}`;
+const description =
+  `How ${SITE.name} and ${SITE.companyName} collect, use, retain, and protect information submitted through this website and its booking flow.`;
 
-// REPLACE: paste real privacy policy from Termly here. The blocks below
-// are scaffold placeholders so the page renders cleanly until then.
+export const metadata: Metadata = pageMetadata({ title, description, path: '/privacy' });
+
 export default function PrivacyPage() {
   return (
-    <LegalShell eyebrow="Legal · Privacy" title="Privacy policy" updatedAt="29 April 2026">
+    <>
+      <JsonLd data={pageSchema({ name: title, description, path: '/privacy' })} />
+      <LegalShell eyebrow="Legal · Privacy" title="Privacy policy" updatedAt="22 July 2026">
       <p>
-        <strong>This is a placeholder.</strong> Replace the content of this
-        file with the privacy policy generated for {SITE.domain} via Termly (or
-        your preferred legal tool). Keep the surrounding shell — only swap the
-        body copy.
+        This notice explains how information is handled when you use {SITE.domain},
+        request an audit, or book a call. {SITE.name} is a product and service of{' '}
+        <a href={SITE.companyUrl}>{SITE.companyName}</a>, led by{' '}
+        <a href={SITE.founderUrl}>{SITE.founder}</a>.
       </p>
 
-      <h2>1. What we collect</h2>
+      <h2>1. Information we collect</h2>
       <p>
-        Lead-form submissions (name, email, company, role, revenue band,
-        timing, optional notes), audit-call transcripts (with consent), and
-        standard analytics signals via Google Tag Manager (GA4, Meta Pixel,
-        LinkedIn Insight). Cookie banner consent is gated through CookieYes.
+        If you submit the audit form, we collect the details you provide, such
+        as your name, email address, company, role, revenue band, current tools,
+        timing, and notes. Cal.com separately processes information you provide
+        when booking a call under its own privacy terms.
+      </p>
+      <p>
+        The site may also receive basic technical and usage information, such
+        as pages viewed, device and browser type, approximate location, and
+        referral source. Vercel Analytics is used for aggregate site analytics.
+        Additional analytics or consent tools run only when configured.
       </p>
 
       <h2>2. How we use it</h2>
       <p>
-        To respond to audit requests, run the AOS-001 install lifecycle, and
-        improve the site. We do not sell or share lead data with third parties
-        outside the explicit processors listed below.
+        We use information to respond to enquiries, evaluate whether an audit
+        or install is a fit, schedule and deliver calls, operate and secure the
+        site, improve our services, and meet legal obligations. We do not sell
+        information submitted through the audit form.
       </p>
 
-      <h2>3. Processors</h2>
+      <h2>3. Service providers</h2>
+      <p>Depending on which features are configured or used, providers may include:</p>
       <ul>
-        <li>Vercel — hosting</li>
-        <li>Resend — transactional email</li>
-        <li>Supabase — durable lead record</li>
-        <li>Cal.com — booking</li>
-        <li>Google Tag Manager / Google Analytics 4 — analytics</li>
-        <li>Meta Pixel, LinkedIn Insight — advertising attribution (consent-gated)</li>
-        <li>CookieYes — consent management</li>
+        <li>Vercel for hosting and aggregate analytics;</li>
+        <li>Cal.com for scheduling;</li>
+        <li>Resend for email delivery;</li>
+        <li>Supabase for secure lead storage; and</li>
+        <li>n8n for configured workflow automation.</li>
       </ul>
-
-      <h2>4. Your rights</h2>
       <p>
-        Email <a href="mailto:hello@manhaj.ai">hello@manhaj.ai</a> for access,
-        correction, or deletion. We&apos;ll respond inside 30 days.
+        These providers process information for the purposes described above
+        and under their own contractual and privacy obligations. Information
+        may also be disclosed where required by law or to protect rights and security.
       </p>
 
-      <h2>5. Contact</h2>
+      <h2>4. Retention and security</h2>
       <p>
-        {SITE.founder} · <a href="mailto:hello@manhaj.ai">hello@manhaj.ai</a>
+        We keep information only as long as reasonably needed for the purpose
+        collected, legitimate business records, security, and legal obligations.
+        We use administrative and technical safeguards appropriate to the
+        information, but no internet service can guarantee absolute security.
       </p>
-    </LegalShell>
+
+      <h2>5. Your choices and rights</h2>
+      <p>
+        Depending on where you live, you may have rights to access, correct,
+        delete, restrict, or object to processing of personal information.
+        Contact <a href={`mailto:${SITE.email}`}>{SITE.email}</a> to make a request.
+        We may need to verify your identity before acting on it.
+      </p>
+
+      <h2>6. International processing and changes</h2>
+      <p>
+        Providers may process information in countries other than your own.
+        Where required, appropriate transfer safeguards are used. We may update
+        this notice as the site or services change; the date above identifies
+        the current version.
+      </p>
+
+      <h2>7. Contact</h2>
+      <p>
+        {SITE.founder} · <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+      </p>
+      </LegalShell>
+    </>
   );
 }

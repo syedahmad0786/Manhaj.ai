@@ -1,13 +1,14 @@
 import Link from 'next/link';
 import Wordmark from '@/components/ui/Wordmark';
+import { SITE as SITE_CONFIG } from '@/lib/site';
 
 // Direct port from .extracted-source/004 — Footer block.
-type FooterItem = readonly [label: string, path: string | null];
+type FooterItem = readonly [label: string, path: string];
 
 const SITE: readonly FooterItem[] = [
   ['Home', '/'],
   ['Foundation', '/foundation'],
-  ['Demos', '/kiosks/'],
+  ['Demos', '/kiosks'],
   ['Process', '/process'],
 ];
 const ENGAGE: readonly FooterItem[] = [
@@ -16,14 +17,17 @@ const ENGAGE: readonly FooterItem[] = [
   ['Book audit', '/audit'],
 ];
 const ARCHITECT: readonly FooterItem[] = [
-  ['ahmad@manhaj.ai', null],
-  ['LinkedIn ↗', null],
-  ['Twitter ↗', null],
+  [SITE_CONFIG.email, `mailto:${SITE_CONFIG.email}`],
+  ['AhmadBukhari.com ↗', SITE_CONFIG.founderUrl],
+  ['Aixcel Solutions ↗', SITE_CONFIG.companyUrl],
+  ['LinkedIn ↗', SITE_CONFIG.linkedinUrl],
+  ['GitHub ↗', SITE_CONFIG.githubUrl],
 ];
 const LEGAL: readonly FooterItem[] = [
   ['Privacy', '/privacy'],
   ['Terms', '/terms'],
   ['Cookie policy', '/cookie-policy'],
+  ['Security', '/security'],
 ];
 
 export default function Footer() {
@@ -57,7 +61,7 @@ export default function Footer() {
                 lineHeight: 1.6,
               }}
             >
-              The AI Operating System architected uniquely for your business. Built on a proven 6-layer
+              The AI Operating System architected uniquely for your business. Built on a defined 6-layer
               revenue foundation. Owned by you.
             </p>
             <div style={{ marginTop: 32 }}>
@@ -96,8 +100,8 @@ export default function Footer() {
             gap: 16,
           }}
         >
-          <span>manhaj.ai · architected by ahmad bukhari · {new Date().getFullYear()}</span>
-          <span style={{ display: 'flex', gap: 24 }}>
+          <span>{SITE_CONFIG.domain} · architected by ahmad bukhari · {new Date().getFullYear()}</span>
+          <span className="manhaj-footer-status" style={{ display: 'flex', gap: 24 }}>
             <span>◊ AOS-001</span>
             <span>v.1.0</span>
             <span style={{ color: 'var(--success)' }}>● online</span>
@@ -118,12 +122,12 @@ export default function Footer() {
 
 function FooterCol({ title, items }: { title: string; items: readonly FooterItem[] }) {
   return (
-    <div>
+    <div className="manhaj-footer-column">
       <div className="t-mono" style={{ marginBottom: 18, color: 'var(--accent)' }}>{title}</div>
       <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10 }}>
         {items.map(([label, path]) => (
           <li key={label}>
-            {path ? (
+            {path.startsWith('/') ? (
               <Link
                 href={path}
                 className="manhaj-footer-link"
@@ -137,16 +141,19 @@ function FooterCol({ title, items }: { title: string; items: readonly FooterItem
                 {label}
               </Link>
             ) : (
-              <span
+              <a
+                href={path}
+                target={path.startsWith('http') ? '_blank' : undefined}
+                rel={path.startsWith('http') ? 'noreferrer' : undefined}
                 className="manhaj-footer-link"
                 style={{
                   color: 'var(--ink-secondary)',
                   fontSize: 14,
-                  cursor: 'default',
+                  textDecoration: 'none',
                 }}
               >
                 {label}
-              </span>
+              </a>
             )}
           </li>
         ))}

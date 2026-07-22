@@ -1,10 +1,12 @@
-'use client';
-
-import { useState } from 'react';
+import type { Metadata } from 'next';
 import PageHeader from '@/components/shared/PageHeader';
 import SectionHeader from '@/components/shared/SectionHeader';
+import JsonLd from '@/components/shared/JsonLd';
 import Reveal from '@/components/ui/Reveal';
 import CTAButton from '@/components/ui/CTAButton';
+import { pageMetadata } from '@/lib/seo';
+import { pageSchema, SCHEMA_IDS } from '@/lib/schema';
+import { SITE } from '@/lib/site';
 
 // Direct port from .extracted-source/009 — PricingPage.
 
@@ -71,9 +73,83 @@ const TIERS: readonly Tier[] = [
   },
 ] as const;
 
+const FAQS: ReadonlyArray<{ q: string; a: string }> = [
+  {
+    q: 'Why a setup fee + retainer?',
+    a: 'Setup buys the architecture and install. Retainer covers monitoring, modular requests, and the ongoing tuning every operating system needs. You can pause the retainer; the system keeps running. We just stop building new modules.',
+  },
+  {
+    q: 'Do I own the system?',
+    a: "Yes. Code, configurations, integrations, and data live in your accounts under your credentials. If you stop working with us, you keep everything. We don't hold infrastructure hostage.",
+  },
+  {
+    q: 'How is this different from an automation agency?',
+    a: 'Most agencies sell hours. We sell architecture. Most agencies build per-request. We install a foundation. MANHAJ is founder-led, so you talk to the architect.',
+  },
+  {
+    q: 'What if I already have an existing stack?',
+    a: "Better. We orchestrate what you have, augment what's missing, and replace only what's broken. The audit identifies what to keep, augment, and automate.",
+  },
+];
+
+const title = 'MANHAJ Pricing: AI Operating System Installation Tiers';
+const description =
+  'Compare MANHAJ Foundation, Operator, and Architect installation tiers, from $5,000 setup plus a monthly retainer. Every tier includes the AOS-001 foundation.';
+
+export const metadata: Metadata = pageMetadata({ title, description, path: '/pricing' });
+
+const pricingSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'OfferCatalog',
+      '@id': `${SITE.url}/pricing#offers`,
+      name: 'MANHAJ installation tiers',
+      url: `${SITE.url}/pricing`,
+      itemListElement: TIERS.map((tier) => ({
+        '@type': 'Offer',
+        name: `${tier.name} installation`,
+        url: `${SITE.url}/pricing`,
+        priceCurrency: 'USD',
+        price: Number(tier.price.replace(/[$,]/g, '')),
+        description: `${tier.desc} Monthly retainer: ${tier.retainer}.`,
+        itemOffered: { '@id': SCHEMA_IDS.product },
+        seller: { '@id': SCHEMA_IDS.organization },
+        priceSpecification: [
+          {
+            '@type': 'UnitPriceSpecification',
+            name: 'One-time setup',
+            priceCurrency: 'USD',
+            price: Number(tier.price.replace(/[$,]/g, '')),
+            unitText: 'SETUP',
+          },
+          {
+            '@type': 'UnitPriceSpecification',
+            name: 'Monthly retainer',
+            priceCurrency: 'USD',
+            price: Number(tier.retainer.replace(/[$,]/g, '')),
+            billingDuration: 'P1M',
+          },
+        ],
+      })),
+    },
+    {
+      '@type': 'FAQPage',
+      '@id': `${SITE.url}/pricing#faq`,
+      mainEntity: FAQS.map((faq) => ({
+        '@type': 'Question',
+        name: faq.q,
+        acceptedAnswer: { '@type': 'Answer', text: faq.a },
+      })),
+    },
+  ],
+};
+
 export default function PricingPage() {
   return (
     <>
+      <JsonLd data={pageSchema({ name: title, description, path: '/pricing' })} />
+      <JsonLd data={pricingSchema} />
       <PageHeader
         eyebrow="Engagement"
         title={
@@ -88,7 +164,7 @@ export default function PricingPage() {
 
       <section style={{ padding: '0 0 120px' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
+          <div className="manhaj-pricing-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
             {TIERS.map((t, i) => (
               <Reveal key={t.name} delay={i * 120}>
                 <PricingCard tier={t} />
@@ -97,6 +173,7 @@ export default function PricingPage() {
           </div>
 
           <div
+            className="manhaj-pricing-discovery"
             style={{
               marginTop: 64,
               padding: 32,
@@ -122,18 +199,22 @@ export default function PricingPage() {
       </section>
 
       <FAQSection />
+      <style>{`
+        .manhaj-pricing-card:hover { transform: translateY(-6px); }
+        @media (max-width: 960px) {
+          .manhaj-pricing-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
     </>
   );
 }
 
 function PricingCard({ tier }: { tier: Tier }) {
-  const [hover, setHover] = useState(false);
   const featured = !!tier.featured;
   return (
     <div
+      className="manhaj-pricing-card"
       data-cursor-hover
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
       style={{
         position: 'relative',
         padding: 40,
@@ -145,7 +226,6 @@ function PricingCard({ tier }: { tier: Tier }) {
         borderColor: featured ? 'var(--accent)' : 'var(--line)',
         boxShadow: featured ? '0 0 80px rgba(201,169,97,0.12)' : 'none',
         transition: 'all 500ms var(--ease)',
-        transform: hover ? 'translateY(-6px)' : 'none',
         display: 'flex',
         flexDirection: 'column',
         gap: 24,
@@ -230,25 +310,6 @@ function PricingCard({ tier }: { tier: Tier }) {
 }
 
 function FAQSection() {
-  const faqs: ReadonlyArray<{ q: string; a: string }> = [
-    {
-      q: 'Why a setup fee + retainer?',
-      a: 'Setup buys the architecture and install. Retainer covers monitoring, modular requests, and the ongoing tuning every operating system needs. You can pause the retainer; the system keeps running. We just stop building new modules.',
-    },
-    {
-      q: 'Do I own the system?',
-      a: "Yes. Code, configurations, integrations, and data live in your accounts under your credentials. If you stop working with us, you keep everything. We don't hold infrastructure hostage — that's an agency tell.",
-    },
-    {
-      q: 'How is this different from an automation agency?',
-      a: 'Most agencies sell hours. We sell architecture. Most agencies build per-request. We install a foundation. Most agencies have account managers between you and the builder. Manhaj is founder-led; you talk to the architect.',
-    },
-    {
-      q: 'What if I already have an existing stack?',
-      a: "Better. We orchestrate what you have, augment what's missing, and replace only what's broken. The audit identifies what to keep, augment, and automate. We don't do rip-and-replace unless your tools genuinely can't do the job.",
-    },
-  ];
-  const [open, setOpen] = useState(0);
   return (
     <section
       style={{
@@ -260,11 +321,10 @@ function FAQSection() {
       <div className="container-narrow">
         <SectionHeader eyebrow="Common questions" title="Before you book." align="left" />
         <div style={{ borderTop: '1px solid var(--line)' }}>
-          {faqs.map((f, i) => (
-            <div key={i} style={{ borderBottom: '1px solid var(--line)' }}>
-              <button
+          {FAQS.map((f, i) => (
+            <details key={f.q} open={i === 0} style={{ borderBottom: '1px solid var(--line)' }}>
+              <summary
                 data-cursor-hover
-                onClick={() => setOpen(open === i ? -1 : i)}
                 style={{
                   width: '100%',
                   padding: '28px 0',
@@ -277,30 +337,24 @@ function FAQSection() {
                   font: 'inherit',
                   textAlign: 'left',
                   color: 'inherit',
+                  listStyle: 'none',
                 }}
               >
                 <span className="t-display" style={{ fontSize: 22, color: 'var(--ink-primary)' }}>
                   {f.q}
                 </span>
                 <span
+                  aria-hidden="true"
                   style={{
                     color: 'var(--accent)',
                     fontFamily: 'var(--font-mono)',
                     fontSize: 18,
-                    transform: open === i ? 'rotate(45deg)' : 'rotate(0deg)',
-                    transition: 'transform 400ms var(--ease)',
                   }}
                 >
                   +
                 </span>
-              </button>
-              <div
-                style={{
-                  maxHeight: open === i ? 200 : 0,
-                  overflow: 'hidden',
-                  transition: 'all 500ms var(--ease)',
-                }}
-              >
+              </summary>
+              <div>
                 <p
                   style={{
                     paddingBottom: 28,
@@ -313,7 +367,7 @@ function FAQSection() {
                   {f.a}
                 </p>
               </div>
-            </div>
+            </details>
           ))}
         </div>
       </div>

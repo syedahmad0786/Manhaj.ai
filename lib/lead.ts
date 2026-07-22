@@ -15,6 +15,8 @@ export const leadSchema = z.object({
     .optional()
     .or(z.literal('')),
   notes: z.string().max(2000).optional().or(z.literal('')),
+  // Honeypot: accept a short value so the API can silently acknowledge bots.
+  website: z.string().max(200).optional(),
 });
 
 export type Lead = z.infer<typeof leadSchema>;

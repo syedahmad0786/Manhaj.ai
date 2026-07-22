@@ -1,17 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google Tag Manager (kiosk) -->
-  <script>
-    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','__GTM_ID__');
-    window.__MANHAJ_GTM = '__GTM_ID__';
-  </script>
-  <!-- End Google Tag Manager -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#0A0A0B" />
-  <title>Manhaj — Kiosk · Live Demos</title>
-  <meta name="description" content="Anonymized, dummy-data versions of real operating systems Manhaj has installed. No slides, no logos — just running systems." />
+  <title>MANHAJ Kiosks · Interactive AI Operating System Demos</title>
+  <meta name="description" content="Interactive, synthetic-data concept kiosks demonstrating MANHAJ AI operating system interface and workflow patterns. Examples, not client results." />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+  <link rel="canonical" href="https://manhaj.ahmadbukhari.com/kiosks" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Manhaj" />
+  <meta property="og:title" content="MANHAJ Interactive AI Operating System Demos" />
+  <meta property="og:description" content="Explore synthetic-data concept kiosks demonstrating patterns from the MANHAJ AOS-001 architecture." />
+  <meta property="og:url" content="https://manhaj.ahmadbukhari.com/kiosks" />
+  <meta property="og:image" content="https://manhaj.ahmadbukhari.com/opengraph-image" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="MANHAJ Interactive AI Operating System Demos" />
+  <meta name="twitter:description" content="Synthetic-data concept demos of the MANHAJ AOS-001 architecture." />
+  <meta name="twitter:image" content="https://manhaj.ahmadbukhari.com/opengraph-image" />
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://manhaj.ahmadbukhari.com/kiosks#webpage",
+          "url": "https://manhaj.ahmadbukhari.com/kiosks",
+          "name": "MANHAJ Interactive AI Operating System Demos",
+          "description": "Synthetic-data concept demonstrations of private AI operating system patterns built on the MANHAJ AOS-001 architecture.",
+          "isPartOf": { "@id": "https://manhaj.ahmadbukhari.com/#website" },
+          "about": { "@id": "https://manhaj.ahmadbukhari.com/#product" },
+          "inLanguage": "en"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://manhaj.ahmadbukhari.com/kiosks#breadcrumb",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://manhaj.ahmadbukhari.com" },
+            { "@type": "ListItem", "position": 2, "name": "Interactive demos", "item": "https://manhaj.ahmadbukhari.com/kiosks" }
+          ]
+        }
+      ]
+    }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%230A0A0B'/%3E%3Cpath d='M12 4 L20 12 L12 20 L4 12 Z' fill='none' stroke='%23F5F2EA' stroke-width='1' opacity='0.55'/%3E%3Cpath d='M12 7.5 L16.5 12 L12 16.5 L7.5 12 Z' fill='%23C9A961'/%3E%3C/svg%3E" />
@@ -33,7 +64,7 @@
       --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { background: var(--ink); color: var(--cream); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+    html, body { width: 100%; max-width: 100%; overflow-x: hidden; background: var(--ink); color: var(--cream); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
     body { min-height: 100vh; display: flex; flex-direction: column; }
     a { color: inherit; text-decoration: none; }
 
@@ -113,7 +144,7 @@
       max-width: 1280px; margin: 0 auto;
       padding: 80px 32px 32px;
       display: grid; gap: 24px;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
     }
 
     .card {
@@ -186,7 +217,7 @@
       max-width: 1280px; margin: 0 auto;
       padding: 56px 32px 96px;
       display: grid; gap: 32px;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
       border-top: 1px solid var(--line);
       margin-top: 56px;
     }
@@ -214,17 +245,20 @@
 
     @media (max-width: 720px) {
       .topbar-inner { padding: 14px 20px; }
-      .topbar-nav { gap: 16px; }
+      .topbar-inner, .brand, .topbar-nav { min-width: 0; }
+      .brand-tag { display: none; }
+      .topbar-nav { gap: 16px; white-space: nowrap; }
+      .topbar-back { font-size: 0; }
+      .topbar-back::after { content: '← HOME'; font-size: 10px; }
       .hero { padding: 64px 20px 40px; }
       .grid { padding: 56px 20px 24px; }
       .ribbon { padding: 40px 20px 64px; }
       .footer { padding: 24px 20px; }
+      .footer > * { min-width: 0; overflow-wrap: anywhere; }
     }
   </style>
 </head>
 <body>
-  <!-- GTM noscript -->
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=__GTM_ID__" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <header class="topbar">
     <div class="topbar-inner">
       <a class="brand" href="/">
@@ -232,31 +266,31 @@
         <span class="brand-tag">◊ AOS-001 · KIOSK</span>
       </a>
       <nav class="topbar-nav">
-        <a class="topbar-back" href="/">← manhaj.ai</a>
+        <a class="topbar-back" href="/">← manhaj.ahmadbukhari.com</a>
       </nav>
     </div>
   </header>
 
   <main>
     <section class="hero">
-      <p class="eyebrow">Live Demos · No slides · No logos</p>
-      <h1>Running systems, <em>anonymized</em>. Click through before you buy.</h1>
+      <p class="eyebrow">Interactive concepts · No slides · No invented proof</p>
+      <h1>System patterns, <em>made clickable</em>. Explore before you buy.</h1>
       <p class="hero-lede">
-        Two operator-led businesses are running on Manhaj-style architecture today.
-        These are the dashboards their teams use — same shape, same flows, dummy data swapped in.
-        Experience the OS before you talk to us.
+        These three concept kiosks demonstrate how MANHAJ interface and workflow patterns can work.
+        Every number and identity is synthetic; nothing shown here is presented as a client outcome.
+        Explore the operating model before you talk to us.
       </p>
       <div class="hero-meta">
         <span>3 KIOSKS</span>
-        <span>DUMMY DATA</span>
+        <span>SYNTHETIC DATA</span>
         <span>FULL UI · CLICKABLE</span>
         <span>AOS-001 LAYERS · 04 / 06</span>
       </div>
     </section>
 
-    <section class="grid" aria-label="Live demo kiosks">
+    <section class="grid" aria-label="Interactive concept kiosks">
       <article class="card">
-        <a class="card-link" href="/kiosks/command-center/" aria-label="Open Manhaj Command Center kiosk"></a>
+        <a class="card-link" href="/kiosks/command-center" aria-label="Open Manhaj Command Center kiosk"></a>
         <div class="card-thumb" aria-hidden="true">
           <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
             <rect width="320" height="200" fill="#1A1A1F"/>
@@ -287,7 +321,7 @@
       </article>
 
       <article class="card">
-        <a class="card-link" href="/kiosks/errorlens/" aria-label="Open ErrorLens kiosk"></a>
+        <a class="card-link" href="/kiosks/errorlens" aria-label="Open ErrorLens kiosk"></a>
         <div class="card-thumb" aria-hidden="true">
           <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
             <rect width="320" height="200" fill="#1A1A1F"/>
@@ -318,7 +352,7 @@
       </article>
 
       <article class="card">
-        <a class="card-link" href="/kiosks/onboarding/" aria-label="Open Onboarding Dashboard kiosk"></a>
+        <a class="card-link" href="/kiosks/onboarding" aria-label="Open Onboarding Dashboard kiosk"></a>
         <div class="card-thumb" aria-hidden="true">
           <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
             <rect width="320" height="200" fill="#1A1A1F"/>
@@ -357,22 +391,22 @@
     <section class="ribbon">
       <div class="ribbon-item">
         <h3>◊ How to read a kiosk</h3>
-        <p>Click anywhere inside the dashboard. Buttons, tabs, filters — they all work. Data is dummy. The <em>shape</em> of the system is real.</p>
+        <p>Click anywhere inside the dashboard. Buttons, tabs, and filters work. The data is synthetic; the interface demonstrates an implementation pattern.</p>
       </div>
       <div class="ribbon-item">
-        <h3>◊ Why we don't show logos</h3>
-        <p>Two real operators are running these systems. Their numbers stay theirs. You see the architecture; the names are off the table.</p>
+        <h3>◊ What these demos prove</h3>
+        <p>They prove that the interaction and presentation can be inspected. They do not claim client adoption, revenue impact, or measured performance.</p>
       </div>
       <div class="ribbon-item">
         <h3>◊ Want one of your own?</h3>
-        <p>Every Manhaj install runs on the AOS-001 6-layer foundation. Modules on top are bespoke. <a href="/" style="color:var(--gold);text-decoration:underline;text-underline-offset:3px;">Book an audit →</a></p>
+        <p>Every MANHAJ implementation starts from the AOS-001 6-layer foundation. Modules on top are bespoke. <a href="/audit" style="color:var(--gold);text-decoration:underline;text-underline-offset:3px;">Book an audit →</a></p>
       </div>
     </section>
   </main>
 
   <footer class="footer">
     <span>◊ MANHAJ · AOS-001 · KIOSK</span>
-    <span><a href="/">manhaj.ai</a> · Architected by Ahmad Bukhari</span>
+    <span><a href="/">manhaj.ahmadbukhari.com</a> · Architected by Ahmad Bukhari</span>
   </footer>
   <script>
     (function () {

@@ -6,9 +6,9 @@ import SectionHeader from '@/components/shared/SectionHeader';
 const STEPS = [
   { n: '01', label: 'Audit', sub: 'Discovery week' },
   { n: '02', label: 'Synthesis', sub: 'Plain-English doc' },
-  { n: '03', label: 'Build', sub: 'Assembled at home' },
+  { n: '03', label: 'Build', sub: 'Off-site assembly' },
   { n: '04', label: 'Install', sub: 'Train your team' },
-  { n: '05', label: 'Optimize', sub: 'First 30 days' },
+  { n: '05', label: 'Optimize', sub: 'Monitored rollout' },
   { n: '06', label: 'Modular', sub: 'Modules on top' },
 ] as const;
 
@@ -26,7 +26,7 @@ export default function ProcessMini() {
             flexWrap: 'wrap',
           }}
         >
-          <SectionHeader eyebrow="The install" title="Six steps. Five weeks. One install." />
+          <SectionHeader eyebrow="The install" title="Six stages. A defined path." />
           <Link
             href="/process"
             className="btn btn-ghost"
@@ -38,6 +38,7 @@ export default function ProcessMini() {
         </div>
 
         <div
+          className="manhaj-home-process-grid"
           style={{
             position: 'relative',
             display: 'grid',
@@ -46,6 +47,7 @@ export default function ProcessMini() {
           }}
         >
           <div
+            className="manhaj-home-process-line"
             style={{
               position: 'absolute',
               top: 18,
@@ -59,6 +61,7 @@ export default function ProcessMini() {
           {STEPS.map((s, i) => (
             <Reveal key={s.n} delay={i * 80}>
               <div
+                className="manhaj-home-process-step"
                 style={{
                   position: 'relative',
                   textAlign: 'left',

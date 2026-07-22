@@ -1,22 +1,7 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "framework": null,
-  "installCommand": "",
-  "buildCommand": "",
-  "outputDirectory": "site",
   "cleanUrls": true,
   "trailingSlash": false,
-  "rewrites": [
-    { "source": "/foundation", "destination": "/" },
-    { "source": "/process", "destination": "/" },
-    { "source": "/pricing", "destination": "/" },
-    { "source": "/about", "destination": "/" },
-    { "source": "/audit", "destination": "/" },
-    { "source": "/kiosks", "destination": "/" },
-    { "source": "/kiosks/command-center", "destination": "/" },
-    { "source": "/kiosks/onboarding", "destination": "/" },
-    { "source": "/kiosks/errorlens", "destination": "/" }
-  ],
   "headers": [
     {
       "source": "/(.*)",
@@ -24,7 +9,20 @@
         { "key": "X-Content-Type-Options", "value": "nosniff" },
         { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
         { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" }
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(self), geolocation=()" },
+        { "key": "Strict-Transport-Security", "value": "max-age=63072000; includeSubDomains; preload" }
+      ]
+    },
+    {
+      "source": "/kiosks/_app/(.*).html",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=3600, s-maxage=86400" }
+      ]
+    },
+    {
+      "source": "/kiosks/_assets/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=86400, immutable" }
       ]
     }
   ]

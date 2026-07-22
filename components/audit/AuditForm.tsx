@@ -2,6 +2,7 @@
 
 import { useState, type ReactNode } from 'react';
 import { track } from '@/lib/analytics';
+import { SITE } from '@/lib/site';
 
 // Visual port of AuditForm from .extracted-source/006 — pills + monospace
 // labels + accent submit. Submit logic preserved from the existing lib/lead
@@ -39,11 +40,12 @@ type FormState = {
   stack: string[];
   notes: string;
   when: string;
+  website: string;
 };
 
 const INITIAL: FormState = {
   name: '', email: '', company: '', role: '',
-  revenue: '1-3m', stack: [], notes: '', when: 'now',
+  revenue: '1-3m', stack: [], notes: '', when: 'now', website: '',
 };
 
 export default function AuditForm() {
@@ -65,6 +67,7 @@ export default function AuditForm() {
       stack: data.stack.join(', '),
       notes: data.notes,
       when: data.when,
+      website: data.website,
     };
     try {
       const res = await fetch('/api/lead', {
@@ -104,8 +107,8 @@ export default function AuditForm() {
         <span style={{ fontSize: 56, color: 'var(--accent)', fontFamily: 'var(--font-display)' }}>◊</span>
         <h2 className="t-display" style={{ fontSize: 36 }}>Submitted.</h2>
         <p style={{ color: 'var(--ink-secondary)', maxWidth: 480, lineHeight: 1.6 }}>
-          You&apos;ll get an email within 4 hours with two times that work for Ahmad. The discovery call runs
-          30 minutes.
+          Ahmad will review your context and follow up using the email you provided. You can also use the
+          calendar on this page to choose an available discovery-call time directly.
         </p>
         <div className="t-mono" style={{ marginTop: 16 }}>
           ◊ ref · {Math.random().toString(36).slice(2, 8).toUpperCase()}
@@ -124,12 +127,28 @@ export default function AuditForm() {
         display: 'flex',
         flexDirection: 'column',
         gap: 28,
+        minWidth: 0,
       }}
-      noValidate
     >
-      <div className="t-eyebrow">◊ Qualifying form</div>
+      <h2 className="t-eyebrow">◊ Qualifying form</h2>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+      <div aria-hidden="true" style={{ position: 'absolute', left: '-10000px', width: 1, height: 1, overflow: 'hidden' }}>
+        <label htmlFor="audit-website">Website</label>
+        <input
+          id="audit-website"
+          name="website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          value={data.website}
+          onChange={(e) => setData({ ...data, website: e.target.value })}
+        />
+      </div>
+
+      <div
+        className="manhaj-audit-fields-grid"
+        style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}
+      >
         <Field
           label="Name"
           value={data.name}
@@ -147,7 +166,10 @@ export default function AuditForm() {
         />
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+      <div
+        className="manhaj-audit-fields-grid"
+        style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}
+      >
         <Field
           label="Company"
           value={data.company}
@@ -162,8 +184,8 @@ export default function AuditForm() {
         />
       </div>
 
-      <div>
-        <FieldLabel>Annual revenue</FieldLabel>
+      <fieldset style={{ border: 0, padding: 0, margin: 0 }}>
+        <FieldLabel as="legend">Annual revenue</FieldLabel>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
           {REVENUE_OPTIONS.map((r) => (
             <Pill
@@ -175,10 +197,10 @@ export default function AuditForm() {
             </Pill>
           ))}
         </div>
-      </div>
+      </fieldset>
 
-      <div>
-        <FieldLabel>
+      <fieldset style={{ border: 0, padding: 0, margin: 0 }}>
+        <FieldLabel as="legend">
           Current stack <span style={{ color: 'var(--ink-tertiary)' }}>(multi-select)</span>
         </FieldLabel>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
@@ -201,11 +223,13 @@ export default function AuditForm() {
             );
           })}
         </div>
-      </div>
+      </fieldset>
 
       <div>
-        <FieldLabel>Biggest bottleneck</FieldLabel>
+        <FieldLabel htmlFor="audit-notes">Biggest bottleneck</FieldLabel>
         <textarea
+          id="audit-notes"
+          name="notes"
           value={data.notes}
           onChange={(e) => setData({ ...data, notes: e.target.value })}
           placeholder="Where leads die. Where the system breaks. Where the founder is the bottleneck."
@@ -224,8 +248,8 @@ export default function AuditForm() {
         />
       </div>
 
-      <div>
-        <FieldLabel>Preferred call time</FieldLabel>
+      <fieldset style={{ border: 0, padding: 0, margin: 0 }}>
+        <FieldLabel as="legend">Preferred call time</FieldLabel>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
           {WHEN_OPTIONS.map((w) => (
             <Pill
@@ -237,7 +261,7 @@ export default function AuditForm() {
             </Pill>
           ))}
         </div>
-      </div>
+      </fieldset>
 
       <div style={{ display: 'flex', gap: 16, alignItems: 'center', marginTop: 8, flexWrap: 'wrap' }}>
         <button
@@ -263,12 +287,13 @@ export default function AuditForm() {
           {status === 'sending' ? 'Sending…' : 'Submit qualifying form'} <span>→</span>
         </button>
         <span style={{ fontSize: 12, color: 'var(--ink-tertiary)' }}>
-          Response within 4 hours · Ahmad reads every form
+          Reviewed by Ahmad · or book directly below
         </span>
       </div>
 
       {status === 'error' && (
         <div
+          role="alert"
           style={{
             padding: 16,
             border: '1px solid #5c2b2e',
@@ -280,8 +305,8 @@ export default function AuditForm() {
           }}
         >
           ◊ Something broke{errorMsg ? ` · ${errorMsg}` : ''}. Email{' '}
-          <a href="mailto:hello@manhaj.ai" style={{ color: 'inherit', textDecoration: 'underline' }}>
-            hello@manhaj.ai
+          <a href={`mailto:${SITE.email}`} style={{ color: 'inherit', textDecoration: 'underline' }}>
+            {SITE.email}
           </a>{' '}
           directly and we&apos;ll catch it from there.
         </div>
@@ -305,10 +330,13 @@ function Field({
   type?: string;
   required?: boolean;
 }) {
+  const id = `audit-${label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
   return (
     <div>
-      <FieldLabel>{label}</FieldLabel>
+      <FieldLabel htmlFor={id}>{label}</FieldLabel>
       <input
+        id={id}
+        name={id.replace('audit-', '')}
         type={type}
         value={value}
         onChange={(e) => onChange(e.target.value)}
@@ -329,11 +357,23 @@ function Field({
   );
 }
 
-function FieldLabel({ children }: { children: ReactNode }) {
-  return (
-    <div className="t-mono" style={{ marginBottom: 12, fontSize: 10 }}>
-      {children}
-    </div>
+function FieldLabel({
+  children,
+  htmlFor,
+  as = 'label',
+}: {
+  children: ReactNode;
+  htmlFor?: string;
+  as?: 'label' | 'legend';
+}) {
+  const props = {
+    className: 't-mono',
+    style: { display: 'block', marginBottom: 12, fontSize: 10 },
+  } as const;
+  return as === 'legend' ? (
+    <legend {...props}>{children}</legend>
+  ) : (
+    <label htmlFor={htmlFor} {...props}>{children}</label>
   );
 }
 
@@ -350,6 +390,7 @@ function Pill({
     <button
       type="button"
       onClick={onClick}
+      aria-pressed={active}
       data-cursor-hover
       style={{
         padding: '10px 16px',

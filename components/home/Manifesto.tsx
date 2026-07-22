@@ -50,6 +50,7 @@ export default function Manifesto() {
 
       <div className="container" style={{ position: 'relative' }}>
         <div
+          className="manhaj-manifest-terminal"
           style={{
             maxWidth: 720,
             marginBottom: 72,
@@ -123,9 +124,13 @@ export default function Manifesto() {
             <ArabicMark />
           </Reveal>
 
-          <Reveal delay={400} style={{ flex: 1, minWidth: 320, maxWidth: 720 }}>
+          <Reveal
+            delay={400}
+            className="manhaj-manifest-copy-wrap"
+            style={{ flex: 1, minWidth: 320, maxWidth: 720 }}
+          >
             <p
-              className="t-display"
+              className="t-display manhaj-manifest-copy"
               style={{
                 fontSize: 'clamp(28px, 3.5vw, 44px)',
                 lineHeight: 1.15,

@@ -11,7 +11,7 @@ import Wordmark from '@/components/ui/Wordmark';
 const NAV_ITEMS = [
   { path: '/', label: 'Home' },
   { path: '/foundation', label: 'Foundation' },
-  { path: '/kiosks/', label: 'Demos', external: true },
+  { path: '/kiosks', label: 'Demos' },
   { path: '/process', label: 'Process' },
   { path: '/pricing', label: 'Pricing' },
   { path: '/about', label: 'About' },
@@ -38,6 +38,7 @@ export default function Nav() {
 
   return (
     <header
+      className="manhaj-site-nav"
       style={{
         position: 'fixed',
         top: 0,
@@ -53,6 +54,7 @@ export default function Nav() {
       }}
     >
       <div
+        className="manhaj-site-nav-inner"
         style={{
           maxWidth: 1360,
           margin: '0 auto',
@@ -159,6 +161,7 @@ export default function Nav() {
       {open && (
         <div
           id="manhaj-nav-mobile"
+          className="manhaj-nav-mobile-panel"
           style={{
             marginTop: 16,
             borderTop: '1px solid var(--line)',

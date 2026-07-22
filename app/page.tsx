@@ -6,23 +6,21 @@ import DemosCallout from '@/components/home/DemosCallout';
 import Manifesto from '@/components/home/Manifesto';
 import ProcessMini from '@/components/home/ProcessMini';
 import FinalCTA from '@/components/home/FinalCTA';
+import JsonLd from '@/components/shared/JsonLd';
+import { pageMetadata } from '@/lib/seo';
+import { pageSchema } from '@/lib/schema';
 import { SITE } from '@/lib/site';
 
-export const metadata: Metadata = {
-  title: `${SITE.name} — ${SITE.tagline}`,
-  description: SITE.positioning,
-  openGraph: {
-    title: `${SITE.name} — ${SITE.motto}`,
-    description: SITE.positioning,
-    url: SITE.url,
-    type: 'website',
-  },
-  alternates: { canonical: SITE.url },
-};
+const title = `${SITE.name} — AI Operating Systems for Operator-Led Businesses`;
+const description =
+  'MANHAJ is a founder-led AI operating system for B2B service and education businesses: a six-layer revenue foundation, configured to your workflows and owned by you.';
+
+export const metadata: Metadata = pageMetadata({ title, description, path: '/' });
 
 export default function Home() {
   return (
     <>
+      <JsonLd data={pageSchema({ name: title, description, path: '/' })} />
       <Hero />
       <FoundationSection />
       <Pillars />
@@ -30,20 +28,6 @@ export default function Home() {
       <Manifesto />
       <ProcessMini />
       <FinalCTA />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'Organization',
-            name: SITE.name,
-            url: SITE.url,
-            description: SITE.positioning,
-            founder: { '@type': 'Person', name: SITE.founder },
-            sameAs: [],
-          }),
-        }}
-      />
     </>
   );
 }

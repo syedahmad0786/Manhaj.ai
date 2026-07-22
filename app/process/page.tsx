@@ -2,21 +2,17 @@ import type { Metadata } from 'next';
 import PageHeader from '@/components/shared/PageHeader';
 import Reveal from '@/components/ui/Reveal';
 import FinalCTA from '@/components/home/FinalCTA';
-import { SITE } from '@/lib/site';
+import JsonLd from '@/components/shared/JsonLd';
+import { pageMetadata } from '@/lib/seo';
+import { pageSchema } from '@/lib/schema';
 
 // Direct port from .extracted-source/009 — ProcessPage.
 
-export const metadata: Metadata = {
-  title: 'Process — How an install runs',
-  description:
-    'The five weeks of a Manhaj install: Audit, Synthesize, Build, Install, Optimize, then ongoing modular requests. Founder-led, no surprises.',
-  alternates: { canonical: `${SITE.url}/process` },
-  openGraph: {
-    title: 'Manhaj — Six steps. Five weeks. One install.',
-    description:
-      'Founder-led methodology. Audit Discovery Week → Synthesis → Build → Install → Optimize → Ongoing modules.',
-  },
-};
+const title = 'The MANHAJ Installation Process: Six Stages';
+const description =
+  'See how a founder-led MANHAJ implementation moves from discovery and synthesis through build, installation, validation, optimization, and ongoing modules.';
+
+export const metadata: Metadata = pageMetadata({ title, description, path: '/process' });
 
 const STEPS = [
   {
@@ -40,7 +36,7 @@ const STEPS = [
     label: 'Build the AIOS at Home',
     sub: 'Off-site assembly · 3–7 days',
     body:
-      "Context OS, Data OS, and Intelligence layer assembled remotely. We orchestrate the existing stack, add what's missing, integrate every layer end-to-end. You aren't paying for our learning — we've built every layer before. Most of this is configuration, not invention.",
+      "Context OS, Data OS, and the Intelligence layer are assembled remotely. We orchestrate the existing stack, add what is missing, integrate the agreed layers end-to-end, and test each path against the signed architecture specification.",
     out: ['Configured stack', 'End-to-end integration tests', 'Owner walkthrough video', 'Rollback plan'],
   },
   {
@@ -48,7 +44,7 @@ const STEPS = [
     label: 'Install on-site',
     sub: 'Deployment + training · 2 days',
     body:
-      "On-site install. Train every team member on what's changing, what's automated, what to expect. Route alerts to Slack / SMS / email. Hook up live integrations to production. We don't leave until the first real lead has flowed through every layer.",
+      "Install on-site or remotely. Train the affected team on what is changing, what is automated, and where human decisions remain. Route alerts to the agreed channels, connect production integrations, and validate representative end-to-end scenarios.",
     out: ['Live in production', 'Team trained + documented', 'Alert routing live', 'First-lead validation'],
   },
   {
@@ -56,7 +52,7 @@ const STEPS = [
     label: 'Optimize & monitor',
     sub: 'First 30 days · daily check-ins',
     body:
-      'The first 30 days, we tune. Drift gets corrected. Edge cases surface and we patch. Early wins are captured and shared with the team. By day 30, the OS is stable, the team trusts it, and the dashboard tells you the story without you asking.',
+      'During the initial monitoring period, we review drift, patch surfaced edge cases, and document observed outcomes. Stability and adoption are evaluated against agreed acceptance criteria rather than assumed on a fixed date.',
     out: ['Drift corrections', 'Edge-case patches', 'First wins doc', '30-day stability report'],
   },
   {
@@ -64,7 +60,7 @@ const STEPS = [
     label: 'Ongoing modular requests',
     sub: 'Retainer · indefinite',
     body:
-      'Every new business need plugs in as a module on top. New product line? New channel? New ICP? Modules. Not rebuilds. The foundation stays; the surface evolves. Most clients add 2–4 modules per quarter.',
+      'New business needs can be scoped as modules on top of the foundation. A new product line, channel, or ICP may extend the surface while preserving the documented core where the architecture allows.',
     out: ['Module roadmap', 'Quarterly architecture review', 'Cost-of-AI-spend report', 'Owner-direct line'],
   },
 ] as const;
@@ -72,16 +68,17 @@ const STEPS = [
 export default function ProcessPage() {
   return (
     <>
+      <JsonLd data={pageSchema({ name: title, description, path: '/process' })} />
       <PageHeader
         eyebrow="The Install · Methodology"
         title={
           <>
-            Six steps. Five weeks.
+            Six stages. A defined path.
             <br />
             <span style={{ fontStyle: 'italic', color: 'var(--accent)' }}>One install.</span>
           </>
         }
-        sub="No surprises. Every Manhaj engagement runs this exact sequence — refined across real installs."
+        sub="A transparent operating sequence, with timing and delivery mode confirmed in the signed scope."
       />
 
       {STEPS.map((s, i) => (
@@ -95,6 +92,7 @@ export default function ProcessPage() {
         >
           <div className="container">
             <div
+              className="manhaj-process-step-grid"
               style={{
                 display: 'grid',
                 gridTemplateColumns: '180px 1fr 1fr',
@@ -128,6 +126,7 @@ export default function ProcessPage() {
               </Reveal>
               <Reveal delay={240}>
                 <div
+                  className="manhaj-process-deliverables"
                   style={{
                     padding: 28,
                     border: '1px solid var(--line)',

@@ -1,9 +1,17 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import CTAButton from '@/components/ui/CTAButton';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Not found',
-  robots: { index: false, follow: false },
+  robots: { index: false, follow: false, nocache: true },
+  alternates: { canonical: null },
+  openGraph: {
+    title: 'Not found · MANHAJ',
+    description: 'The requested MANHAJ page could not be found.',
+    siteName: 'MANHAJ',
+    type: 'website',
+  },
 };
 
 export default function NotFound() {
@@ -39,7 +47,7 @@ export default function NotFound() {
         >
           <CTAButton primary path="/" label="Back to home" />
           <Link
-            href="/kiosks/"
+            href="/kiosks"
             className="btn btn-ghost"
             style={{ textDecoration: 'none' }}
           >

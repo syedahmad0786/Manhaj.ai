@@ -152,7 +152,8 @@ export default function Hero() {
                 maxWidth: 620,
               }}
             >
-              Built on a proven 6-layer revenue foundation. Configured to how you actually run. Owned by you.
+              A private AI operating system for business, built on a defined 6-layer revenue foundation.
+              Configured to how you actually run. Owned by you.
             </p>
           </Reveal>
 
@@ -173,7 +174,7 @@ export default function Hero() {
           <Reveal delay={680}>
             <div style={{ marginTop: 56, display: 'flex', gap: 16, flexWrap: 'wrap' }}>
               <CTAButton primary path="/audit" label="Book an audit" />
-              <CTAButton path="/kiosks/" label="See a live demo" />
+              <CTAButton path="/kiosks" label="See a live demo" />
             </div>
           </Reveal>
 

@@ -2,10 +2,28 @@ import { NextResponse, type NextRequest } from 'next/server';
 import { leadSchema } from '@/lib/lead';
 import { getResend } from '@/lib/resend';
 import { getSupabaseAdmin } from '@/lib/supabase';
+import { SITE } from '@/lib/site';
 
 export const runtime = 'nodejs';
 
 export async function POST(req: NextRequest) {
+  const contentLength = Number(req.headers.get('content-length') ?? '0');
+  if (Number.isFinite(contentLength) && contentLength > 12_000) {
+    return NextResponse.json({ error: 'Payload too large' }, { status: 413 });
+  }
+
+  const origin = req.headers.get('origin');
+  const host = req.headers.get('host');
+  if (origin && host) {
+    try {
+      if (new URL(origin).host !== host) {
+        return NextResponse.json({ error: 'Origin not allowed' }, { status: 403 });
+      }
+    } catch {
+      return NextResponse.json({ error: 'Origin not allowed' }, { status: 403 });
+    }
+  }
+
   let payload: unknown;
   try {
     payload = await req.json();
@@ -21,6 +39,9 @@ export async function POST(req: NextRequest) {
     );
   }
   const data = parsed.data;
+  if (data.website) {
+    return NextResponse.json({ ok: true });
+  }
 
   const submittedAt = new Date().toISOString();
   const subject = `New audit lead · ${data.company || data.email}`;
@@ -43,9 +64,11 @@ export async function POST(req: NextRequest) {
   const tasks = [
     (async () => {
       try {
+        const from = process.env.RESEND_FROM;
+        if (!from) throw new Error('RESEND_FROM is not configured');
         await getResend().emails.send({
-          from: process.env.RESEND_FROM ?? 'Manhaj <hello@manhaj.ai>',
-          to: process.env.RESEND_TO ?? 'ahmad@manhaj.ai',
+          from,
+          to: process.env.RESEND_TO ?? SITE.email,
           subject,
           text: body,
         });
@@ -98,10 +121,8 @@ export async function POST(req: NextRequest) {
   const results = await Promise.all(tasks);
   const allFailed = results.every((r) => !r.ok);
   if (allFailed) {
-    return NextResponse.json(
-      { error: 'All sinks failed', results },
-      { status: 500 }
-    );
+    console.error('all lead sinks failed', results);
+    return NextResponse.json({ error: 'Submission unavailable' }, { status: 503 });
   }
-  return NextResponse.json({ ok: true, results });
+  return NextResponse.json({ ok: true });
 }

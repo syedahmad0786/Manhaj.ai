@@ -18,7 +18,7 @@
   /* Ink */
   --ink-primary: #F5F2EA;
   --ink-secondary: #A8A29A;
-  --ink-tertiary: #6B6862;
+  --ink-tertiary: #8A857D;
   --ink-quaternary: #3F3D38;
 
   /* Accent */
@@ -253,8 +253,25 @@ body {
 }
 
 :focus-visible {
-  outline: 1px solid var(--accent);
+  outline: 2px solid var(--accent);
   outline-offset: 4px;
+}
+
+::placeholder {
+  color: var(--ink-tertiary);
+  opacity: 1;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -279,3 +296,327 @@ body {
   text-transform: uppercase;
 }
 .skip-link:focus { top: 8px; }
+
+/* ============================================================================
+   Responsive layout contracts
+
+   Most of the visual system is intentionally expressed with inline styles.
+   These semantic classes provide the breakpoint behavior those desktop-first
+   compositions need without changing their desktop appearance.
+   ============================================================================ */
+
+main,
+section,
+header,
+footer,
+.container,
+.container-narrow {
+  min-width: 0;
+}
+
+.manhaj-layer-diagram-grid > *,
+.manhaj-home-pillars-grid > *,
+.manhaj-home-demos-grid > *,
+.manhaj-home-process-grid > *,
+.manhaj-foundation-layer-grid > *,
+.manhaj-foundation-split-grid > *,
+.manhaj-process-step-grid > *,
+.manhaj-about-origin-grid > *,
+.manhaj-about-etymology-grid > *,
+.manhaj-about-beliefs-grid > *,
+.manhaj-audit-grid > *,
+.manhaj-audit-fields-grid > *,
+.manhaj-pricing-grid > *,
+.manhaj-pricing-discovery > * {
+  min-width: 0;
+}
+
+.manhaj-breakable-link,
+.manhaj-footer-column a {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.manhaj-cal-embed {
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.manhaj-cal-embed iframe {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+@media (max-width: 960px) {
+  .manhaj-layer-diagram-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 32px !important;
+  }
+
+  .manhaj-layer-axis {
+    display: none !important;
+  }
+
+  .manhaj-foundation-layer-grid,
+  .manhaj-foundation-split-grid,
+  .manhaj-process-step-grid,
+  .manhaj-about-origin-grid,
+  .manhaj-about-etymology-grid,
+  .manhaj-audit-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 48px !important;
+  }
+
+  .manhaj-foundation-layer-grid > * {
+    order: initial !important;
+  }
+
+  .manhaj-process-step-grid {
+    grid-template-columns: minmax(0, 0.34fr) minmax(0, 1fr) !important;
+    gap: 36px !important;
+  }
+
+  .manhaj-process-step-grid > :last-child {
+    grid-column: 2;
+  }
+
+  .manhaj-about-beliefs-grid,
+  .manhaj-home-pillars-grid,
+  .manhaj-home-demos-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .manhaj-audit-sidebar {
+    position: static !important;
+    top: auto !important;
+  }
+}
+
+@media (max-width: 720px) {
+  .container,
+  .container-narrow {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .manhaj-site-nav {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  .manhaj-site-nav-inner,
+  .manhaj-nav-mobile-panel,
+  .manhaj-nav-mobile-panel nav {
+    min-width: 0;
+  }
+
+  .manhaj-home-pillars-grid,
+  .manhaj-home-demos-grid,
+  .manhaj-about-beliefs-grid,
+  .manhaj-process-step-grid,
+  .manhaj-pricing-discovery {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .manhaj-process-step-grid > :last-child {
+    grid-column: auto;
+  }
+
+  .manhaj-home-process-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 0 !important;
+  }
+
+  .manhaj-home-process-line {
+    top: 0 !important;
+    right: auto !important;
+    bottom: 18px !important;
+    left: 17px !important;
+    width: 1px !important;
+    height: auto !important;
+  }
+
+  .manhaj-home-process-step {
+    min-width: 0;
+    padding: 0 0 40px 56px !important;
+    border-left: 0 !important;
+  }
+
+  .manhaj-home-process-step > * {
+    margin-left: 0 !important;
+  }
+
+  .manhaj-layer-button {
+    grid-template-columns: 36px minmax(0, 1fr) auto !important;
+    gap: 12px !important;
+    padding: 18px 16px !important;
+    transform: none !important;
+  }
+
+  .manhaj-layer-button > div,
+  .manhaj-layer-button > div > div {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .manhaj-layer-detail {
+    min-height: 0 !important;
+    padding: 24px !important;
+  }
+
+  .manhaj-layer-detail-heading,
+  .manhaj-layer-detail-title {
+    align-items: flex-start !important;
+    flex-wrap: wrap;
+  }
+
+  .manhaj-layer-detail-heading {
+    gap: 14px;
+  }
+
+  .manhaj-layer-detail-title {
+    gap: 10px !important;
+  }
+
+  .manhaj-layer-detail-title h3,
+  .manhaj-layer-detail-title span {
+    font-size: 30px !important;
+  }
+
+  .manhaj-layer-detail-columns {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 24px !important;
+  }
+
+  .manhaj-foundation-schematic,
+  .manhaj-foundation-split-card,
+  .manhaj-process-deliverables,
+  .manhaj-pricing-card {
+    padding: 24px !important;
+  }
+
+  .manhaj-foundation-schematic {
+    min-height: 0 !important;
+  }
+
+  .manhaj-foundation-module-row {
+    min-width: 0;
+    gap: 10px !important;
+    padding: 14px 12px !important;
+  }
+
+  .manhaj-foundation-module-row > :nth-child(2) {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .manhaj-foundation-schematic-meta {
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .manhaj-pricing-discovery {
+    gap: 24px !important;
+    padding: 24px !important;
+  }
+
+  .manhaj-audit-fields-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .manhaj-audit-sidebar,
+  .manhaj-audit-sidebar > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .manhaj-manifest-copy-wrap {
+    min-width: 0 !important;
+    width: 100%;
+  }
+
+  .manhaj-manifest-terminal > div:first-child {
+    flex-wrap: wrap;
+  }
+
+  .manhaj-manifest-terminal > div:first-child > span:last-child {
+    margin-left: 0 !important;
+  }
+
+  .manhaj-footer-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    gap: 36px 24px !important;
+  }
+
+  .manhaj-footer-grid > :first-child {
+    grid-column: 1 / -1;
+  }
+
+  .manhaj-footer-status {
+    flex-wrap: wrap;
+    gap: 12px !important;
+  }
+
+  .manhaj-demo-card-body {
+    padding: 24px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .btn {
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  .manhaj-home-demos-grid,
+  .manhaj-home-pillars-grid,
+  .manhaj-about-beliefs-grid,
+  .manhaj-footer-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .manhaj-footer-grid > :first-child {
+    grid-column: auto;
+  }
+
+  .manhaj-demo-kpis {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  .manhaj-demo-kpis > * {
+    min-width: 0;
+  }
+
+  .manhaj-demo-kpis .t-mono {
+    font-size: 8px !important;
+    letter-spacing: 0.08em;
+    overflow-wrap: anywhere;
+  }
+
+  .manhaj-demo-preview-kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .manhaj-foundation-module-line,
+  .manhaj-foundation-module-status {
+    display: none !important;
+  }
+
+  .manhaj-foundation-schematic-meta {
+    flex-direction: column;
+  }
+
+  .manhaj-manifest-terminal {
+    padding: 18px !important;
+    font-size: 11px !important;
+    overflow-wrap: anywhere;
+  }
+
+  .manhaj-audit-grid form,
+  .manhaj-audit-grid form + aside > div,
+  .manhaj-audit-sidebar > div {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+}
