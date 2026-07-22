@@ -48,7 +48,7 @@ export default function OG() {
               textTransform: 'uppercase',
             }}
           >
-            ◊ AOS-001
+            AOS-001
           </div>
         </div>
 
@@ -93,7 +93,7 @@ export default function OG() {
             textTransform: 'uppercase',
           }}
         >
-          <span>◊ B2B SERVICE &amp; EDUCATION · $1M–$10M</span>
+          <span>B2B SERVICE &amp; EDUCATION | $1M-$10M</span>
           <span>{SITE.domain}</span>
         </div>
       </div>
