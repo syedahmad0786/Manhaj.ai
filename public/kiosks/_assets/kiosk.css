@@ -11,7 +11,7 @@
   --m-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
 }
 * { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; height: 100%; background: var(--m-ink); color: var(--m-cream); font-family: var(--m-sans); -webkit-font-smoothing: antialiased; }
+html, body { margin: 0; padding: 0; width: 100%; max-width: 100%; height: 100%; overflow-x: hidden; background: var(--m-ink); color: var(--m-cream); font-family: var(--m-sans); -webkit-font-smoothing: antialiased; }
 .k-shell { display: flex; flex-direction: column; height: 100vh; height: 100dvh; }
 
 .k-bar {
@@ -29,7 +29,7 @@ html, body { margin: 0; padding: 0; height: 100%; background: var(--m-ink); colo
 .k-brand-mark { font-family: var(--m-serif); font-size: 19px; font-weight: 600; letter-spacing: 5px; }
 .k-brand-tag  { font-family: var(--m-mono);  font-size: 9px;  letter-spacing: 2.5px; color: var(--m-gold); text-transform: uppercase; }
 .k-title { text-align: center; }
-.k-title-name  { font-family: var(--m-serif); font-size: 18px; letter-spacing: 1px; color: var(--m-cream); }
+.k-title-name  { margin: 0; font-family: var(--m-serif); font-size: 18px; font-weight: 500; letter-spacing: 1px; color: var(--m-cream); }
 .k-title-layer { font-family: var(--m-mono);  font-size: 9px;  letter-spacing: 2.5px; color: var(--m-gold); text-transform: uppercase; margin-top: 3px; }
 .k-actions { display: flex; align-items: center; gap: 18px; justify-content: flex-end; font-family: var(--m-mono); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; }
 .k-actions a { color: var(--m-cream-dim); text-decoration: none; transition: color .2s ease; }
@@ -83,8 +83,16 @@ html, body { margin: 0; padding: 0; height: 100%; background: var(--m-ink); colo
 .k-foot strong { color: var(--m-gold); font-weight: normal; }
 
 @media (max-width: 720px) {
-  .k-bar { grid-template-columns: 1fr auto; padding: 12px 16px; }
+  .k-bar { grid-template-columns: minmax(0, 1fr) auto; gap: 12px; padding: 12px 16px; }
   .k-title { display: none; }
   .k-foot { padding: 10px 16px; font-size: 8px; }
   .k-brand-mark { font-size: 16px; letter-spacing: 4px; }
+  .k-brand-tag, .k-actions .k-pill { display: none; }
+  .k-brand, .k-actions { min-width: 0; }
+  .k-actions { gap: 12px; font-size: 9px; letter-spacing: 1.4px; white-space: nowrap; }
+  .k-foot > span { min-width: 0; overflow-wrap: anywhere; }
+}
+
+@media (max-width: 380px) {
+  .k-actions a:first-of-type { display: none; }
 }

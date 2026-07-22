@@ -9,14 +9,14 @@ const ITEMS = [
   {
     n: '01',
     title: 'Architecture',
-    body: 'The 6-layer revenue OS is the AOS-001 framework — refined inside real operator-led businesses. Not improvised on the call. Not assembled from templates.',
+    body: 'The 6-layer revenue OS is the documented AOS-001 framework. The framework is consistent; its workflows, tools, and controls are configured to the business.',
     tag: 'Method',
   },
   {
     n: '02',
-    title: 'Live demos, not logos',
-    body: 'Two operator-led businesses are running on Manhaj-style architecture today. Click through anonymized, dummy-data versions — no slides, no logos, just running systems.',
-    tag: 'Proof',
+    title: 'Interactive demos, not claims',
+    body: 'Explore three clickable concept kiosks built with synthetic data. They demonstrate interface and workflow patterns without presenting sample numbers as client results.',
+    tag: 'Clarity',
   },
   {
     n: '03',
@@ -33,10 +33,13 @@ export default function Pillars() {
         <SectionHeader
           eyebrow="Why Manhaj"
           title="Three commitments."
-          sub="Most agencies sell the future. We installed it last quarter."
+          sub="A documented method, inspectable concept demos, and direct access to the architect."
         />
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
+        <div
+          className="manhaj-home-pillars-grid"
+          style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}
+        >
           {ITEMS.map((p, i) => (
             <Reveal key={p.n} delay={i * 120}>
               <PillarCard {...p} />

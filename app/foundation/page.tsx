@@ -4,26 +4,23 @@ import SectionHeader from '@/components/shared/SectionHeader';
 import Reveal from '@/components/ui/Reveal';
 import CTAButton from '@/components/ui/CTAButton';
 import LayerDiagram from '@/components/home/LayerDiagram';
+import JsonLd from '@/components/shared/JsonLd';
 import { LAYERS, type Layer } from '@/lib/data/layers';
-import { SITE } from '@/lib/site';
+import { pageMetadata } from '@/lib/seo';
+import { pageSchema } from '@/lib/schema';
 
 // Direct port from .extracted-source/009 — FoundationPage.
 
-export const metadata: Metadata = {
-  title: 'AOS-001 Foundation',
-  description:
-    'The 6-layer revenue foundation every Manhaj install runs on. Capture, Qualify, Engage, Convert, Retain, Intelligence — specified in full.',
-  alternates: { canonical: `${SITE.url}/foundation` },
-  openGraph: {
-    title: 'AOS-001 — The 6-layer revenue foundation',
-    description:
-      'Universal 6-layer foundation. Bespoke modules on top. The architecture behind every Manhaj install.',
-  },
-};
+const title = 'AOS-001 Foundation: The Six-Layer Revenue Architecture | MANHAJ';
+const description =
+  'Explore the six-layer foundation behind a MANHAJ implementation: Capture, Qualify, Engage, Convert, Retain, and Intelligence, with bespoke orchestration on top.';
+
+export const metadata: Metadata = pageMetadata({ title, description, path: '/foundation' });
 
 export default function FoundationPage() {
   return (
     <>
+      <JsonLd data={pageSchema({ name: title, description, path: '/foundation' })} />
       <PageHeader
         eyebrow="AOS-001 · Specification"
         title={
@@ -86,6 +83,7 @@ function LayerDeepSection({ layer, flip, index }: { layer: Layer; flip: boolean;
     >
       <div className="container">
         <div
+          className="manhaj-foundation-layer-grid"
           style={{
             display: 'grid',
             gridTemplateColumns: '1fr 1fr',
@@ -147,6 +145,7 @@ function LayerDeepSection({ layer, flip, index }: { layer: Layer; flip: boolean;
 function LayerSchematic({ layer }: { layer: Layer }) {
   return (
     <div
+      className="manhaj-foundation-schematic"
       style={{
         border: '1px solid var(--line)',
         background: 'var(--bg-elevated)',
@@ -177,6 +176,7 @@ function LayerSchematic({ layer }: { layer: Layer }) {
         {layer.modules.map((m, i) => (
           <div
             key={m}
+            className="manhaj-foundation-module-row"
             style={{
               background: 'var(--bg-elevated)',
               padding: '16px 18px',
@@ -196,8 +196,12 @@ function LayerSchematic({ layer }: { layer: Layer }) {
               {`m.${String(i + 1).padStart(2, '0')}`}
             </span>
             <span style={{ fontSize: 14, color: 'var(--ink-primary)', flex: 1 }}>{m}</span>
-            <span style={{ width: 24, height: 1, background: 'var(--accent)', opacity: 0.6 }} />
             <span
+              className="manhaj-foundation-module-line"
+              style={{ width: 24, height: 1, background: 'var(--accent)', opacity: 0.6 }}
+            />
+            <span
+              className="manhaj-foundation-module-status"
               style={{
                 fontFamily: 'var(--font-mono)',
                 fontSize: 9,
@@ -212,6 +216,7 @@ function LayerSchematic({ layer }: { layer: Layer }) {
       </div>
 
       <div
+        className="manhaj-foundation-schematic-meta"
         style={{
           marginTop: 32,
           paddingTop: 20,
@@ -242,14 +247,17 @@ function UniversalVsBespoke() {
     >
       <div className="container">
         <SectionHeader eyebrow="The split" title="What's universal. What's yours." />
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
+        <div
+          className="manhaj-foundation-split-grid"
+          style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}
+        >
           <SplitCard
             title="Universal"
             kicker="The shape of every Manhaj install"
             items={[
               'Six-layer architecture (Capture → Intelligence)',
               'Founder-grade dashboard + alerting',
-              'Sub-60s response-time SLAs',
+              'Measurable response-time targets',
               'Single-source-of-truth lead intake',
               'Pipeline progression automation',
               'Behavioural retention engine',
@@ -289,6 +297,7 @@ function SplitCard({
   const accent = tone === 'accent';
   return (
     <div
+      className="manhaj-foundation-split-card"
       style={{
         padding: 40,
         background: 'var(--bg-elevated)',

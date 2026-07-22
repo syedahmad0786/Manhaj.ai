@@ -5,6 +5,8 @@ import { Fraunces, Inter, JetBrains_Mono, IBM_Plex_Sans_Arabic } from 'next/font
 import { Analytics } from '@vercel/analytics/next';
 import Nav from '@/components/layout/Nav';
 import Footer from '@/components/layout/Footer';
+import JsonLd from '@/components/shared/JsonLd';
+import { globalSchema } from '@/lib/schema';
 import { SITE } from '@/lib/site';
 
 const display = Fraunces({
@@ -41,7 +43,17 @@ export const metadata: Metadata = {
   },
   description: SITE.positioning,
   applicationName: SITE.name,
-  authors: [{ name: SITE.founder }],
+  authors: [{ name: SITE.founder, url: SITE.founderUrl }],
+  creator: SITE.founder,
+  publisher: SITE.companyName,
+  category: 'business software and AI implementation',
+  keywords: [
+    'AI operating system',
+    'business process automation',
+    'revenue operations',
+    'AI implementation',
+    'AOS-001',
+  ],
   openGraph: {
     title: `${SITE.name} — ${SITE.motto}`,
     description: SITE.positioning,
@@ -49,8 +61,21 @@ export const metadata: Metadata = {
     siteName: SITE.name,
     locale: 'en_US',
     type: 'website',
+    images: [
+      {
+        url: SITE.socialImage,
+        width: 1200,
+        height: 630,
+        alt: `${SITE.name} — ${SITE.motto}`,
+      },
+    ],
   },
-  twitter: { card: 'summary_large_image', creator: SITE.twitter },
+  twitter: {
+    card: 'summary_large_image',
+    title: `${SITE.name} — ${SITE.motto}`,
+    description: SITE.positioning,
+    images: [SITE.socialImage],
+  },
   robots: { index: true, follow: true },
   alternates: { canonical: SITE.url },
 };
@@ -110,6 +135,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </noscript>
         )}
         <a href="#main" className="skip-link">Skip to content</a>
+        <JsonLd data={globalSchema()} />
         <Nav />
         <main id="main">{children}</main>
         <Footer />

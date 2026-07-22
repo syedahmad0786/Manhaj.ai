@@ -14,7 +14,7 @@ const DEMOS = [
     sub: 'Command Center · Lead-to-revenue OS',
     kpi: { leads: '1,284', conv: '34.2%', rt: '47s' },
     type: 'dashboard' as const,
-    href: '/kiosks/command-center/',
+    href: '/kiosks/command-center',
   },
   {
     slug: 'onboarding',
@@ -22,7 +22,7 @@ const DEMOS = [
     sub: 'Convert · activation engine',
     kpi: { leads: '612', conv: '41.8%', rt: '52s' },
     type: 'schematic' as const,
-    href: '/kiosks/onboarding/',
+    href: '/kiosks/onboarding',
   },
   {
     slug: 'errorlens',
@@ -30,7 +30,7 @@ const DEMOS = [
     sub: 'Intelligence · alerts layer',
     kpi: { leads: '283', conv: '52.1%', rt: '38s' },
     type: 'dashboard' as const,
-    href: '/kiosks/errorlens/',
+    href: '/kiosks/errorlens',
   },
 ] as const;
 
@@ -63,10 +63,10 @@ export default function DemosCallout() {
                 <span style={{ fontStyle: 'italic', color: 'var(--accent)' }}>Touch the system.</span>
               </>
             }
-            sub="Three anonymized live versions of real Manhaj installs. Real workflows. Real interfaces. Dummy data. Open in a new window — break things if you want."
+            sub="Three interactive concept kiosks that demonstrate MANHAJ workflow and interface patterns with synthetic data. They are examples, not client results."
           />
           <Link
-            href="/kiosks/"
+            href="/kiosks"
             className="btn btn-ghost"
             data-magnetic
             style={{ textDecoration: 'none' }}
@@ -75,7 +75,10 @@ export default function DemosCallout() {
           </Link>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
+        <div
+          className="manhaj-home-demos-grid"
+          style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}
+        >
           {DEMOS.map((d, i) => (
             <Reveal key={d.slug} delay={i * 100}>
               <DemoCard {...d} />
@@ -117,9 +120,11 @@ function DemoCard({ slug, title, sub, kpi, type, href }: DemoCardProps) {
         overflow: 'hidden',
         display: 'flex',
         flexDirection: 'column',
+        minWidth: 0,
       }}
     >
       <div
+        className="manhaj-demo-card-body"
         style={{
           aspectRatio: '16 / 10',
           background: 'var(--bg-deep)',
@@ -145,6 +150,7 @@ function DemoCard({ slug, title, sub, kpi, type, href }: DemoCardProps) {
         }}
       >
         <div
+          className="manhaj-demo-kpis"
           style={{
             display: 'flex',
             justifyContent: 'space-between',
@@ -153,7 +159,7 @@ function DemoCard({ slug, title, sub, kpi, type, href }: DemoCardProps) {
           }}
         >
           <div style={{ flex: 1 }}>
-            <div className="t-mono" style={{ marginBottom: 12, fontSize: 10 }}>◊ Live · anonymized</div>
+            <div className="t-mono" style={{ marginBottom: 12, fontSize: 10 }}>◊ Interactive · illustrative</div>
             <h3 className="t-display" style={{ fontSize: 22, lineHeight: 1.2, marginBottom: 6 }}>
               {title}
             </h3>
@@ -170,9 +176,9 @@ function DemoCard({ slug, title, sub, kpi, type, href }: DemoCardProps) {
             borderTop: '1px solid var(--line-soft)',
           }}
         >
-          <KPI label="Leads / 30d" value={kpi.leads} />
-          <KPI label="Qual → Book" value={kpi.conv} />
-          <KPI label="Avg response" value={kpi.rt} />
+          <KPI label="Sample leads" value={kpi.leads} />
+          <KPI label="Sample rate" value={kpi.conv} />
+          <KPI label="Sample time" value={kpi.rt} />
         </div>
 
         <div
@@ -238,11 +244,14 @@ function DashboardPreview({ slug, active }: { slug: string; active: boolean }) {
     >
       <div style={{ display: 'flex', gap: 6, alignItems: 'center', color: 'var(--ink-tertiary)' }}>
         <span style={{ width: 6, height: 6, background: 'var(--success)', borderRadius: '50%' }} />
-        <span style={{ letterSpacing: '0.12em', textTransform: 'uppercase' }}>{slug}.manhaj.ai/ops</span>
-        <span style={{ marginLeft: 'auto' }}>↻ live · 30d</span>
+        <span style={{ letterSpacing: '0.12em', textTransform: 'uppercase' }}>{slug}.kiosk / ops</span>
+        <span style={{ marginLeft: 'auto' }}>↻ synthetic · 30d</span>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 6 }}>
+      <div
+        className="manhaj-demo-preview-kpis"
+        style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 6 }}
+      >
         {(['Pipeline', 'CAC', 'SLA', 'MRR'] as const).map((l, i) => (
           <div
             key={l}

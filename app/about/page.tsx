@@ -4,25 +4,33 @@ import SectionHeader from '@/components/shared/SectionHeader';
 import Reveal from '@/components/ui/Reveal';
 import CTAButton from '@/components/ui/CTAButton';
 import ArabicMark from '@/components/shared/ArabicMark';
+import JsonLd from '@/components/shared/JsonLd';
+import { pageMetadata } from '@/lib/seo';
+import { pageSchema, SCHEMA_IDS } from '@/lib/schema';
 import { SITE } from '@/lib/site';
 
 // Direct port from .extracted-source/006 — AboutPage.
 
-export const metadata: Metadata = {
-  title: `About ${SITE.founder}`,
-  description:
-    `${SITE.founder} architects AI operating systems for B2B service and education companies. Founder-led, bespoke, yours alone.`,
-  alternates: { canonical: `${SITE.url}/about` },
-  openGraph: {
-    title: `${SITE.founder} — Architect of Manhaj`,
-    description:
-      'Most agencies sell automations. I architect operating systems. Founder-led delivery, no PMs, no juniors, no handoffs.',
-  },
-};
+const title = `${SITE.founder}, Founder and Architect of MANHAJ`;
+const description =
+  `${SITE.founder} architects founder-led AI operating systems for B2B service and education businesses through ${SITE.companyName}.`;
+
+export const metadata: Metadata = pageMetadata({ title, description, path: '/about' });
 
 export default function AboutPage() {
   return (
     <>
+      <JsonLd data={pageSchema({ name: title, description, path: '/about' })} />
+      <JsonLd
+        data={{
+          '@context': 'https://schema.org',
+          '@type': 'ProfilePage',
+          '@id': `${SITE.url}/about#profile`,
+          url: `${SITE.url}/about`,
+          name: title,
+          mainEntity: { '@id': SCHEMA_IDS.person },
+        }}
+      />
       <PageHeader
         eyebrow="The architect"
         title={
@@ -37,6 +45,7 @@ export default function AboutPage() {
       <section style={{ padding: '40px 0 120px' }}>
         <div className="container">
           <div
+            className="manhaj-about-origin-grid"
             style={{
               display: 'grid',
               gridTemplateColumns: '1.1fr 1fr',
@@ -73,10 +82,9 @@ export default function AboutPage() {
                   }}
                 >
                   <p>
-                    I started in the back rooms of operator-led businesses — the kind that grow from $1M to
-                    $10M not because they have a good product, but because they have a good system. Watching
-                    them, I noticed the bottleneck was always the same: the system grew faster than the
-                    people running it could think about it.
+                    I built my practice around a recurring operator problem: as a business grows, its tools,
+                    handoffs, and decisions often become harder to coordinate than the work itself. The
+                    operating system grows faster than the people running it can reason about it.
                   </p>
                   <p>
                     AI changed that. Not as a chatbot, not as a feature. As infrastructure. Suddenly the
@@ -84,8 +92,8 @@ export default function AboutPage() {
                     start being the architect.
                   </p>
                   <p>
-                    Manhaj is the methodology I built doing this — installed inside real businesses before it
-                    had a name. AOS-001 is its first published specification.
+                    MANHAJ is the methodology I built to address that problem. AOS-001 is its first published
+                    specification: a defined foundation that can be evaluated before an implementation begins.
                   </p>
                 </div>
               </div>
@@ -143,6 +151,8 @@ function Portrait() {
       />
       <svg
         width="100%" height="100%" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice"
+        aria-hidden="true"
+        focusable="false"
         style={{ position: 'absolute', inset: 0 }}
       >
         <ellipse cx="200" cy="190" rx="68" ry="80" fill="#1F1F25" />
@@ -199,6 +209,7 @@ function BrandEtymology() {
     >
       <div className="container">
         <div
+          className="manhaj-about-etymology-grid"
           style={{
             display: 'grid',
             gridTemplateColumns: '1fr 1.4fr',
@@ -262,7 +273,7 @@ function BeliefSection() {
     {
       n: '03',
       title: 'Speed is a feature of architecture, not effort.',
-      body: "Sub-60s response is not aggressive — it's default, when the system is shaped right.",
+      body: 'Response-time targets should be explicit, measurable, and matched to the channel, team, and operating constraints.',
     },
     {
       n: '04',
@@ -275,7 +286,10 @@ function BeliefSection() {
     <section style={{ padding: '160px 0' }}>
       <div className="container">
         <SectionHeader eyebrow="Operating principles" title="Four beliefs the OS is built on." />
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
+        <div
+          className="manhaj-about-beliefs-grid"
+          style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}
+        >
           {beliefs.map((b, i) => (
             <Reveal key={b.n} delay={i * 100}>
               <div

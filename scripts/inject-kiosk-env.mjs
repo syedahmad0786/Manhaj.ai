@@ -25,10 +25,7 @@ const TARGETS = [
 const gtmId = process.env.NEXT_PUBLIC_GTM_ID;
 
 if (!gtmId) {
-  console.warn(
-    '[kiosk-env] NEXT_PUBLIC_GTM_ID not set — leaving __GTM_ID__ tokens untouched. ' +
-      'Kiosks will not fire GTM events until the env var is configured.'
-  );
+  console.log('[kiosk-env] NEXT_PUBLIC_GTM_ID not set — skipping optional kiosk GTM injection.');
 }
 
 let touched = 0;

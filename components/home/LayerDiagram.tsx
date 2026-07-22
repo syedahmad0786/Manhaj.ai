@@ -17,6 +17,7 @@ export default function LayerDiagram({ compact = false }: { compact?: boolean })
   return (
     <div style={{ position: 'relative' }}>
       <div
+        className="manhaj-layer-diagram-grid"
         style={{
           display: 'grid',
           gridTemplateColumns: compact ? '1fr' : 'minmax(420px, 540px) 1fr',
@@ -42,6 +43,7 @@ export default function LayerDiagram({ compact = false }: { compact?: boolean })
               return (
                 <button
                   key={l.id}
+                  className="manhaj-layer-button"
                   data-cursor-hover
                   onMouseEnter={() => setHovered(l.id)}
                   onMouseLeave={() => setHovered(null)}
@@ -106,6 +108,7 @@ export default function LayerDiagram({ compact = false }: { compact?: boolean })
           </div>
 
           <div
+            className="manhaj-layer-axis"
             style={{
               position: 'absolute',
               left: -24,
@@ -142,6 +145,7 @@ function DetailPanel({ layer, opened }: { layer: Layer | null; opened: boolean }
   if (!layer) {
     return (
       <div
+        className="manhaj-layer-detail"
         style={{
           border: '1px solid var(--line-soft)',
           padding: 40,
@@ -169,6 +173,7 @@ function DetailPanel({ layer, opened }: { layer: Layer | null; opened: boolean }
   return (
     <div
       key={layer.id}
+      className="manhaj-layer-detail"
       style={{
         border: '1px solid var(--accent)',
         padding: 40,
@@ -178,6 +183,7 @@ function DetailPanel({ layer, opened }: { layer: Layer | null; opened: boolean }
       }}
     >
       <div
+        className="manhaj-layer-detail-heading"
         style={{
           display: 'flex',
           justifyContent: 'space-between',
@@ -185,7 +191,7 @@ function DetailPanel({ layer, opened }: { layer: Layer | null; opened: boolean }
           marginBottom: 32,
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: 18 }}>
+        <div className="manhaj-layer-detail-title" style={{ display: 'flex', alignItems: 'baseline', gap: 18 }}>
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: 36, color: 'var(--accent)' }}>
             {layer.id}
           </span>
@@ -204,7 +210,10 @@ function DetailPanel({ layer, opened }: { layer: Layer | null; opened: boolean }
         {layer.detail}
       </p>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32, marginBottom: 32 }}>
+      <div
+        className="manhaj-layer-detail-columns"
+        style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32, marginBottom: 32 }}
+      >
         <div>
           <div className="t-mono" style={{ marginBottom: 14, color: 'var(--accent)' }}>◊ Modules</div>
           <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 8 }}>

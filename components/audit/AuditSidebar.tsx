@@ -1,4 +1,5 @@
 import CalEmbed from '@/components/audit/CalEmbed';
+import { SITE } from '@/lib/site';
 
 // Direct port from .extracted-source/006 — but the original's `cal.com embed
 // mounts here` placeholder is replaced with the real <CalEmbed /> wired to
@@ -14,6 +15,7 @@ const WALKAWAY = [
 export default function AuditSidebar() {
   return (
     <aside
+      className="manhaj-audit-sidebar"
       style={{
         display: 'flex',
         flexDirection: 'column',
@@ -88,7 +90,8 @@ export default function AuditSidebar() {
           Architect · the only person on the call
         </div>
         <a
-          href="mailto:ahmad@manhaj.ai"
+          className="manhaj-breakable-link"
+          href={`mailto:${SITE.email}`}
           style={{
             fontFamily: 'var(--font-mono)',
             fontSize: 12,
@@ -97,8 +100,25 @@ export default function AuditSidebar() {
             textDecoration: 'none',
           }}
         >
-          ahmad@manhaj.ai
+          {SITE.email}
         </a>
+        <div style={{ marginTop: 14 }}>
+          <a
+            href={SITE.bookingUrl}
+            target="_blank"
+            rel="noreferrer"
+            style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: 11,
+              color: 'var(--ink-secondary)',
+              letterSpacing: '0.04em',
+              textDecoration: 'underline',
+              textUnderlineOffset: 3,
+            }}
+          >
+            Open booking page ↗
+          </a>
+        </div>
       </div>
 
       <div>

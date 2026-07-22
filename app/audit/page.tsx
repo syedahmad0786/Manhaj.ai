@@ -2,27 +2,24 @@ import type { Metadata } from 'next';
 import PageHeader from '@/components/shared/PageHeader';
 import AuditForm from '@/components/audit/AuditForm';
 import AuditSidebar from '@/components/audit/AuditSidebar';
-import { SITE } from '@/lib/site';
+import JsonLd from '@/components/shared/JsonLd';
+import { pageMetadata } from '@/lib/seo';
+import { pageSchema } from '@/lib/schema';
 
 // Direct port of the visual layout from .extracted-source/006 — AuditPage.
 // The form submit logic + Cal embed are kept from the existing wiring; the
 // chrome around them matches the original 1.2fr/1fr split.
 
-export const metadata: Metadata = {
-  title: 'Book an audit',
-  description:
-    "30 minutes. We diagnose your stack. You walk away with a strategy doc — whether you sign or not. The discovery call is free; the audit week is paid ($1,500), credited to your install if you proceed.",
-  alternates: { canonical: `${SITE.url}/audit` },
-  openGraph: {
-    title: 'Manhaj — Book a discovery audit',
-    description:
-      'Founder-led audit. Map the stack, find the breaks, see whether the AOS-001 install fits.',
-  },
-};
+const title = 'Book a MANHAJ AI Operating System Discovery Call';
+const description =
+  'Book a free 30-minute call with Ahmad Bukhari to diagnose your operating stack. A paid audit week is $1,500 and is credited toward an install.';
+
+export const metadata: Metadata = pageMetadata({ title, description, path: '/audit' });
 
 export default function AuditPage() {
   return (
     <>
+      <JsonLd data={pageSchema({ name: title, description, path: '/audit' })} />
       <PageHeader
         eyebrow="Discovery"
         title={

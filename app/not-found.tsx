@@ -39,7 +39,7 @@ export default function NotFound() {
         >
           <CTAButton primary path="/" label="Back to home" />
           <Link
-            href="/kiosks/"
+            href="/kiosks"
             className="btn btn-ghost"
             style={{ textDecoration: 'none' }}
           >

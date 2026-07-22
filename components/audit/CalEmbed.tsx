@@ -2,11 +2,10 @@
 
 import { useEffect } from 'react';
 import Cal, { getCalApi } from '@calcom/embed-react';
-
-const FALLBACK_USERNAME = 'ahmadbukhari/manhaj-discovery';
+import { SITE } from '@/lib/site';
 
 export default function CalEmbed() {
-  const calLink = process.env.NEXT_PUBLIC_CAL_LINK ?? FALLBACK_USERNAME;
+  const calLink = process.env.NEXT_PUBLIC_CAL_LINK ?? SITE.bookingSlug;
 
   useEffect(() => {
     (async () => {
@@ -24,7 +23,7 @@ export default function CalEmbed() {
   }, []);
 
   return (
-    <div className="border border-line bg-ink-2/30 p-2">
+    <div className="manhaj-cal-embed border border-line bg-ink-2/30 p-2">
       <Cal
         calLink={calLink}
         style={{ width: '100%', height: '660px', minHeight: '500px' }}
