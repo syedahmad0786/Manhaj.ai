@@ -113,7 +113,7 @@ const pricingSchema = {
         priceCurrency: 'USD',
         price: Number(tier.price.replace(/[$,]/g, '')),
         description: `${tier.desc} Monthly retainer: ${tier.retainer}.`,
-        itemOffered: { '@id': SCHEMA_IDS.product },
+        itemOffered: { '@id': SCHEMA_IDS.offering },
         seller: { '@id': SCHEMA_IDS.organization },
         priceSpecification: [
           {
