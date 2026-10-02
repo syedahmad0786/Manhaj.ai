@@ -141,6 +141,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main id="main">{children}</main>
         <Footer />
         <Analytics />
+        {/* One GA4 owner. If legacy GTM/CookieYes is configured later, review
+            that integration instead of loading a second tag or consent UI. */}
+        {!gtm && !cookieyes && (
+          <Script id="site-analytics" src="/assets/site-analytics.js" strategy="afterInteractive" />
+        )}
       </body>
     </html>
   );

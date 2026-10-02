@@ -1,12 +1,12 @@
 'use client';
 
 import { useState, type ReactNode } from 'react';
-import { track } from '@/lib/analytics';
+import { trackLeadSubmission } from '@/lib/analytics';
 import { SITE } from '@/lib/site';
 
 // Visual port of AuditForm from .extracted-source/006 — pills + monospace
 // labels + accent submit. Submit logic preserved from the existing lib/lead
-// integration: validates client-side, POSTs to /api/lead, fires GTM event.
+// integration: validates client-side, POSTs to /api/lead, fires a consent-gated analytics event.
 //
 // NOTE: the lib/lead.ts zod schema is the source of truth for fields. We keep
 // `notes`, `stack`, `revenue` enum and `when` enum names from there even
@@ -79,7 +79,7 @@ export default function AuditForm() {
         const body = await res.json().catch(() => ({}));
         throw new Error(body?.error ?? `lead api ${res.status}`);
       }
-      track({ event: 'lead_form_submit', revenue: data.revenue, when: data.when });
+      trackLeadSubmission(res.ok, Boolean(payload.website));
       setStatus('sent');
     } catch (err) {
       console.error(err);

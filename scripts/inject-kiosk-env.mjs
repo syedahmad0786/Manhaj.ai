@@ -9,7 +9,7 @@
  * Idempotent: if NEXT_PUBLIC_GTM_ID isn't set, the token is left untouched
  * and a warning is logged so the deploy still succeeds.
  */
-import { readFile, writeFile, readdir } from 'node:fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
@@ -23,6 +23,8 @@ const TARGETS = [
 ];
 
 const gtmId = process.env.NEXT_PUBLIC_GTM_ID;
+const directAnalytics = !gtmId && !process.env.NEXT_PUBLIC_COOKIEYES_ID;
+const analyticsTag = '  <script defer src="/assets/site-analytics.js"></script>\n';
 
 if (!gtmId) {
   console.log('[kiosk-env] NEXT_PUBLIC_GTM_ID not set — skipping optional kiosk GTM injection.');
@@ -33,12 +35,13 @@ for (const rel of TARGETS) {
   const path = join(KIOSK_DIR, rel);
   try {
     const original = await readFile(path, 'utf8');
-    if (!gtmId) continue;
-    const next = original.replaceAll('__GTM_ID__', gtmId);
+    const withoutAnalytics = original.replace(analyticsTag, '');
+    let next = directAnalytics ? withoutAnalytics.replace('</head>', analyticsTag + '</head>') : withoutAnalytics;
+    if (gtmId) next = next.replaceAll('__GTM_ID__', gtmId);
     if (next !== original) {
       await writeFile(path, next, 'utf8');
       touched++;
-      console.log(`[kiosk-env] injected GTM into ${rel}`);
+      console.log(`[kiosk-env] updated analytics ownership for ${rel}`);
     }
   } catch (err) {
     console.error(`[kiosk-env] failed on ${rel}:`, err);
