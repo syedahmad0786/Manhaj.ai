@@ -15,7 +15,7 @@ export default function PrivacyPage() {
   return (
     <>
       <JsonLd data={pageSchema({ name: title, description, path: '/privacy' })} />
-      <LegalShell eyebrow="Legal · Privacy" title="Privacy policy" updatedAt="22 July 2026">
+      <LegalShell eyebrow="Legal · Privacy" title="Privacy policy" updatedAt="2 October 2026">
       <p>
         This notice explains how information is handled when you use {SITE.domain},
         request an audit, or book a call. {SITE.name} is a product and service of{' '}
@@ -34,7 +34,12 @@ export default function PrivacyPage() {
         The site may also receive basic technical and usage information, such
         as pages viewed, device and browser type, approximate location, and
         referral source. Vercel Analytics is used for aggregate site analytics.
-        Additional analytics or consent tools run only when configured.
+        With your analytics permission, Google Analytics also measures visits and
+        site interactions. Its tag is not loaded before you accept using the
+        Analytics choices control. Google may receive page and referring URLs,
+        browser and device information, and interaction metadata. Our tag disables
+        Google Signals and advertising personalization. We do not add form answers,
+        names, or email addresses to Google Analytics events.
       </p>
 
       <h2>2. How we use it</h2>
@@ -49,6 +54,7 @@ export default function PrivacyPage() {
       <p>Depending on which features are configured or used, providers may include:</p>
       <ul>
         <li>Vercel for hosting and aggregate analytics;</li>
+        <li>Google for optional Google Analytics measurement; see <a href="https://policies.google.com/technologies/partner-sites">Google&apos;s information about partner sites</a>;</li>
         <li>Cal.com for scheduling;</li>
         <li>Resend for email delivery;</li>
         <li>Supabase for secure lead storage; and</li>
@@ -74,6 +80,14 @@ export default function PrivacyPage() {
         delete, restrict, or object to processing of personal information.
         Contact <a href={`mailto:${SITE.email}`}>{SITE.email}</a> to make a request.
         We may need to verify your identity before acting on it.
+      </p>
+
+      <p>
+        Use Analytics choices at the lower-left of the page to accept, reject,
+        or withdraw Google Analytics consent. Withdrawing stops future measurement
+        by this tag and removes its cookies on this site; it does not remove data
+        already sent. Avoid putting personal information in page URLs. See our{' '}
+        <a href="/cookie-policy">cookie policy</a> for preference storage and cookie duration.
       </p>
 
       <h2>6. International processing and changes</h2>

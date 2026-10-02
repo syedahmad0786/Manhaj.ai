@@ -15,7 +15,7 @@ export default function CookiePolicyPage() {
   return (
     <>
       <JsonLd data={pageSchema({ name: title, description, path: '/cookie-policy' })} />
-      <LegalShell eyebrow="Legal · Cookies" title="Cookie policy" updatedAt="22 July 2026">
+      <LegalShell eyebrow="Legal · Cookies" title="Cookie policy" updatedAt="2 October 2026">
       <p>
         Cookies and similar technologies are small files or browser storage
         used to operate websites, remember choices, and understand usage. This
@@ -26,12 +26,14 @@ export default function CookiePolicyPage() {
       <ul>
         <li>
           <strong>Essential</strong> — support site security, core functionality,
-          and consent preferences where a consent tool is configured.
+          and consent preferences.
         </li>
         <li>
           <strong>Analytics</strong> — help us understand aggregate page usage
-          and performance. Vercel Analytics is used; other analytics tags run
-          only when they are configured.
+          and performance. Vercel Analytics is used. Google Analytics is
+          optional and loads only after you accept analytics. Its cookies on this
+          site use the site_ga prefix and a 180-day expiration that may refresh
+          when you visit. Google advertising storage and personalization are disabled.
         </li>
         <li>
           <strong>Embedded services</strong> — Cal.com and other embedded tools
@@ -41,8 +43,13 @@ export default function CookiePolicyPage() {
 
       <h2>2. Managing cookies</h2>
       <p>
-        Where a consent banner is available, use it to manage optional cookies.
-        You can also block or delete cookies in your browser settings. Blocking
+        Use Analytics choices at the lower-left of the page to accept or reject
+        Google Analytics, or withdraw your choice later. Your choice is stored in
+        first-party local storage for up to 180 days and applies separately to
+        this website. Rejecting prevents the Google tag from loading; withdrawing
+        stops future measurement and removes this tag&apos;s cookies on this site,
+        without removing data already sent. You can also block or delete cookies
+        in your browser settings. Blocking
         essential storage may affect site or embedded booking functionality.
       </p>
 

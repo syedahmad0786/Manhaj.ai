@@ -1,5 +1,5 @@
-// Typed dataLayer helpers. The GTM container is configured in app/layout.tsx;
-// these helpers are no-ops when the container hasn't loaded.
+// Consent-gated direct GA4 events. Only a fixed event name reaches the tag;
+// form answers, labels, revenue bands and arbitrary payloads are never forwarded.
 type DataLayerEvent =
   | { event: 'lead_form_submit'; revenue?: string; when?: string }
   | { event: 'audit_view' }
@@ -8,12 +8,19 @@ type DataLayerEvent =
 
 declare global {
   interface Window {
-    dataLayer?: Array<Record<string, unknown>>;
+    siteAnalytics?: {
+      openPreferences(): void;
+      track(eventName: DataLayerEvent['event']): void;
+    };
   }
 }
 
 export function track(event: DataLayerEvent): void {
   if (typeof window === 'undefined') return;
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push(event);
+  window.siteAnalytics?.track(event.event);
+}
+
+/** Honeypot requests receive a bot-facing 2xx but never become real leads. */
+export function trackLeadSubmission(responseOk: boolean, isHoneypot: boolean): void {
+  if (responseOk && !isHoneypot) track({ event: 'lead_form_submit' });
 }
